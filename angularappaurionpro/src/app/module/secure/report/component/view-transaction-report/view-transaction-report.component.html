@@ -1,0 +1,252 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+  <div class="db-World-scrollWrapper">
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+      <div class="ui segment">
+        <div class="ui top attached header">
+          <span *ngIf="channelType == 3">{{ 'merchant.transactionview.viewcreditcardtransaction' | translate:param }}</span>
+          <span *ngIf="channelType == 4">{{ 'merchant.transactionview.viewdebitcardtransaction' | translate:param }}</span>
+          <span *ngIf="channelType == 2">{{ 'merchant.transactionview.viewachtransaction' | translate:param }}</span>
+        </div>
+        <div class="ui attached segment white-bg p20">
+          <div class="ui form" *ngIf="!hiddenFlag">
+
+            <div class="row view-text">
+              <p class="u-pull-left">{{ 'merchant.transactionview.transactiondetails' | translate:param }}</p>
+              <dl>
+                <dt>{{ 'merchant.transactionview.transactionid' | translate:param }} </dt>
+                <dd>{{transactionDetails.transactionId}}</dd>
+                <dt *ngIf="transactionDetails.referenceTransactionId!=null">{{ 'merchant.transactionview.referencetransactionid' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.referenceTransactionId!=null">
+                  <a  href="javascript:void(0)" (click)="onReferenceTransactionIdClick()">{{transactionDetails.referenceTransactionId}}</a>
+                </dd>
+                <!-- As per Discussion with Biswas commenting code for demo purpose -->
+                <!-- <dt>{{ 'merchant.transactionview.hostref' | translate:param }} </dt>
+                <dd>Pending - Need to Finalize</dd> -->
+                <dt>{{ 'merchant.transactionview.transactiondate' | translate:param }} </dt>
+                <dd>{{transactionDetails.date}}</dd>
+                <dt>{{ 'merchant.transactionview.transactiontime' | translate:param }} </dt>
+                <dd>{{transactionDetails.time}}</dd>
+                <dt>{{ 'merchant.transactionview.transtype' | translate:param }} </dt>
+                <dd>{{transactionDetails.operationType}}</dd>
+                <dt>{{ 'common.status' | translate:param }} </dt>
+                <dd>{{transactionDetails.transactionStatus}}</dd>
+                <dt *ngIf="transactionDetails.channelType!=2 && transactionDetails.operationType != 'Refund'">{{ 'merchant.transactionview.tipamount' | translate:param }} </dt>
+                <dd *ngIf="transactionDetails.channelType!=2 && transactionDetails.operationType != 'Refund'">{{transactionDetails.tenderInfo.tipAmount.toFixed(2)}}</dd>
+                <dt>{{ 'common.totalamount' | translate:param }} </dt>
+                <dd>{{transactionDetails.tenderInfo.captureAmount.toFixed(2)}}</dd>
+                <dt *ngIf="transactionDetails.channelType!=2">{{ 'merchant.transactionview.card#' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType!=2">{{transactionDetails.tenderInfo.maskCardNumber}}</dd>
+                <dt *ngIf="transactionDetails.channelType!=2">{{ 'common.expdate' | translate:param }} </dt>
+                <dd *ngIf="transactionDetails.channelType!=2">{{transactionDetails.tenderInfo.cardExpiry}}</dd>
+                <dt *ngIf="transactionDetails.channelType!=2">{{ 'merchant.transactionview.issuer' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType!=2">{{transactionDetails.tenderInfo.cardType}}</dd>
+                <dt *ngIf="transactionDetails.channelType!=2">{{ 'merchant.transactionview.cardholdername' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType!=2">{{transactionDetails.tenderInfo.cardHolderName}}</dd>
+                <!-- As per Discussion with Biswas commenting code for demo purpose -->
+                <!-- <dt *ngIf="transactionDetails.channelType==2">{{ 'merchant.transactionview.nameoncheck' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType==2">{{transactionDetails.tenderInfo.nameOnCheck}}</dd> -->
+                <dt *ngIf="transactionDetails.channelType==2">{{ 'merchant.transactionview.transit#' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType==2">{{transactionDetails.tenderInfo.routingNumber}}</dd>
+                <dt *ngIf="transactionDetails.channelType==2">{{ 'merchant.transactionview.account#' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType==2">{{transactionDetails.tenderInfo.maskAccount}}</dd>
+                <dt *ngIf="transactionDetails.channelType==2">{{ 'merchant.ach.checknumber' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.channelType==2">{{transactionDetails.tenderInfo.checkNumber}}</dd>
+                <dt>{{ 'merchant.transactionview.invoice' | translate:param }}</dt>
+                <dd>{{transactionDetails.invoiceNo}}</dd>
+                <!-- As per Discussion with Biswas commenting code for demo purpose -->
+                <!-- <dt>{{ 'merchant.transactionview.ponumber' | translate:param }}</dt>
+                <dd>{{transactionDetails.tenderInfo.poNo}}</dd> -->
+                <dt>{{ 'merchant.transactionview.authcode' | translate:param }}</dt>
+                <dd>{{transactionDetails.transactionResult.processorAuthCode}}</dd>
+                <dt *ngIf="transactionDetails.transactionResult.reasonMessage">{{ 'merchant.transactionview.reasonforfailure' | translate:param }}</dt>
+                <dd *ngIf="transactionDetails.transactionResult.reasonMessage">{{transactionDetails.transactionResult.reasonMessage}}</dd>
+              </dl>
+            </div>
+
+            <div class="row view-text">
+              <p class="u-pull-left">{{ 'merchant.transactionview.customerdetails' | translate:param }}</p>
+              <dl>
+                <!-- Demo FeedBack by Raj- Hide Customer Id -->
+                <!-- Demo FeedBack by Rob- Show Customer Id -->
+                <dt *ngIf="transactionDetails.referenceCustomerId!=null">{{ 'common.customerid' | translate:param }} </dt>
+                <dd *ngIf="transactionDetails.referenceCustomerId!=null">{{transactionDetails.referenceCustomerId}}</dd>
+                <dt>{{ 'common.companyname' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.companyName}}</dd>
+                <dt *ngIf="transactionDetails.channelType==2">{{ 'common.customername' | translate:param }} </dt>
+                <dd *ngIf="transactionDetails.channelType==2">{{transactionDetails.billingContact.name.title}} {{transactionDetails.billingContact.name.firstName}} {{transactionDetails.billingContact.name.middleName}}
+                  {{transactionDetails.billingContact.name.lastName}}
+                </dd>
+                <dt>{{ 'common.phone' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.phone}}</dd>
+                <dt>{{ 'common.email' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.email}}</dd>
+                <dt>{{ 'common.fax' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.fax}}</dd>
+                <dt>{{ 'common.address1' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.address.addressLine1}}</dd>
+                <dt>{{ 'common.address2' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.address.addressLine2}}</dd>
+                <dt>{{ 'common.city' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.address.city}}</dd>
+                <dt>{{ 'common.state' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.address.state}}</dd>
+                <dt>{{ 'common.country' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.address.country}}</dd>
+                <dt>{{ 'common.postzipcode' | translate:param }} </dt>
+                <dd>{{transactionDetails.billingContact.address.postalCode}}</dd>
+              </dl>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Print -->
+        <div [hidden]='true' id='print' >
+          <table align="center">
+            <tr>
+              <td colspan='2' style='text-align:center;'>{{ 'merchant.transactionview.transactiondetails' | translate:param }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'merchant.transactionview.transactionid' | translate:param }} </td>
+              <td>{{transactionDetails.transactionId}}</td>
+            </tr>
+            <!-- <tr>
+              <td>{{ 'merchant.transactionview.hostref' | translate:param }} </td>
+              <td style="color:red">Pending - Need to Finalize</td>
+            </tr> -->
+            <tr>
+              <td>{{ 'merchant.transactionview.transactiondate' | translate:param }} </td>
+              <td>{{transactionDetails.date}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'merchant.transactionview.transactiontime' | translate:param }} </td>
+              <td>{{transactionDetails.time}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'merchant.transactionview.transtype' | translate:param }} </td>
+              <td>{{transactionDetails.operationType}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.status' | translate:param }} </td>
+              <td>{{transactionDetails.transactionStatus}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.totalamount' | translate:param }} </td>
+              <td>{{transactionDetails.tenderInfo.captureAmount.toFixed(2)}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType!=2">
+              <td>{{ 'merchant.transactionview.tipamount' | translate:param }} </td>
+              <td>{{transactionDetails.tenderInfo.tipAmount.toFixed(2)}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType!=2">
+              <td>{{ 'merchant.transactionview.card#' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.maskCardNumber}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType!=2">
+              <td>{{ 'common.expdate' | translate:param }} </td>
+              <td>{{transactionDetails.tenderInfo.cardExpiry}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType!=2">
+              <td>{{ 'merchant.transactionview.issuer' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.cardType}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType!=2">
+              <td>{{ 'merchant.transactionview.cardholdername' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.cardHolderName}}</td>
+            </tr>
+            <!-- As per Discussion with Biswas commenting code for demo purpose -->
+            <!-- <tr *ngIf="transactionDetails.channelType==2">
+              <td>{{ 'merchant.transactionview.nameoncheck' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.nameOnCheck}}</td>
+            </tr> -->
+            <tr *ngIf="transactionDetails.channelType==2">
+              <td>{{ 'merchant.transactionview.transit#' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.routingNumber}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType==2">
+              <td>{{ 'merchant.transactionview.account#' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.maskAccount}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType==2">
+              <td>{{ 'merchant.ach.checknumber' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.checkNumber}}</td>
+            </tr>
+            <tr>
+              <td *ngIf="true">{{ 'merchant.transactionview.invoice' | translate:param }}</td>
+              <td>{{transactionDetails.invoiceNo}}</td>
+            </tr>
+            <!-- As per Discussion with Biswas commenting code for demo purpose -->
+            <!-- <tr>
+              <td *ngIf="true">{{ 'merchant.transactionview.ponumber' | translate:param }}</td>
+              <td>{{transactionDetails.tenderInfo.poNo}}</td>
+            </tr> -->
+            <tr>
+              <td *ngIf="true">{{ 'merchant.transactionview.authcode' | translate:param }}</td>
+              <td>{{transactionDetails.transactionResult.processorAuthCode}}</td>
+            </tr>
+            <tr>
+              <td colspan='2' style='text-align:center;'>{{ 'merchant.transactionview.customerdetails' | translate:param }}</td>
+            </tr>
+            <!-- Demo FeedBack by Raj- Hide Customer Id -->
+            <!-- Demo FeedBack by Rob- Show Customer Id -->
+            <tr>
+              <td>{{ 'common.customerid' | translate:param }} </td>
+              <td>{{transactionDetails.referenceCustomerId}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.companyname' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.companyName}}</td>
+            </tr>
+            <tr *ngIf="transactionDetails.channelType!=2">
+              <td>{{ 'common.customername' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.name.title}} {{transactionDetails.billingContact.name.firstName}} {{transactionDetails.billingContact.name.middleName}}{{transactionDetails.billingContact.name.lastName}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.phone' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.phone}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.email' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.email}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.fax' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.fax}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.address1' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.address.addressLine1}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.address2' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.address.addressLine2}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.city' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.address.city}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.state' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.address.state}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.country' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.address.country}}</td>
+            </tr>
+            <tr>
+              <td>{{ 'common.postzipcode' | translate:param }} </td>
+              <td>{{transactionDetails.billingContact.address.postalCode}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="ui bottom attached header">
+          &nbsp;
+          <button class="ui grey basic button u-pull-right" (click)="cancel()">{{ 'common.back' | translate:param }}</button>
+          <div class="u-cf"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,49 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<form>
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <!-- Customers -->
+      <div class="ui segment">
+        <div class="ui top attached header">{{ 'rateplans.addrateplans.rateplanlist' | translate:param }}</div>
+        <div class="ui attached segment">
+          <table datatable class="mini-tabular">
+            <thead>
+              <tr>
+                <!-- Removing Rateplan Id - Demo FeedBack by Raj -->
+                <!-- <th>{{ 'rateplans.addrateplans.rateplanid' | translate:param }}</th> -->
+                <th>{{ 'rateplans.addrateplans.rateplanname' | translate:param }}</th>
+                <th class="action-td" *ngIf="hasAccess(2402,401,0,'deleteAccess')">{{ 'common.actions' | translate:param }}</th>
+              </tr>
+            </thead>
+            <tbody [hidden]="searchResultFlag" align="center">
+              <tr>
+                <td colspan="8">{{ noResultsMessage }}</td>
+              </tr>
+            </tbody>
+            <tbody [hidden]="!searchResultFlag">
+              <tr *ngFor="let item of ratePlanList">
+                <!-- Removing Rateplan Id - Demo FeedBack by Raj -->
+                <!-- <td>
+                  <a href="javascript:void(0)" (click)="editRatePlan(item.id)">{{item.id}}</a>
+                </td> -->
+                <td>
+                  <a href="javascript:void(0)" (click)="editRatePlan(item.id)">{{item.name}}</a>
+                </td>
+                <td class="text-center actions-ico" *ngIf="hasAccess(2402,401,0,'deleteAccess')">
+                  <button class="ui icon td-button" (click)="confirmDelete(item.id, item.resellerId)">
+                    <i class="icon-delete icon"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <!-- db-World-content -->
+  </div>
+  <!-- db-World-scrollWrapper -->

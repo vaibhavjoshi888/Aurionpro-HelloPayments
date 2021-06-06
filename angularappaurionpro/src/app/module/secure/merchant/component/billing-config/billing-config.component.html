@@ -1,0 +1,81 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<div class="u-cf"></div>
+  <div class="db-World-scrollWrapper">
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+      <div class="ui segment">
+        <div class="ui top attached header">{{ 'merchant.view.billingconfig' | translate:param }}</div>
+        <div class="ui attached segment p20">
+          <div class="ui form">
+            <div class="title-form"><p>{{ 'merchant.billingconfig.billingaccountsection' | translate:param }}</p><hr/></div>
+            <div class="field">
+                <!-- <sui-checkbox [(ngModel)]="isDisabled"> -->
+                <sui-checkbox [(ngModel)]="isEnabled">
+                    <!-- {{ 'merchant.billingconfig.disablebilling' | translate:param }} -->
+                    {{ 'merchant.billingconfig.enablebilling' | translate:param }}
+                </sui-checkbox>
+            </div>
+            <form [formGroup]="billingConfigForm">
+            <div class="rows mb20">
+              <div class="one-third column">
+                <div class="field">
+
+                    <label>{{ 'merchant.billingconfig.rateplan' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <sui-select class="selection"
+                          [options]="ratePlanList"
+                          labelField="name"
+                          valueField="id"
+                          formControlName="RatePlanName"
+                          (selectedOptionChange)="changeRatePlan(RatePlan)" #RatePlan>
+                      <div class="ui icon search input">
+                        <i class="search icon"></i>
+                        <input suiSelectSearch type="text" placeholder="Search options...">
+                      </div>
+                      <sui-select-option *ngFor="let o of RatePlan.filteredOptions" [value]="o"></sui-select-option>
+                    </sui-select>
+                    <span class="text-holder text-danger">{{formErrors.RatePlanName}}</span>
+
+                </div>
+              </div>
+            </div>
+          </form>
+
+            <div class="rows mb20">
+              <div class="one-third column">
+                <div class="field">
+                  <!-- <div class="grouped fields"> -->
+                  <label style="padding-top: 10px;">Mode of Payment</label>
+                  <div class="field" style="padding-top: 10px; padding-bottom: 10px;">
+                      <sui-radio-button name="example" value="creditCard" [(ngModel)]="paymentMode" (ngModelChange) = "paymentModeChanged($event)"  >Credit Card</sui-radio-button>
+                  <!-- </div>
+                  <div class="field"> -->
+                      <sui-radio-button style="padding-left: 20px;" name="example" value="ach" [(ngModel)]="paymentMode" (ngModelChange) = "paymentModeChanged($event)" >ACH</sui-radio-button>
+                  </div>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isCreditCard">
+              <app-billing-config-card [billingConfig] = "billingconfig" #billingconfigcard></app-billing-config-card>
+            </div>
+            <div *ngIf="!isCreditCard">
+                <app-billing-config-ach [billingConfig] = "billingconfig" #billingconfigach></app-billing-config-ach>
+            </div>
+          </div>
+          <div class="u-cf mb20"><!-- added for the 20px space above buttons --></div>
+        </div>
+        <div class="ui bottom attached header">
+          <button class="ui primary loadingX button u-pull-right" (click)="save(true);" *ngIf="hasAccess(2504,503,0,'modifyAccess')">{{ 'common.saveandcontinue' | translate:param }}</button>
+            <button class="ui grey basic button u-pull-right" (click)="save(false);" *ngIf="hasAccess(2504,503,0,'modifyAccess')">{{ 'common.save' | translate:param }}</button>
+            <button class="ui grey basic button u-pull-right" (click)="clear();" *ngIf="hasAccess(2504,503,0,'modifyAccess')">{{ 'common.clear' | translate:param }}</button>
+            <button class="ui grey basic button u-pull-right" (click)="cancel();">{{ 'common.back' | translate:param }}</button>
+            <div class="u-cf"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<footer></footer>

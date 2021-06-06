@@ -1,0 +1,294 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<form [formGroup]="findTransactionForm">
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <!-- find credit card transactions -->
+      <sui-accordion class="styled fluid" (click)="accordion.findTransaction=!accordion.findTransaction">
+        <sui-accordion-panel [isOpen]="accordion.findTransaction">
+          <div title [ngSwitch]="transactionCategory">
+            <span *ngSwitchCase="'credit'">
+              {{ 'merchant.transaction.findcreditcardtransactions' | translate:param }}
+            </span>
+            <span *ngSwitchCase="'debit'">
+              {{ 'merchant.transaction.finddebitcardtransactions' | translate:param }}
+            </span>
+            <span *ngSwitchCase="'ach'">
+              {{ 'merchant.transaction.findachtransactions' | translate:param }}
+            </span>
+            <i class="dropdown icon"></i>
+          </div>
+          <div content (click)="$event.stopPropagation()">
+
+            <div class="title-form">
+              <p>{{ 'merchant.transaction.daterange' | translate:param }}</p>
+              <hr/>
+            </div>
+
+            <div class="ui form">
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.transaction.startdate' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <div class="ui left icon input">
+                      <i class="calendar icon"></i>
+                      <input suiDatepicker [pickerMaxDate]="maxStartDate" [pickerMode]="mode" formControlName="StartDate" #StartDate [pickerFirstDayOfWeek]="firstDayOfWeek"
+                        [pickerUseNativeOnMobile]="false" readonly>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.StartDate}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.transaction.enddate' | translate:param }}</label>
+                    <div class="ui left icon input">
+                      <i class="calendar icon"></i>
+                      <input suiDatepicker [pickerMinDate]="minEndDate" [pickerMaxDate]="maxEndDate" [pickerMode]="mode" formControlName="EndDate"
+                        #EndDate [pickerFirstDayOfWeek]="firstDayOfWeek" [pickerUseNativeOnMobile]="false" readonly>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.EndDate}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="rows mb20">
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'merchant.transaction.transactionId' | translate:param }}</label>
+                      <div class="ui left icon input">
+                        <i class="calendar icon"></i>
+                        <input suiDatepicker [pickerMaxDate]="maxStartDate" [pickerMode]="mode" formControlName="StartDate" #StartDate [pickerFirstDayOfWeek]="firstDayOfWeek"
+                          [pickerUseNativeOnMobile]="false" readonly>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.StartDate}}</span>
+                    </div>
+                  </div>
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'merchant.transaction.amount' | translate:param }}</label>
+                      <div class="ui left icon input">
+                        <i class="calendar icon"></i>
+                        <input suiDatepicker [pickerMinDate]="minEndDate" [pickerMaxDate]="maxEndDate" [pickerMode]="mode" formControlName="EndDate"
+                          #EndDate [pickerFirstDayOfWeek]="firstDayOfWeek" [pickerUseNativeOnMobile]="false" readonly>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.EndDate}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'merchant.transaction.transactiontype' | translate:param }}</label>
+                        <div class="ui left icon input">
+                          <i class="calendar icon"></i>
+                          <input suiDatepicker [pickerMinDate]="minEndDate" [pickerMaxDate]="maxEndDate" [pickerMode]="mode" formControlName="EndDate"
+                            #EndDate [pickerFirstDayOfWeek]="firstDayOfWeek" [pickerUseNativeOnMobile]="false" readonly>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.EndDate}}</span>
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                        <div class="field">
+                          <label>{{ 'merchant.transaction.transactiontype' | translate:param }}</label>
+                          <div class="ui left icon input">
+                            <i class="calendar icon"></i>
+                            <input suiDatepicker [pickerMinDate]="minEndDate" [pickerMaxDate]="maxEndDate" [pickerMode]="mode" formControlName="EndDate"
+                              #EndDate [pickerFirstDayOfWeek]="firstDayOfWeek" [pickerUseNativeOnMobile]="false" readonly>
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors.EndDate}}</span>
+                        </div>
+                      </div>
+                  </div> -->
+              <br/>
+
+              <div class="ui bottom attached header margin-reset">
+                <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'common.find' | translate:param }}</button>
+                <button class="ui grey basic button u-pull-right" (click)="clearForm()">{{ 'common.clear' | translate:param }}</button>
+                <div class="u-cf"></div>
+              </div>
+            </div>
+            <!-- /ui form -->
+          </div>
+
+        </sui-accordion-panel>
+      </sui-accordion>
+
+      <div class="ui segment" [hidden]="!findClicked">
+        <div class="ui top attached header">{{ 'merchant.transaction.result' | translate:param }}</div>
+        <div class="ui attached segment">
+          <table datatable class="mini-tabular" *ngIf="transactionCategory!=='ach'">
+            <thead>
+              <tr>
+                <!-- <th class="pointer" (click)="sortTransactions('TransactionId', sortColumnOrder['TransactionId'])">Transaction Id</th> -->
+                <th class="pointer" (click)="sortTransactions('TransactionDate', sortColumnOrder['TransactionDate'])">Txn Date Time
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'TransactionDate',
+                  'icon-up-down': (searchParamsData.SortField == 'TransactionDate' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'TransactionDate' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th>Auth Code</th>
+                <!-- Temp Fix -->
+                <!-- <th class="pointer" (click)="sortTransactions('CustomerId', sortColumnOrder['CustomerId'])">Customer Id</th> -->
+                <!-- Temp Fix -->
+                <th class="pointer" (click)="sortTransactions('CardType', sortColumnOrder['CardType'])">Card Type
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'CardType',
+                  'icon-up-down': (searchParamsData.SortField == 'CardType' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'CardType' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortTransactions('Card', sortColumnOrder['Card'])">Card No
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Card',
+                  'icon-up-down': (searchParamsData.SortField == 'Card' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'Card' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortTransactions('Name', sortColumnOrder['Name'])">Name on Card
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Name',
+                  'icon-up-down': (searchParamsData.SortField == 'Name' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'Name' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortTransactions('Amount', sortColumnOrder['Amount'])">Amount ($)
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Amount',
+                  'icon-up-down': (searchParamsData.SortField == 'Amount' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'Amount' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortTransactions('operationType', sortColumnOrder['operationType'])">Type
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'operationType',
+                  'icon-up-down': (searchParamsData.SortField == 'operationType' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'operationType' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortTransactions('transactionStatus', sortColumnOrder['transactionStatus'])">Status
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'transactionStatus',
+                  'icon-up-down': (searchParamsData.SortField == 'transactionStatus' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'transactionStatus' && searchParamsData.Asc == false)}"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody [hidden]="searchResultFlag" align="center">
+              <tr>
+                <td colspan="9">{{ noResultsMessage }}</td>
+              </tr>
+            </tbody>
+            <tbody [hidden]="!searchResultFlag">
+              <tr *ngFor="let transaction of transactionList">
+                <!-- <td>
+                  <a [routerLink]="transactionCategory==='credit' ? '/merchant/viewtransaction/credit/'+ transaction.transactionId : '/merchant/viewtransaction/debit/'+ transaction.transactionId">{{transaction.transactionId}}</a>
+                </td> -->
+                <td><a href="javascript:void(0)" (click)="onViewTransactionClick(transaction)">{{getFormattedDate(transaction.transactionDate)}}</a></td>
+                <td>{{transaction.authCode}}</td>
+                <!-- Temp Fix -->
+                <!-- <td>{{transaction.referenceCustomerId}}</td> -->
+                <!-- Temp Fix -->
+                <td>{{transaction.cardType}}</td>
+                <td>{{transaction.cardNumber}}</td>
+                <td>{{transaction.nameOnCheckOrCard}}</td>
+                <td align="right">{{transaction.captureAmount.toFixed(2)}}</td>
+                <td>{{transaction.operationType}}</td>
+                <td>{{transaction.transactionStatus}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table datatable class="mini-tabular" *ngIf="transactionCategory=='ach'">
+              <thead>
+                <tr>
+                  <!-- <th class="pointer" (click)="sortTransactions('ReferenceId', sortColumnOrder['ReferenceId'])">Transaction Id</th> -->
+                  <th class="pointer" (click)="sortTransactions('TransactionDate', sortColumnOrder['TransactionDate'])">Txn Date Time
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'CardType',
+                    'icon-up-down': (searchParamsData.SortField == 'CardType' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'CardType' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                  <th>Auth Code</th>
+                  <!-- Temp Fix -->
+                  <!-- <th class="pointer" (click)="sortTransactions('CustomerId', sortColumnOrder['CustomerId'])">Customer Id</th> -->
+                  <!-- Temp Fix -->
+                  <th class="pointer" (click)="sortTransactions('Transit', sortColumnOrder['Transit'])">Routing/Transit No
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Transit',
+                    'icon-up-down': (searchParamsData.SortField == 'Transit' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'Transit' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                  <th class="pointer" (click)="sortTransactions('Check', sortColumnOrder['Check'])">Check No
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Check',
+                    'icon-up-down': (searchParamsData.SortField == 'Check' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'Check' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                  <th class="pointer" (click)="sortTransactions('Account', sortColumnOrder['Account'])">Account No
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Account',
+                    'icon-up-down': (searchParamsData.SortField == 'Account' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'Account' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                  <!-- temp fix -->
+                  <!-- <th class="pointer" (click)="sortTransactions('Name', sortColumnOrder['Name'])">Name on Check</th> -->
+                  <!-- temp fix -->
+                  <th style="text-align: right" class="pointer" (click)="sortTransactions('Amount', sortColumnOrder['Amount'])">Amount ($)
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Amount',
+                    'icon-up-down': (searchParamsData.SortField == 'Amount' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'Amount' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                  <th class="pointer" (click)="sortTransactions('operationType', sortColumnOrder['operationType'])">Type
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'operationType',
+                    'icon-up-down': (searchParamsData.SortField == 'operationType' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'operationType' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                  <th class="pointer" (click)="sortTransactions('transactionStatus', sortColumnOrder['transactionStatus'])">Status
+                    <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'transactionStatus',
+                    'icon-up-down': (searchParamsData.SortField == 'transactionStatus' && searchParamsData.Asc == true),
+                    'icon-ico-up': (searchParamsData.SortField == 'transactionStatus' && searchParamsData.Asc == false)}"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody [hidden]="searchResultFlag" align="center">
+                  <tr>
+                    <td colspan="10">{{ noResultsMessage }}</td>
+                  </tr>
+                </tbody>
+              <tbody [hidden]="!searchResultFlag">
+                <tr *ngFor="let transaction of transactionList">
+                  <!-- <td>
+                    <a *ngIf="transactionCategory=='ach'" routerLink="{{'/merchant/viewtransaction/ach/'+ transaction.transactionId }}">{{transaction.transactionId}}</a>
+                  </td> -->
+                  <td><a href="javascript:void(0)" (click)="onViewTransactionClick(transaction)">{{getFormattedDate(transaction.transactionDate)}}</a></td>
+                  <td>{{transaction.authCode}}</td>
+                  <!-- Temp Fix -->
+                  <!-- <td>{{transaction.referenceCustomerId}}</td> -->
+                  <!-- Temp Fix -->
+                  <td>{{transaction.routingNumber}}</td>
+                  <td>{{transaction.chequeNumber}}</td>
+                  <td>{{transaction.accountNumber}}</td>
+                  <!-- temp fix -->
+                  <!-- <td>{{transaction.nameOnCheckOrCard}}</td> -->
+                  <!-- temp fix -->
+                  <td align="right">{{transaction.captureAmount.toFixed(2)}}</td>
+                  <td>{{transaction.operationType}}</td>
+                  <td>{{transaction.transactionStatus}}</td>
+                </tr>
+              </tbody>
+            </table>
+          <!-- pager backend start-->
+          <ul *ngIf="pager.totalResults > 0 " class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="findTransaction(1)">
+              First
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="findTransaction(pager.currentPage - 1)">
+              Previous
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage === page}"
+              (click)="findTransaction(page)">
+              {{page}}
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="findTransaction((pager.currentPage + 1))">
+              Next
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="findTransaction(pager.totalPages)" suiPopup popupInverted
+              popupText="{{pager.totalPages}}" popupPlacement="right">
+              Last
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <!-- db-World-content -->
+  </div>
+</form>
+  <!-- db-World-scrollWrapper -->

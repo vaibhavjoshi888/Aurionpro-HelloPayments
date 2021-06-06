@@ -1,0 +1,244 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<header></header>
+<form [formGroup]="findResellerForm" (keydown.enter)="handleEnterKeyPress($event)">
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+      <sui-accordion class="styled fluid" (click)="accordion.findReseller=!accordion.findReseller">
+        <sui-accordion-panel [isOpen]="accordion.findReseller">
+          <div title>
+            {{ 'reseller.find.findreseller' | translate:param }}
+            <i class="dropdown icon"></i>
+          </div>
+          <div content (click)="$event.stopPropagation()">
+
+            <div class="title-form">
+              <p>{{ 'reseller.find.filter' | translate:param }}</p>
+              <hr/>
+            </div>
+
+            <div class="ui form">
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'reseller.add.parentreseller' | translate:param }}</label>
+                    <div *ngIf="checkUserType() ; then hellopaymentadminfindreseller else reselleradminfindreseller"></div>
+                    <ng-template #hellopaymentadminfindreseller>
+                        <sui-select class="selection" [options]="resellerList" labelField="resellerName" valueField="id" formControlName="ParentId" (selectedOptionChange)="changeParentReseller(ParentId)" #ParentId>
+                            <div class="ui icon search input">
+                              <i class="search icon"></i>
+                              <input suiSelectSearch type="text" placeholder="Search options...">
+                            </div>
+                            <sui-select-option *ngFor="let o of ParentId.filteredOptions" [value]="o"></sui-select-option>
+                          </sui-select>
+                          <span class="text-holder text-danger">{{formErrors.ParentId}}</span>
+                    </ng-template>
+                    <ng-template #reselleradminfindreseller>
+                        <div class="ui input">
+                          <input name="resellerName" type="text" formControlName="newResellerName" #newResellerName disabled/>
+                        </div>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'reseller.add.resellercompany' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="ResellerName" type="text" formControlName="ResellerName" #ResellerName [maxlength]=inputValidation.merchant.find.resellerName.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="ResellerName.value.length" (click)="clear('ResellerName')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.ResellerName}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.firstname' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="FirstName" type="text" formControlName="FirstName" #FirstName [maxlength]=inputValidation.merchant.find.firstName.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="FirstName.value.length" (click)="clear('FirstName')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.FirstName}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.lastname' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="LastName" type="text" formControlName="LastName" #LastName [maxlength]=inputValidation.merchant.find.lastName.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="LastName.value.length" (click)="clear('LastName')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.LastName}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.email' | translate:param }} </label>
+                    <div class="ui input">
+                      <input name="Email" type="text" formControlName="Email" #Email [maxlength]=inputValidation.merchant.find.email.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="Email.value.length" (click)="clear('Email')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.Email}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.phone' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="Phone" type="text" formControlName="Phone" #Phone [maxlength]=inputValidation.merchant.find.phone.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="Phone.value.length" (click)="clear('Phone')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.Phone}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rows mb20" >
+                <div class="one-third column" >
+                  <div class="field">
+                    <label>{{ 'common.city' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="City" type="text" formControlName="City" #City [maxlength]=inputValidation.merchant.find.city.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="City.value.length" (click)="clear('City')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.City}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.postzipcode' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="PostalCode" type="text" formControlName="PostalCode" #PostalCode [maxlength]=inputValidation.merchant.find.postalCode.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="PostalCode.value.length" (click)="clear('PostalCode')"><span class="icon-clear"></span></a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.PostalCode}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ui bottom attached header margin-reset">
+                <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'reseller.find.findreseller' | translate:param }}</button>
+                <button class="ui grey basic button u-pull-right" (click)="clearForm()">{{ 'reseller.find.clearfilter' | translate:param }} </button>
+                <div class="u-cf"></div>
+              </div>
+            </div>
+            <!-- /ui form -->
+          </div>
+
+        </sui-accordion-panel>
+      </sui-accordion>
+
+      <div class="ui segment" [hidden]="!findClicked">
+        <div class="ui top attached header">Resellers</div>
+        <div class="ui attached segment">
+          <table class="mini-tabular">
+            <thead>
+            <tr>
+              <th class="pointer" (click)="sortResellers('ResellerName', sortColumnOrder['ResellerName'])">Reseller Company
+                <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'ResellerName',
+                'icon-up-down': (searchParamsData.SortField == 'ResellerName' && searchParamsData.Asc == true),
+                'icon-ico-up': (searchParamsData.SortField == 'ResellerName' && searchParamsData.Asc == false)}"></i>
+              </th>
+              <th>Parent Reseller</th>
+              <th class="pointer" (click)="sortResellers('LastName', sortColumnOrder['LastName'])">Last name
+                <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'LastName',
+                'icon-up-down': (searchParamsData.SortField == 'LastName' && searchParamsData.Asc == true),
+                'icon-ico-up': (searchParamsData.SortField == 'LastName' && searchParamsData.Asc == false)}"></i>
+              </th>
+              <th class="pointer" (click)="sortResellers('FirstName', sortColumnOrder['FirstName'])">First name
+                <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'FirstName',
+                'icon-up-down': (searchParamsData.SortField == 'FirstName' && searchParamsData.Asc == true),
+                'icon-ico-up': (searchParamsData.SortField == 'FirstName' && searchParamsData.Asc == false)}"></i>
+              </th>
+              <th class="pointer" (click)="sortResellers('Email', sortColumnOrder['Email'])">Email
+                <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Email',
+                'icon-up-down': (searchParamsData.SortField == 'Email' && searchParamsData.Asc == true),
+                'icon-ico-up': (searchParamsData.SortField == 'Email' && searchParamsData.Asc == false)}"></i>
+              </th>
+              <th>Phone</th>
+              <th class="pointer" (click)="sortResellers('createdOn', sortColumnOrder['createdOn'])">Creation Date
+                <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'createdOn',
+                'icon-up-down': (searchParamsData.SortField == 'createdOn' && searchParamsData.Asc == true),
+                'icon-ico-up': (searchParamsData.SortField == 'createdOn' && searchParamsData.Asc == false)}"></i>
+              </th>
+              <th class="pointer" (click)="sortResellers('IsActive', sortColumnOrder['IsActive'])">Status
+                <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'IsActive',
+                'icon-up-down': (searchParamsData.SortField == 'IsActive' && searchParamsData.Asc == true),
+                'icon-ico-up': (searchParamsData.SortField == 'IsActive' && searchParamsData.Asc == false)}"></i>
+              </th>
+              <!-- <th class="pointer">Action</th> -->
+            </tr>
+            </thead>
+            <tbody [hidden]="searchResultFlag" align="center">
+                <tr>
+                  <td colspan="8">{{ noResultsMessage }}</td>
+                </tr>
+              </tbody>
+            <tbody [hidden]="!searchResultFlag">
+            <tr *ngFor="let reseller of pager.data"><!--| orderBy: {property: column, direction: direction}-->
+              <td *ngIf="reseller.resellerName.length <= truncateWordLength"><a href="javascript:void(0)" (click)="onViewResellerClick(reseller)">{{reseller.resellerName}}</a></td>
+              <td *ngIf="reseller.resellerName.length > truncateWordLength" suiPopup popupInverted popupText="{{reseller.resellerName}}" popupPlacement="top"><a href="javascript:void(0)" (click)="onViewResellerClick(reseller)">{{(reseller.resellerName| slice:0:truncateWordLength)+'...'}}</a></td>
+
+              <td *ngIf="selectedParentReseller.length <= truncateWordLength">{{selectedParentReseller}}</td>
+              <td *ngIf="selectedParentReseller.length > truncateWordLength" suiPopup popupInverted popupText="{{selectedParentReseller}}" popupPlacement="top">{{(selectedParentReseller| slice:0:truncateWordLength)+'...'}}</td>
+
+              <td *ngIf="reseller.contact.name.lastName.length <= truncateWordLength">{{reseller.contact.name.lastName}}</td>
+              <td *ngIf="reseller.contact.name.lastName.length > truncateWordLength" suiPopup popupInverted popupText="{{reseller.contact.name.lastName}}" popupPlacement="top">{{(reseller.contact.name.lastName| slice:0:truncateWordLength)+'...'}}</td>
+
+              <td *ngIf="reseller.contact.name.firstName.length <= truncateWordLength">{{reseller.contact.name.firstName}}</td>
+              <td *ngIf="reseller.contact.name.firstName.length > truncateWordLength" suiPopup popupInverted popupText="{{reseller.contact.name.firstName}}" popupPlacement="top">{{(reseller.contact.name.firstName| slice:0:truncateWordLength)+'...'}}</td>
+
+              <td *ngIf="reseller.contact.email.length <= truncateWordLength">{{reseller.contact.email}}</td>
+              <td *ngIf="reseller.contact.email.length > truncateWordLength" suiPopup popupInverted popupText="{{reseller.contact.email}}" popupPlacement="top">{{(reseller.contact.email| slice:0:truncateWordLength)+'...'}}</td>
+
+              <td>{{reseller.contact.phone}}</td>
+              <td>{{getFormattedDate(reseller.createdOn)}}</td>
+              <td>{{reseller.isActive ? 'Active' : 'Inactive'}}</td>
+              <!-- <td class="text-center">
+                <button class="ui icon td-button" (click)="confirmDelete(reseller.id, reseller.parentId)"> <i class="icon-delete icon"></i></button>
+              </td> -->
+            </tr>
+            </tbody>
+          </table>
+          <!-- pager backend start-->
+          <ul *ngIf="pager.totalResults > 0 " class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="fetchResellers(1)">
+              First
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="fetchResellers(pager.currentPage - 1)">
+              Previous
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage === page}" (click)="fetchResellers(page)">
+              {{page}}
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="fetchResellers((pager.currentPage + 1))">
+              Next
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="fetchResellers(pager.totalPages)" suiPopup popupInverted popupText="{{pager.totalPages}}" popupPlacement="right">
+              Last
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--<sui-modal class="action-modal" [isClosable]="false" #modal>-->
+  <!--<div class="content">-->
+    <!--<p>Are you sure you want to Delete this reseller?</p>-->
+  <!--</div>-->
+  <!--<div class="actions">-->
+    <!--<button class="ui grey basic button" (click)="modal.deny()">Cancel</button>-->
+    <!--<button class="ui primary button" (click)="modal.approve('done')" autofocus>Ok</button>-->
+  <!--</div>-->
+<!--</sui-modal>-->
+
+<footer></footer>

@@ -1,0 +1,118 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<header></header>
+<!--<form [formGroup]="viewResellerForm">-->
+<div class="db-World-scrollWrapper">
+
+  <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+    <div class="ui segment">
+      <div class="ui top attached header">
+
+        <div class="ui floating dropdown" suiDropdown autoClose="outsideClick">
+          <div class="text">{{ 'merchant.view.viewmerchant' | translate:param }}</div>
+          <i class="dropdown icon"></i>
+          <div class="menu" suiDropdownMenu *ngIf="hasAccess(2201,201,0,'viewAccess')">
+            <div class="item" *ngIf="hasAccess(2201,201,0,'modifyAccess')">
+              <a class="link" *ngIf="!hiddenFlag" (click)="onMenuClick('edit')" href="">{{ 'merchant.view.editmerchant' | translate:param }}</a>
+            </div>
+            <div class="item" *ngIf="merchantDetails.isActive && hasAccess(2201,201,0,'modifyAccess')">
+              <a class="link" (click)="confirmReset()">{{ 'merchant.view.resetpassword' | translate:param }}</a>
+            </div>
+            <div class="item" *ngIf="hasAccess(2503,501,0,'viewAccess')">
+              <a class="link" (click)="onMenuClick('allowedtransactiontype')">{{ 'merchant.view.allowedtransactiontype' | translate:param }}</a>
+            </div>
+            <div class="item" *ngIf="hasAccess(2501,502,0,'viewAccess')">
+              <a class="link" (click)="onMenuClick('processorconfiguration')">{{ 'merchant.view.processorconfiguration' | translate:param }}</a>
+            </div>
+            <div class="item" *ngIf="hasAccess(2504,503,0,'viewAccess')">
+              <a class="link" (click)="onMenuClick('billingconfig')">{{ 'merchant.view.billingconfig' | translate:param }}</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui attached segment white-bg p20">
+        <div class="ui form" *ngIf="hiddenFlag">
+        </div>
+        <div class="ui form" *ngIf="!hiddenFlag">
+          <div class="row view-text">
+            <p class="u-pull-left">{{ 'merchant.view.merchantinfo' | translate:param }}</p>
+            <p class="u-pull-right" *ngIf="hasAccess(2201,201,0,'executeAccess')">
+              <a class="link" [hidden]="merchantDetails.isActive" href="javascript:void(0)" (click)="activate(merchantId, resellerId)">{{ 'merchant.view.makemerchantactive' | translate:param }}
+              </a>
+              <a class="link" [hidden]="!merchantDetails.isActive" href="javascript:void(0)" (click)="deactivate(merchantId, resellerId)">{{ 'merchant.view.makemerchantinactive' | translate:param }}
+              </a>
+            </p>
+            <dl>
+              <dt>{{ 'merchant.view.reseller' | translate:param }}</dt>
+              <dd>{{merchantDetails.merchantParentName}}</dd>
+              <dt>{{ 'common.merchantcompany' | translate:param }}</dt>
+              <dd>{{ merchantDetails.name }}</dd>
+              <dt>{{ 'common.phone' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.phone}}</dd>
+              <dt>{{ 'common.fax' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.fax}}</dd>
+              <dt>{{ 'common.email' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.email}}</dd>
+              <dt>{{ 'common.url' | translate:param }}</dt>
+              <dd>
+                <a href="{{merchantDetails.contact.url}}" target="_blank">{{merchantDetails.contact.url}}/</a>
+              </dd>
+            </dl>
+          </div>
+          <div class="row view-text">
+            <p class="u-pull-left">{{ 'merchant.view.contactinfo' | translate:param }}</p>
+            <dl>
+              <dt>{{ 'common.firstname' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.name.firstName}}</dd>
+              <dt>{{ 'common.lastname' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.name.lastName}}</dd>
+              <dt>{{ 'common.address1' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.address.addressLine1}}</dd>
+              <dt>{{ 'common.address2' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.address.addressLine2}}</dd>
+              <dt>{{ 'common.city' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.address.city}}</dd>
+              <dt>{{ 'common.state' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.address.state}}</dd>
+              <dt>{{ 'common.country' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.address.country}}</dd>
+              <dt>{{ 'common.postzipcode' | translate:param }}</dt>
+              <dd>{{merchantDetails.contact.address.postalCode}}</dd>
+            </dl>
+          </div>
+          <div class="row view-text">
+            <p class="u-pull-left">{{ 'common.additionalinfo' | translate:param }}</p>
+            <dl>
+              <dt>{{ 'common.federaltaxid' | translate:param }}</dt>
+              <dd>{{merchantDetails.federalTaxId}}</dd>
+              <dt>{{ 'common.statetaxid' | translate:param }}</dt>
+              <dd>{{merchantDetails.stateTaxId}}</dd>
+              <dt>{{ 'common.salestaxid' | translate:param }}</dt>
+              <dd>{{merchantDetails.salesTaxId}}</dd>
+              <dt>{{ 'common.ownership' | translate:param }}</dt>
+              <dd>{{merchantDetails.ownership}}</dd>
+              <dt>{{ 'common.businessstartdate' | translate:param }}</dt>
+              <dd>{{getFormattedDate(merchantDetails.businessStartDate)}}</dd>
+              <dt>{{ 'merchant.view.otherDescription' | translate:param }}</dt>
+              <dd>{{merchantDetails.estimatedSales}}</dd>
+              <!-- Removing Merchant Id - Demo FeedBack by Raj -->
+              <!-- <dt>{{ 'merchant.view.merchantid' | translate:param }}</dt>
+              <dd>{{merchantDetails.merchantId}}</dd> -->
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached header">
+        &nbsp;
+        <button class="ui grey basic button u-pull-right" (click)="back()">{{ 'common.back' | translate:param }}</button>
+        <div class="u-cf"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--</form>-->
+<footer></footer>

@@ -1,0 +1,1243 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+
+  <div class="db-World-scrollWrapper" id="initialLoad">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <div class="ui segment">
+        <div class="ui top attached header">
+            <ng-template [ngIf]= "isCreditCard">
+              <span *ngIf="!editFlag"> {{ 'merchant.creditcard.creditcardsale' | translate:param }}</span>
+            </ng-template>
+            <ng-template [ngIf]= "isDebitCard">
+              <span *ngIf="!editFlag">{{ 'merchant.debitcard.debitcardsale' | translate:param }}</span>
+            </ng-template>
+            <ng-template [ngIf]= "isACH">
+              <span *ngIf="!editFlag">{{ 'merchant.ach.achdebit' | translate:param }}</span>
+            </ng-template>
+          <button (click)="hideAll(false)" *ngIf="showEverything" class="ui primary loadingX button u-pull-right">{{ 'common.showeverything' | translate:param }}</button>
+          <button (click)="hideAll(true)" *ngIf="!showEverything" class="ui primary loadingX button u-pull-right">{{ 'common.hideeverything' | translate:param }}</button>
+        </div>
+      </div>
+
+<!-- Search Customer -->
+<form [formGroup]="findCustomerForm" (keydown.enter)="handleEnterKeyPress($event)" *ngIf="hasAccess(0,0,1201,'viewAccess') && hasAccess(0,0,1202,'viewAccess')">
+      <sui-accordion class="styled fluid">
+        <sui-accordion-panel [(isOpen)]="accordion['searchcustomer']">
+          <div title>
+            {{ 'customer.find.findcustomers' | translate:param }}
+            <i class="dropdown icon"></i>
+          </div>
+          <div content>
+
+            <!-- <div class="title-form">
+              <p>{{ 'reseller.find.filter' | translate:param }}</p>
+              <hr/>
+            </div> -->
+
+            <div class="ui form">
+            <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'common.customerid' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="firstname" type="text" formControlName="CustomerId" #FirstName/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="FirstName.value.length"
+                            (click)="clear('FirstName')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['FirstName']}}</span>
+                        <!-- <span class="maxlength">0 / 50</span> -->
+                      </div>
+                </div>
+              </div>
+            <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'common.firstname' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="firstname" type="text" formControlName="FirstName" #FirstName/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="FirstName.value.length"
+                            (click)="clear('FirstName')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['FirstName']}}</span>
+                        <!-- <span class="maxlength">0 / 50</span> -->
+                      </div>
+                </div>
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'common.lastname' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="lastname" type="text" formControlName="LastName" #LastName/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="LastName.value.length"
+                            (click)="clear('LastName')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['LastName']}}</span>
+                      </div>
+                </div>
+              </div>
+              <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'common.email' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="username" formControlName="Email" type="text" #Email/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="Email.value.length"
+                            (click)="clear('Email')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['Email']}}</span>
+                        <!-- <span class="maxlength">0 / 50</span> -->
+                      </div>
+                </div>
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'common.companyname' | translate:param }}</label>
+                        <div class="ui input">
+                          <input class = "hidearrow" name="companyName" formControlName="CompanyName" type="text" #CompanyName/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="CompanyName.value.length"
+                            (click)="clear('CompanyName')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <!-- <span class="text-holder text-danger">ErrorText</span> -->
+                        <!-- <span class="maxlength">0 / 50</span> -->
+                    </div>
+                </div>
+              </div>
+
+                  <br/>
+              <div class="ui bottom attached header margin-reset">
+                <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'customer.find.findcustomers' | translate:param }}</button>
+                <button class="ui grey basic button u-pull-right" (click)="clearForm()">{{ 'common.clear' | translate:param }}</button>
+                <div class="u-cf"></div>
+              </div>
+            </div>
+            <!-- /ui form -->
+          </div>
+
+        </sui-accordion-panel>
+      </sui-accordion>
+</form>
+      <!-- Customers -->
+      <div id='scrollToCustomerList'></div>
+        <div [hidden]='hideCustomerTable'>
+          <div class="ui segment" style="margin-top: 10px;">
+            <div class="ui top attached header">{{ 'merchant.creditcard.customers' | translate:param }}</div>
+            <div class="ui attached segment">
+                <table datatable class="mini-tabular">
+                    <thead>
+                      <tr>
+                          <th>Customer Id
+                            <!-- <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'CustomerId',
+                            'icon-up-down': (searchParamsData.SortField == 'CustomerId' && searchParamsData.Asc == true),
+                            'icon-ico-up': (searchParamsData.SortField == 'CustomerId' && searchParamsData.Asc == false)}"></i> -->
+                          </th>
+                          <th class="pointer" (click)="sortCustomers('FirstName', sortColumnOrder['FirstName'])">First Name
+                            <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'FirstName',
+                            'icon-up-down': (searchParamsData.SortField == 'FirstName' && searchParamsData.Asc == true),
+                            'icon-ico-up': (searchParamsData.SortField == 'FirstName' && searchParamsData.Asc == false)}"></i>
+                          </th>
+                          <th>Last Name
+                            <!-- <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'LastName',
+                            'icon-up-down': (searchParamsData.SortField == 'LastName' && searchParamsData.Asc == true),
+                            'icon-ico-up': (searchParamsData.SortField == 'LastName' && searchParamsData.Asc == false)}"></i> -->
+                          </th>
+                          <th class="pointer" (click)="sortCustomers('companyName', sortColumnOrder['companyName'])">{{ 'common.companyname' | translate:param }}
+                            <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'companyName',
+                            'icon-up-down': (searchParamsData.SortField == 'companyName' && searchParamsData.Asc == true),
+                            'icon-ico-up': (searchParamsData.SortField == 'companyName' && searchParamsData.Asc == false)}"></i>
+                          </th>
+                          <th class="pointer" (click)="sortCustomers('Email', sortColumnOrder['Email'])">Email
+                            <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Email',
+                            'icon-up-down': (searchParamsData.SortField == 'Email' && searchParamsData.Asc == true),
+                            'icon-ico-up': (searchParamsData.SortField == 'Email' && searchParamsData.Asc == false)}"></i>
+                          </th>
+                      </tr>
+                    </thead>
+                    <tbody [hidden]="searchResultFlag" align="center">
+                      <tr>
+                        <td colspan="5">{{ noResultsMessage }}</td>
+                      </tr>
+                    </tbody>
+                    <tbody [hidden]="!searchResultFlag">
+                      <tr *ngFor="let customer of pager?.data">
+                          <td><a href="javascript:void(0)" (click)="fetchCustomerAccount(customer.id)">{{customer.id}}</a></td>
+                          <td>{{customer.billingContact.name.firstName}}</td>
+                          <td>{{customer.billingContact.name.lastName}}</td>
+                          <td>{{customer.billingContact.companyName}}</td>
+                          <td>{{customer.billingContact.email}}</td>
+                      </tr>
+                    </tbody>
+                </table>
+                <!-- pager backend start-->
+            <ul *ngIf="pager.totalResults > 0 " class="pagination">
+              <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="fetchCustomers(1)">
+                First
+              </li>
+              <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="fetchCustomers(pager.currentPage - 1)">
+                Previous
+              </li>
+              <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage === page}"
+                (click)="fetchCustomers(page)">
+                {{page}}
+              </li>
+              <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="fetchCustomers((pager.currentPage + 1))">
+                Next
+              </li>
+              <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="fetchCustomers(pager.totalPages)" suiPopup popupInverted
+                popupText="{{pager.totalPages}}" popupPlacement="right">
+                Last
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- List of Customer Accounts -->
+        <div [hidden]='hideCustomerAccountTable'>
+        <div *ngIf="isCreditCard; then creditcardAccount"></div>
+        <div *ngIf="isACH; then ACHAccount"></div>
+        <ng-template #creditcardAccount>
+
+        <div class="ui segment" style="margin-top: 10px" id="creditcardAccountDetails">
+            <div class="ui top attached header">{{ 'merchant.creditcard.listofcustomeraccounts' | translate:param }}</div>
+            <div class="ui attached segment">
+                <table datatable class="mini-tabular">
+                    <thead>
+                      <tr>
+                        <th>Payment type</th>
+                        <th>Card Holder Name</th>
+                        <th>Card Number</th>
+                        <th>Expiration</th>
+                        <!-- <th>Action</th> -->
+                      </tr>
+                    </thead>
+                    <tbody [hidden]="cardResultFlag" align="center">
+                        {{ noCardResultsMessage }}
+                    </tbody>
+                    <tbody [hidden]="!cardResultFlag">
+                      <tr *ngFor="let account of customerAccount">
+                        <td><a href="javascript:void(0)" (click)="setDataForTransaction(account.id)">{{isCreditCard ? 'Credit Card' : 'Debit Card'}}</a></td>
+                        <td>{{account.accountHolderName}}</td>
+                        <td>{{account.maskedCardNumber}}</td>
+                        <td>{{account.cardExpiry}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #ACHAccount>
+            <div class="ui segment" style="margin-top: 10px" id="ACHAccountDetails">
+                <div class="ui top attached header">{{ 'merchant.creditcard.listofcustomeraccounts' | translate:param }}</div>
+                <div class="ui attached segment">
+                    <table datatable class="mini-tabular">
+                        <thead>
+                          <tr>
+                            <th>Payment type</th>
+                            <th>Account Holder Name</th>
+                            <th>Account No</th>
+                            <th>Routing/Transit No </th>
+                            <!-- <th>Action</th> -->
+                          </tr>
+                        </thead>
+                        <tbody [hidden]="cardResultFlag" align="center">
+                            {{ noCardResultsMessage }}
+                        </tbody>
+                        <tbody [hidden]="!cardResultFlag">
+                          <tr *ngFor="let account of customerAccount">
+                            <td><a href="javascript:void(0)" (click)="setDataForTransaction(account.id)">{{isACH ? 'ACH' : ''}}</a></td>
+                            <td>{{account.accountHolderName}}</td>
+                            <td>{{account.maskedAccountNumber}}</td>
+                            <td>{{account.routingNumber}}</td>
+                            <!-- <td></td> -->
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+<!-- Transaction Details -->
+<div id='transactionForms'></div>
+<!-- <div *ngIf="isCreditCard || isDebitCard; then creditCard"></div> -->
+<div *ngIf="isCreditCard; then creditCard"></div>
+<div *ngIf="isDebitCard; then debitCard"></div>
+<div *ngIf="isACH; then ach"></div>
+<ng-template #creditCard>
+    <form [formGroup]="creditCardForm" (keydown.enter)="handleEnterKeyPress($event)">
+      <sui-accordion class="styled fluid" style="margin-top: 10px">
+        <sui-accordion-panel [(isOpen)]="accordion['transactiondetails']">
+          <div title>
+              {{ 'merchant.creditcard.transactiondetails' | translate:param }}
+            <i class="dropdown icon"></i>
+          </div>
+          <div content>
+            <div class="ui form">
+                <div [hidden]="!showCustomerName">
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                        <div class="field">
+                            <label>{{ 'common.customername' | translate:param }}</label>
+                            <div class="ui input">
+                              <input name="customerName" type="text" formControlName="customerName" />
+                            </div>
+                            <span class="text-holder text-danger">{{formErrors['customerId']}}</span>
+                            <span class="maxlength">&nbsp;</span>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label>Transaction Type
+                            <span class="mandatory-red">*</span>
+                          </label>
+                          <sui-select class="selection"
+                          [options]="transactionType"
+                          formControlName="transactionType"
+                                      labelField="title"
+                                      valueField="value"
+                          [hidden]=false
+                          #select>
+                          <sui-select-option *ngFor="let option of transactionType"
+                                            [value]="option">
+                          </sui-select-option>
+                        </sui-select>
+                    </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                      <label>{{ 'merchant.creditcard.cardholdername' | translate:param }}
+                        <span class="mandatory-red">*</span>
+                      </label>
+                      <div class="ui input">
+                        <input name="username" maxlength="50" type="text" formControlName="cardHolderName" #cardholdername/>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors['cardHolderName']}}</span>
+                      <span class="maxlength">{{cardholdername.value.length}}/{{inputValidation.transaction.add.cardHolderName.maxLength}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="field">
+                          <label>{{ 'merchant.creditcard.cardnumber' | translate:param }}
+                            <span class="mandatory-red">*</span>
+                          </label>
+                          <div class="ui input">
+                            <input name="username" maxlength="19" type="text" formControlName="maskCardNumber" #maskCardNumber/>
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors['maskCardNumber']}}</span>
+                          <span class="maxlength">{{maskCardNumber.value.length}}/{{inputValidation.transaction.add.cardNumber.maxLength}}</span>
+                        </div>
+                  </div>
+                  <div class="one-third column">
+                      <div class="field">
+                          <label>{{ 'merchant.creditcard.expiration(mmyy)' | translate:param }}
+                            <span class="mandatory-red">*</span>
+                          </label>
+                          <div class="ui input">
+                            <input name="username" maxlength="4" type="text" formControlName="cardExpiry" #cardExpiry/>
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors['cardExpiry']}}</span>
+                          <span class="maxlength">{{cardExpiry.value.length}}/{{inputValidation.transaction.add.cardExpiry.maxLength}}</span>
+                        </div>
+                  </div>
+                </div>
+                <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="field">
+                          <label>{{ 'merchant.creditcard.cvvpresence' | translate:param }}
+                            <span class="mandatory-red">*</span>
+                          </label>
+                          <sui-select class="selection"
+                          [options]="cvDataStatus"
+                          (selectedOptionChange)="cvvDataStatusOnChange($event)"
+                          formControlName="cvDataStatus"
+                                      labelField="value"
+                                      valueField="title"
+                          [hidden]=false
+                          #select>
+                          <sui-select-option *ngFor="let option of cvDataStatus"
+                                            [value]="option">
+                          </sui-select-option>
+                        </sui-select>
+                        </div>
+                  </div>
+                  <div class="one-third column">
+                      <div [hidden]="!cvvField">
+                        <div class="field">
+                          <label>{{ 'merchant.creditcard.cvv' | translate:param }}
+                            <span class="mandatory-red">*</span>
+                          </label>
+                          <div class="ui input">
+                            <input name="cvData" maxlength = "4" type="password" formControlName="cvData" #cvData [type]="showcvv ? 'text' : 'password'"/>
+                            <a suiPopup popupInverted popupText="{{ this.showcvv ?  'Hide CVV' : 'Show CVV' }}" popupPlacement="right" class="showon2" (click)="toggleShow($event)"><span class="icon-password_show"></span></a>
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors['cvData']}}</span>
+                          <span class="maxlength">{{cvData.value.length}}/{{inputValidation.transaction.add.cvData.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="field">
+                          <label> {{ 'common.amount' | translate:param }}
+                            <span class="mandatory-red">*</span>
+                          </label>
+                          <div class="ui input">
+                            <input name="amount" class="amountrightalign" [(ngModel)]="cardAmount" appTwoDigitDecimaNumber
+                            type="text" formControlName="amount" #amount/>
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors['amount']}}</span>
+                          <!--<span class="maxlength">0 / 50</span>-->
+                        </div>
+                  </div>
+                  <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.convenienceAmount' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="convenienceAmount" class="amountrightalign" [(ngModel)]="cardConvenienceAmount" appTwoDigitDecimaNumber
+                          type="text" formControlName="convenienceAmount" #convenienceAmount>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['convenienceAmount']}}</span>
+                        <!--<span class="maxlength">0 / 50</span>-->
+                      </div>
+                  </div>
+                </div>
+                <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="field">
+                          <label> {{ 'common.tipAmount' | translate:param }}
+                          </label>
+                          <div class="ui input">
+                            <input name="tipAmount" class="amountrightalign" [(ngModel)]="cardTipAmount" appTwoDigitDecimaNumber
+                            type="text" formControlName="tipAmount" #tipAmount/>
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors['tipAmount']}}</span>
+                          <!--<span class="maxlength">0 / 50</span>-->
+                        </div>
+                  </div>
+                  <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.taxAmount' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="taxAmount" class="amountrightalign" [(ngModel)]="cardTaxAmount" appTwoDigitDecimaNumber
+                          type="text" formControlName="taxAmount" #taxAmount>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['taxAmount']}}</span>
+                        <!--<span class="maxlength">0 / 50</span>-->
+                      </div>
+                  </div>
+                </div>
+                <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.totalamount' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="captureAmount" type="number" class="amountrightalign" formControlName="captureAmount" #captureAmount>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['captureAmount']}}</span>
+                        <!--<span class="maxlength">0 / 50</span>-->
+                      </div>
+                  </div>
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>Invoice No
+                        <span [hidden]="isTsys" class="mandatory-red">*</span>
+                      </label>
+                      <div class="ui input">
+                        <input name="invoiceNumber" type="text"  [maxlength]=inputValidation.transaction.add.invoiceno.maxLength formControlName="invoiceNo" #CCInvoiceNumber>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors['invoiceNo']}}</span>
+                      <span class="maxlength">{{CCInvoiceNumber.value.length}}/{{inputValidation.transaction.add.invoiceno.maxLength}}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Temporary Code for certification testing -->
+                <!-- <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="pb5-checkbox">
+                          <div class="field">
+                            <sui-checkbox class="toggle" [(ngModel)] = "isMoto" (click)="isMoto=!isMoto"> Moto </sui-checkbox>
+                          </div>
+                        </div>
+                  </div>
+                </div> -->
+                <!-- Temporary Code for certification testing -->
+                <br/>
+            </div>
+            <!-- /ui form -->
+          </div>
+        </sui-accordion-panel>
+      </sui-accordion>
+    </form>
+</ng-template>
+<ng-template #debitCard>
+  <form [formGroup]="debitCardForm" (keydown.enter)="handleEnterKeyPress($event)">
+    <sui-accordion class="styled fluid" style="margin-top: 10px">
+      <sui-accordion-panel [(isOpen)]="accordion['transactiondetails']">
+        <div title>
+            {{ 'merchant.creditcard.transactiondetails' | translate:param }}
+          <i class="dropdown icon"></i>
+        </div>
+        <div content>
+          <div class="ui form">
+              <div [hidden]="!showCustomerName">
+                <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="field">
+                          <label>{{ 'common.customername' | translate:param }}</label>
+                          <div class="ui input">
+                            <input name="customerName" type="text" formControlName="customerName" />
+                          </div>
+                          <span class="text-holder text-danger">{{formErrors['customerName']}}</span>
+                          <span class="maxlength">&nbsp;</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            <div class="rows mb20">
+              <div class="one-third column">
+                  <div class="field">
+                      <label>Transaction Type
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <sui-select class="selection"
+                        [options]="transactionType"
+                        formControlName="transactionType"
+                                    labelField="title"
+                                    valueField="value"
+                        [hidden]=false
+                        #select>
+                        <sui-select-option *ngFor="let option of transactionType"
+                                          [value]="option">
+                        </sui-select-option>
+                      </sui-select>
+                  </div>
+              </div>
+              <div class="one-third column">
+                <div class="field">
+                    <label>{{ 'merchant.creditcard.cardholdername' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <div class="ui input">
+                      <input name="username" maxlength="50" type="text" formControlName="cardHolderName" #cardholdername/>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors['cardHolderName']}}</span>
+                    <span class="maxlength">{{cardholdername.value.length}}/{{inputValidation.transaction.add.cardHolderName.maxLength}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'merchant.creditcard.cardnumber' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" maxlength="19" type="string" formControlName="maskCardNumber" #maskCardNumber/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['maskCardNumber']}}</span>
+                        <span class="maxlength">{{maskCardNumber.value.length}}/{{inputValidation.transaction.add.cardNumber.maxLength}}</span>
+                      </div>
+                </div>
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'merchant.creditcard.expiration(mmyy)' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" maxlength="4" type="string" formControlName="cardExpiry" #cardExpiry/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['cardExpiry']}}</span>
+                        <span class="maxlength">{{cardExpiry.value.length}}/{{inputValidation.transaction.add.cardExpiry.maxLength}}</span>
+                      </div>
+                </div>
+              </div>
+              <!-- <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label>{{ 'merchant.creditcard.cvvpresence' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <sui-select class="selection"
+                        [options]="cvDataStatus"
+                        (selectedOptionChange)="cvvDataStatusOnChange($event)"
+                        formControlName="cvDataStatus"
+                                    labelField="value"
+                                    valueField="title"
+                        [hidden]=false
+                        #select>
+                        <sui-select-option *ngFor="let option of cvDataStatus"
+                                          [value]="option">
+                        </sui-select-option>
+                      </sui-select>
+                      </div>
+                </div>
+                <div class="one-third column">
+                    <div [hidden]="!cvvField">
+                      <div class="field">
+                        <label>{{ 'merchant.creditcard.cvv' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="cvData" maxlength = "4" type="password" formControlName="cvData" #cvData [type]="showcvv ? 'text' : 'password'"/>
+                          <a suiPopup popupInverted popupText="{{ this.showcvv ?  'Hide CVV' : 'Show CVV' }}" popupPlacement="right" class="showon2" (click)="toggleShow($event)"><span class="icon-password_show"></span></a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['cvData']}}</span>
+                        <span class="maxlength">{{cvData.value.length}}/4</span>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label> {{ 'common.amount' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="amount"
+                          class="amountrightalign"
+                          [(ngModel)]="cardAmount" appTwoDigitDecimaNumber
+                          type="text" formControlName="amount" #amount/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['amount']}}</span>
+                        <!--<span class="maxlength">0 / 50</span>-->
+                      </div>
+                </div>
+                <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.convenienceAmount' | translate:param }}</label>
+                      <div class="ui input">
+                        <input name="convenienceAmount"
+                        class="amountrightalign"
+                        [(ngModel)]="cardConvenienceAmount" appTwoDigitDecimaNumber
+                        type="text" formControlName="convenienceAmount" #convenienceAmount>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors['convenienceAmount']}}</span>
+                      <!--<span class="maxlength">0 / 50</span>-->
+                    </div>
+                </div>
+              </div>
+              <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                        <label> {{ 'common.tipAmount' | translate:param }}
+                        </label>
+                        <div class="ui input">
+                          <input name="tipAmount"
+                          class="amountrightalign"
+                          [(ngModel)]="cardTipAmount" appTwoDigitDecimaNumber
+                          type="text" formControlName="tipAmount" #tipAmount/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['tipAmount']}}</span>
+                        <!--<span class="maxlength">0 / 50</span>-->
+                      </div>
+                </div>
+                <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.taxAmount' | translate:param }}</label>
+                      <div class="ui input">
+                        <input name="taxAmount"
+                        class="amountrightalign"
+                        [(ngModel)]="cardTaxAmount" appTwoDigitDecimaNumber
+                        type="text" formControlName="taxAmount" #taxAmount>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors['taxAmount']}}</span>
+                      <!--<span class="maxlength">0 / 50</span>-->
+                    </div>
+                </div>
+              </div>
+              <div class="rows mb20">
+                <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.totalamount' | translate:param }}</label>
+                      <div class="ui input">
+                        <input class="amountrightalign" name="totalAmount" type="number" formControlName="captureAmount" #totalAmount>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors['totalAmount']}}</span>
+                      <!--<span class="maxlength">0 / 50</span>-->
+                    </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>Invoice No</label>
+                    <div class="ui input">
+                      <input name="invoiceNumber" type="string" [maxlength]=inputValidation.transaction.add.invoiceno.maxLength formControlName="invoiceNo" #DCInvoiceNumber>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors['invoiceNo']}}</span>
+                    <span class="maxlength">{{DCInvoiceNumber.value.length}}/{{inputValidation.transaction.add.invoiceno.maxLength}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Temporary Code for certification testing -->
+              <!-- <div class="rows mb20">
+                  <div class="one-third column">
+                      <div class="pb5-checkbox">
+                          <div class="field">
+                            <sui-checkbox class="toggle" [(ngModel)] = "isMoto" (click)="isMoto=!isMoto"> Moto </sui-checkbox>
+                          </div>
+                        </div>
+                  </div>
+                </div> -->
+                <!-- Temporary Code for certification testing -->
+                <br/>
+          </div>
+          <!-- /ui form -->
+        </div>
+      </sui-accordion-panel>
+    </sui-accordion>
+  </form>
+</ng-template>
+<ng-template #ach>
+  <form [formGroup]="achTransactionForm" (keydown.enter)="handleEnterKeyPress($event)">
+    <sui-accordion class="styled fluid" style="margin-top: 10px">
+      <sui-accordion-panel [(isOpen)]="accordion['transactiondetails']">
+        <div title>
+          {{ 'merchant.ach.transactiondetails' | translate:param }}
+        <i class="dropdown icon"></i>
+      </div>
+      <div content>
+        <div class="ui form">
+          <!-- <div class="rows mb20">
+              <div class="one-third column">
+                  <div class="field">
+                      <label>{{ 'common.customerid' | translate:param }} <a class="pop-info" suiPopup popupHeader="Customer id" popupText="This is Customer id info">&#9432;</a> </label>
+                      <div class="ui input">
+                        <input name="customerId" type="text" formControlName="customerId" #achCustomerId/>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.customerId}}</span>
+                      <span class="maxlength">{{achCustomerId.value.length}}/50</span>
+                    </div>
+              </div>
+          </div> -->
+          <div class="rows mb20">
+            <div class="one-third column">
+              <div class="field">
+                <label>{{ 'merchant.ach.seccode' | translate:param }}
+                  <span class="mandatory-red">*</span>
+                </label>
+                <sui-select class="selection"
+                        [options]="secCode"
+                        formControlName="secCode"
+                                    labelField="value"
+                                    valueField="title"
+                        [hidden]=false
+                        #select>
+                        <sui-select-option *ngFor="let option of secCode"
+                                          [value]="option">
+                        </sui-select-option>
+                      </sui-select>
+            <span class="text-holder text-danger">{{formErrors['secCode']}}</span>
+            <!-- <span class="maxlength">0 / 50</span> -->
+          </div>
+        </div>
+        <div class="one-third column">
+            <div class="field">
+                <label>{{ 'common.customername' | translate:param }}
+                  <span class="mandatory-red">*</span>
+                </label>
+                <div class="ui input">
+                  <input name="customerName" type="text" formControlName="customerName" #achCustomerName/>
+                </div>
+                <span class="text-holder text-danger">{{formErrors.customerName}}</span>
+                <!-- <span class="maxlength">{{achCustomerName.value.length}}/50</span> -->
+                <span class="maxlength">&nbsp;</span>
+              </div>
+        </div>
+      </div>
+      <div class="rows mb20">
+          <div class="two-thirds column">
+            <div class="field">
+              <label>{{ 'merchant.ach.paytotheorderof' | translate:param }}
+                <span class="mandatory-red">*</span>
+              </label>
+              <div class="ui input">
+                <input name="payToTheOrderOf" type="text" formControlName="payToTheOrderOf" #payToTheOrderOf />
+              </div>
+              <span class="text-holder text-danger">{{formErrors.payToTheOrderOf}}</span>
+              <span class="maxlength">{{payToTheOrderOf.value.length}}/{{inputValidation.transaction.add.payToTheOrderOf.maxLength}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rows mb20">
+            <div class="two-thirds column">
+              <div class="field">
+                <img src="../../../../../../assets/images/check-code-sample.png" width="540" height="83" alt=""/>
+              </div>
+            </div>
+        </div>
+        <div class="rows mb20">
+          <div class="one-third column">
+            <div class="field">
+              <label>{{ 'merchant.ach.bankrouting/transit' | translate:param }}
+                <span class="mandatory-red">*</span>
+              </label>
+              <div class="ui input">
+                <!-- <input name="routingNumber" maxlength="9" type="string" formControlName="routingNumber" #routingNumber/> -->
+                <input name="routingNumber"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  type = "number"
+                  formControlName="routingNumber"
+                  maxlength = "9"
+                  #routingNumber
+                  />
+              </div>
+              <span class="text-holder text-danger">{{formErrors.routingNumber}}</span>
+              <span class="maxlength">{{routingNumber.value.length}}/{{inputValidation.transaction.add.routingNumber.maxLength}}</span>
+            </div>
+          </div>
+          <div class="one-third column">
+            <div class="field">
+              <label>{{ 'merchant.ach.accountnumber' | translate:param }}
+                <span class="mandatory-red">*</span>
+              </label>
+              <div class="ui input">
+                <!-- <input name="accountNumber" maxlength="10" type="string" formControlName="maskedAccountNumber" #achAccountNumber/> -->
+                <input name="accountNumber"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                type = "text"
+                maxlength = "10"
+                formControlName="maskedAccountNumber"
+                #achAccountNumber
+                />
+              </div>
+              <span class="text-holder text-danger">{{formErrors.maskedAccountNumber}}</span>
+              <span class="maxlength">{{achAccountNumber.value.length}}/{{inputValidation.transaction.add.accountNumber.maxLength}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="rows mb20">
+          <div class="one-third column">
+            <div class="field">
+              <label>{{ 'merchant.ach.accounttype' | translate:param }}
+                <span class="mandatory-red">*</span>
+              </label>
+              <sui-select class="selection"
+                [options]="achAccountType"
+                formControlName="accountType"
+                            labelField="value"
+                            valueField="title"
+                [hidden]=false
+                #select>
+                <sui-select-option *ngFor="let option of achAccountType"
+                                  [value]="option">
+                </sui-select-option>
+              </sui-select>
+              <span class="text-holder text-danger">{{formErrors.accountType}}</span>
+            </div>
+          </div>
+          <div class="one-third column">
+            <div class="field">
+              <label>{{ 'common.amount' | translate:param }}
+                <span class="mandatory-red">*</span>
+              </label>
+              <div class="ui input">
+                <input name="amount"
+                class="amountrightalign"
+                [(ngModel)]="cardAmount" appTwoDigitDecimaNumber
+                type="text" formControlName="amount" #achAmount/>
+              </div>
+              <span class="text-holder text-danger">{{formErrors.amount}}</span>
+              <span class="maxlength">{{achAmount.value.length}}/12</span>
+            </div>
+          </div>
+        </div>
+        <div class="rows mb20">
+          <div class="one-third column">
+            <div class="field">
+              <label>{{ 'merchant.ach.checknumber' | translate:param }}
+                <!-- <span class="mandatory-red">*</span> -->
+              </label>
+              <div class="ui input">
+                <!-- <input name="checkNumber" pattern="\d*" maxlength="5" type="number" formControlName="checkNumber" #checkNumber/> -->
+                <input name="checkNumber"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                type = "number"
+                formControlName="checkNumber"
+                maxlength = "6"
+                #checkNumber
+                />
+              </div>
+              <span class="text-holder text-danger">{{formErrors.checkNumber}}</span>
+              <span class="maxlength">{{checkNumber.value.length}}/{{inputValidation.transaction.add.checkNumber.maxLength}}</span>
+            </div>
+          </div>
+          <div class="one-third column">
+            <div class="field">
+              <label>{{ 'merchant.ach.checktype' | translate:param }}
+                <!-- <span class="mandatory-red">*</span> -->
+              </label>
+              <sui-select class="selection"
+                  [options]="checkType"
+                  formControlName="checkType"
+                              labelField="value"
+                              valueField="title"
+                  [hidden]=false
+                  #select>
+                  <sui-select-option *ngFor="let option of checkType"
+                                    [value]="option">
+                  </sui-select-option>
+              </sui-select>
+              <span class="text-holder text-danger">{{formErrors.checkType}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rows mb20">
+          <div class="one-third column">
+            <div class="field">
+              <label>Invoice No</label>
+              <div class="ui input">
+                <input name="invoiceNumber" type="text" [maxlength]=inputValidation.transaction.add.invoiceno.maxLength formControlName="invoiceNo" #achInvoiceNumber>
+              </div>
+              <span class="text-holder text-danger">{{formErrors['invoiceNo']}}</span>
+              <span class="maxlength">{{achInvoiceNumber.value.length}}/{{inputValidation.transaction.add.invoiceno.maxLength}}</span>
+            </div>
+          </div>
+        </div>
+        <br/>
+      </div>
+        <!-- /ui form -->
+    </div>
+
+      </sui-accordion-panel>
+    </sui-accordion>
+  </form>
+</ng-template>
+      <div class="u-cf accordion-spacer"></div>
+
+      <!-- Address details -->
+      <form [formGroup]="customerAddressForm" (keydown.enter)="handleEnterKeyPress($event)">
+      <sui-accordion class="styled fluid">
+        <sui-accordion-panel [(isOpen)]="accordion['addressdetails']">
+          <div title>
+            {{ 'common.addressdetails' | translate:param }}
+            <i class="dropdown icon"></i>
+          </div>
+          <div content>
+              <div class="ui form">
+                  <div class="rows mb20">
+                    <div class="two-thirds column">
+                      <div class="field">
+                        <label>{{ 'common.address1' | translate:param }}
+                          <!-- <span class="mandatory-red">*</span> -->
+                        </label>
+                        <div class="ui input">
+                          <input name="addressLine1" type="text" formControlName="addressLine1" #addressLine1 [maxlength]=inputValidation.transaction.add.addressLine1.maxLength/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.addressLine1}}</span>
+                        <span class="maxlength">{{addressLine1.value.length}}/{{inputValidation.transaction.add.addressLine1.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                    <div class="two-thirds column">
+                      <div class="field">
+                        <label>{{ 'common.address2' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="addressLine2" type="text" formControlName="addressLine2" #addressLine2 [maxlength]=inputValidation.transaction.add.addressLine2.maxLength/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['addressLine2']}}</span>
+                        <span class="maxlength">{{addressLine2.value.length}}/{{inputValidation.transaction.add.addressLine2.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.city' | translate: param }}
+                          <!-- <span class="mandatory-red">*</span> -->
+                        </label>
+                        <div class="ui input">
+                            <input name="city" type="text" formControlName="city" #city [maxlength]=inputValidation.transaction.add.city.maxLength/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors['city']}}</span>
+                        <span class="maxlength">{{city.value.length}}/{{inputValidation.transaction.add.city.maxLength}}</span>
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.country' | translate:param }}
+                          <!-- <span class="mandatory-red">*</span> -->
+                        </label>
+                        <sui-select class="selection" [options]="countryList" formControlName="country" (selectedOptionChange)="populateState($event)" labelField="name" valueField="countryId" #country>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <div class="divider"></div>
+                          <sui-select-option *ngFor="let o of country.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                        <span class="text-holder text-danger">{{formErrors.country}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.state' | translate:param }}
+                          <!-- <span class="mandatory-red">*</span> -->
+                        </label>
+                        <div class="ui input">
+                          <!--<input name="username" type="text" formControlName="state" #state />-->
+                          <sui-select class="selection" [options]="stateList" formControlName="state" labelField="name" valueField="abbreviation" #state>
+                            <div class="ui icon search input">
+                              <i class="search icon"></i>
+                              <input suiSelectSearch type="text" placeholder="Search options...">
+                            </div>
+                            <div class="divider"></div>
+                            <sui-select-option *ngFor="let o of state.filteredOptions" [value]="o"></sui-select-option>
+                          </sui-select>
+                          <!--<a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="state.value.length" (click)="clear('contact.address.state')"><span class="icon-clear"></span></a>-->
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.state}}</span>
+                         <!--<span class="maxlength">{{state.value.length}}/50</span>-->
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.postzipcode' | translate:param }}
+                          <!-- <span class="mandatory-red">*</span> -->
+                        </label>
+                        <div class="ui input">
+                            <input name="postalCode" [maxlength]=inputValidation.merchant.add.postalCode.maxLength type="text" formControlName="postalCode" #postalCode/>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.postalCode}}</span>
+                        <span class="maxlength">{{postalCode.value.length}}/{{inputValidation.merchant.add.postalCode.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.timezone' | translate:param }}</label>
+                        <sui-select class="selection" [options]="timeZoneList" labelField="name" valueField="name" [isSearchable]="true"
+                                    formControlName="timeZone" #timeZone>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <sui-select-option *ngFor="let o of timeZone.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                        <span class="text-holder text-danger">{{formErrors.timeZone}}</span>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+                <!-- /ui form -->
+          </div>
+        </sui-accordion-panel>
+      </sui-accordion>
+    </form>
+      <div class="ui segment">
+          <div class="ui top attached header">
+            &nbsp;
+            <button (click) = 'processTransaction()' class="ui primary button u-pull-right">{{ 'common.process' | translate:param }}</button>
+            <!-- <button (click) = 'print()' class="ui primary button u-pull-right">{{ 'common.process' | translate:param }}</button> -->
+            <button (click) = 'clearTransactionField()' class="ui grey basic button u-pull-right">{{ 'common.clear' | translate:param }}</button>
+
+          </div>
+        </div>
+
+      </div> <!-- db-World-content -->
+      </div> <!-- db-World-scrollWrapper -->
+        <ng-template let-context let-modal="modal" #modalTemplateCard>
+            <div class="header">Transaction Receipt</div>
+            <div class="content modal-content">
+              <table datatable class="mini-tabular">
+                <tr>
+                  <td>{{ 'merchant.transaction.transactionId' | translate:param }}</td>
+                  <td>{{transactionDetails['transactionId']}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.date' | translate:param }} </td>
+                  <td>{{date(transactionDetails['transactionDate'], 'date', transactionDetails)}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.time' | translate:param }} </td>
+                  <td>{{date(transactionDetails['transactionDate'], 'time', transactionDetails)}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.transactiontype' | translate:param }} </td>
+                  <td>{{getenum('transType')}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.cardnumber' | translate:param }}</td>
+                  <td>{{transactionDetails['tenderInfo'].maskCardNumber}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.expiration' | translate:param }} </td>
+                  <td>{{transactionDetails['tenderInfo'].cardExpiry}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.cardtype' | translate:param }} </td>
+                  <td>{{transactionDetails['tenderInfo'].cardType}} </td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.nameoncard' | translate:param }} </td>
+                  <td>{{transactionDetails['tenderInfo'].cardHolderName}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.amount' | translate:param }}</td>
+                  <td>{{transactionDetails['tenderInfo'].amount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.tipamount' | translate:param }}</td>
+                  <td>{{transactionDetails['tenderInfo'].tipAmount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.totalamount' | translate:param }} </td>
+                  <td>{{transactionDetails['tenderInfo'].captureAmount.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.addressLine1' | translate:param }} </td>
+                  <td>{{ getAddressDetails('addressLine1') }}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.city' | translate:param }} </td>
+                  <td>{{ getAddressDetails('city') }}</td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.zip' | translate:param }} </td>
+                  <td>{{ getAddressDetails('postalCode') }} </td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.status' | translate:param }} </td>
+                  <td>{{getenum('status')}} </td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.authcode' | translate:param }} </td>
+                  <td>{{getTransactionAuthCode()}} </td>
+                </tr>
+                <tr>
+                  <td>{{ 'merchant.transaction.message' | translate:param }} </td>
+                  <td>{{getTransErrorMessage()}} </td>
+                </tr>
+              </table>
+            <!-- </div> -->
+          </div>
+          <div class="actions">
+              <button class="ui grey basic button" (click)="modal.deny('denied')">Close</button>
+              <button class="ui grey basic button" (click)="print()">Print</button>
+              <button class="ui primary button" (click)="modal.approve('approved')" autofocus>Process Another Transaction</button>
+          </div>
+          <!-- </div> -->
+        </ng-template>
+
+        <ng-template let-context let-modal="modal" #modalTemplateAch>
+          <div class="header">Transaction Receipt</div>
+          <div class="content modal-content">
+            <table datatable class="mini-tabular">
+              <tr>
+                <td>{{ 'merchant.transaction.transactionId' | translate:param }}</td>
+                <td>{{transactionDetails['transactionId']}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.date' | translate:param }} </td>
+                <td>{{date(transactionDetails['transactionDate'], 'date', transactionDetails)}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.time' | translate:param }} </td>
+                <td>{{date(transactionDetails['transactionDate'], 'time', transactionDetails)}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.transactiontype' | translate:param }} </td>
+                <td>{{getenum('transType')}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.accountnumber' | translate:param }}</td>
+                <td>{{transactionDetails['tenderInfo'].maskAccount}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.checknumber' | translate:param }} </td>
+                <td>{{transactionDetails['tenderInfo'].checkNumber}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.routingnumber' | translate:param }} </td>
+                <td>{{transactionDetails['tenderInfo'].routingNumber}} </td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.totalamount' | translate:param }} </td>
+                <td>{{transactionDetails['tenderInfo'].captureAmount.toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.addressLine1' | translate:param }} </td>
+                <td>{{ getAddressDetails('addressLine1')}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.city' | translate:param }} </td>
+                <td>{{ getAddressDetails('city')}}</td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.zip' | translate:param }} </td>
+                <td>{{ getAddressDetails('postalCode')}} </td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.status' | translate:param }} </td>
+                <td>{{getenum('status')}} </td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.authcode' | translate:param }} </td>
+                <td>{{getTransactionAuthCode()}} </td>
+              </tr>
+              <tr>
+                <td>{{ 'merchant.transaction.message' | translate:param }} </td>
+                <td>{{getTransErrorMessage()}} </td>
+              </tr>
+            </table>
+          <!-- </div> -->
+        </div>
+        <div class="actions">
+            <button class="ui grey basic button" (click)="modal.deny('denied')">Close</button>
+            <button class="ui grey basic button" (click)="print()">Print</button>
+            <button class="ui primary button" (click)="modal.approve('approved')" autofocus>Process Another Transaction</button>
+        </div>
+        <!-- </div> -->
+      </ng-template>
+      <footer></footer>
+
+
+
+
+        <!-- <ng-template let-context let-modal="modal" id="print-section" #modalTemplate1>
+            <div class="header">
+                      <div class="u-pull-left">Transaction Receipt</div>
+                      <div class="u-pull-right"><a class="link" href="javascript:void(0)" (click)="print()">Print</a></div>
+          </div>
+              <div class="content modal-content">
+                <p>Your  transaction result are bellow</p>
+                <table datatable class="mini-tabular">
+                  <tr>
+                    <td>{{ 'merchant.transaction.authcode' | translate:param }} </td>
+                    <td>dfgdfgdfgdgdfgfdgdfgdfdgdfgdfgdf-dffg-dfgdfg </td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'merchant.transaction.message' | translate:param }} </td>
+                    <td>- </td>
+                  </tr>
+                </table> -->
+              <!-- </div> -->
+            <!-- </div>
+            <div class="actions">
+                <button class="ui grey basic button" (click)="modal.deny('denied')">Print</button>
+                <button class="ui primary button" (click)="modal.approve('approved')" autofocus>Process another Transaction</button>
+            </div> -->
+            <!-- </div> -->
+          <!-- </ng-template> -->
+

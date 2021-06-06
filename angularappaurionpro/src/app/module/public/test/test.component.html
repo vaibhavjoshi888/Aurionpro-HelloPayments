@@ -1,0 +1,883 @@
+<div class="db-World-sideNavContainer">
+    <br/><br/><br/><br/><br/>
+    <sui-accordion [closeOthers]="false">
+        <sui-accordion-panel [isOpen]="true">
+            <div title>
+                Manage Reseller
+            </div>
+            <div content>
+                <p>Link</p>
+                <p>Link</p>
+                <p>Link</p>
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel>
+            <div title>
+                Manage Merchant
+            </div>
+            <div content>
+                <p>Link</p>
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel>
+            <div title>
+                Tools
+            </div>
+            <div content>
+                <p>Link</p>
+                <p>Link</p>
+            </div>
+        </sui-accordion-panel>
+    </sui-accordion>
+</div>
+
+<div class="db-World-scrollWrapper">
+
+<header></header>
+  
+  <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+    <!-- <div class="db-World-mainPane Box-root Padding-right--20">content 2</div> -->
+
+    <i class="icon-manage_merchant icon" style="font-size: 25px"></i>
+    <i class="icon-select icon" style="font-size: 25px"></i>
+
+    <h3>~~~~~ Add Reseller ~~~~~</h3>
+    <div class="ui segment">
+      <div class="ui top attached header">
+        {{ 'reseller.add.addreseller' | translate:param }}
+        <button class="ui primary loadingX button u-pull-right">{{ 'reseller.add.hideeverything' | translate:param
+          }}
+        </button>
+      </div>
+    </div>
+
+  <h3>~~~~~ Find Reseller ~~~~~</h3>
+  <!-- <sui-accordion class="styled fluid">
+    <sui-accordion-panel [isOpen]="true">
+      <div title>
+        {{ 'reseller.find.findreseller' | translate:param }}
+        <i class="dropdown icon"></i>
+      </div>
+      <div content>
+
+        <div class="title-form">
+          <p>{{ 'reseller.find.filter' | translate:param }}</p>
+          <hr/>
+        </div>
+
+        <div class="ui form">
+          forms
+        </div>
+        <br/>
+      </div>
+
+    </sui-accordion-panel>
+  </sui-accordion> -->
+  <div class="ui segment">
+      <div class="ui top attached header">Resellers</div>
+      <div class="ui attached segment">
+        <table datatable class="row-border hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First name</th>
+              <th>Last name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Foo</td>
+              <td>Bar</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Someone</td>
+              <td>Youknow</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Iamout</td>
+              <td>Ofinspiration</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Yoda</td>
+              <td>Skywalker</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Patrick</td>
+              <td>Dupont</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Barack</td>
+              <td>Obama</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>François</td>
+              <td>Holland</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Michel</td>
+              <td>Popo</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Chuck</td>
+              <td>Norris</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Simon</td>
+              <td>Robin</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Louis</td>
+              <td>Lin</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Zelda</td>
+              <td>Link</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>~~~~~ View Reseller ~~~~~~</h3>
+    <div class="ui segment">
+      <div class="ui top attached header">
+
+        <div class="ui floating dropdown" suiDropdown autoClose="outsideClick">
+          <div class="text">{{ 'reseller.view.viewreseller' | translate:param }}</div><i class="dropdown icon"></i>
+          <div class="menu" suiDropdownMenu>
+            <div class="item"><a class="link" href="">{{ 'reseller.view.editreseller' | translate:param }}</a></div>
+            <div class="item"><a class="link" href="">{{ 'reseller.view.feeconfig' | translate:param }}</a></div>
+            <div class="item"><a class="link" href="">{{ 'reseller.view.resetpassword' | translate:param }}</a></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui attached segment white-bg p20">
+        <div class="ui form">            
+          <div class="row view-text">
+              <p class="u-pull-left">{{ 'reseller.view.resellerinfo' | translate:param }}</p>
+              <p class="u-pull-right"><a class="link" href="">{{ 'reseller.view.makeresellerinactive' | translate:param }}</a></p>
+            <dl>
+                <dt>{{ 'reseller.view.partnerreseller' | translate:param }}</dt> <dd>HelloPayments </dd>
+                <dt>{{ 'reseller.view.resellercompany' | translate:param }}</dt> <dd>Sandstone Digital </dd>
+                <dt>{{ 'reseller.view.phone' | translate:param }}</dt> <dd>925-242-077 </dd>
+                <dt>{{ 'reseller.view.email' | translate:param }}</dt> <dd>rbaker@sandstone.com </dd>
+                <dt>{{ 'reseller.view.url' | translate:param }}</dt> <dd><a href="">http://www.sandstonedigital.com/</a></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>~~~~~ Fee Configuration ~~~~~</h3>
+    <div class="ui segment">
+      <div class="ui top attached header">
+          {{ 'reseller.fees.feeconfiguration' | translate:param }}
+      </div>
+      <div class="ui attached segment">
+        
+            <sui-tabset>
+                <div class="ui top attached tabular menu">
+                    <a class="item dummy-tab" suiTabHeader="0"></a>
+                    <a class="item" suiTabHeader="1">{{ 'reseller.fees.systemfees' | translate:param }}</a>
+                    <a class="item" suiTabHeader="2">{{ 'reseller.fees.debitcardfees' | translate:param }}</a>
+                    <a class="item" suiTabHeader="3">{{ 'reseller.fees.giftcardfees' | translate:param }}</a>
+                </div>
+                <div class="ui bottom attached segment" suiTabContent="0"></div>
+                <div class="ui bottom attached segment" suiTabContent="1">
+                    <p class="datatable-header">Fees Details</p>                    
+                    <table datatable class="row-border hover">
+                        <thead>
+                          <tr>
+                            <th>{{ 'reseller.fees.firstname' | translate:param }}</th>
+                            <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                            <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                            <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                            <th>{{ 'reseller.fees.buyrate' | translate:param }}</th>
+                            <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th>
+                            <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>Syatem Setup Fee</td>
+                          <td>One Time</td>
+                          <td>Fixed</td>
+                          <td><div class="ui input"><input name="" type="text"/></div> </td>
+                          <td><div class="ui input"><input name="" type="text"/></div> </td>
+                          <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                          <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                        </tr>
+                        <tr>
+                          <td>Syatem Monthly Fee</td>
+                          <td>One Time</td>
+                          <td>Fixed</td>
+                          <td><div class="ui input"><input name="" type="text"/></div> </td>
+                          <td><div class="ui input"><input name="" type="text"/></div> </td>
+                          <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                          <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                        </tr>
+                          </tbody>
+                      </table>
+                </div>
+                <div class="ui bottom attached segment" suiTabContent="2">
+                        <p class="datatable-header">Debit Fees</p>
+                        <table datatable class="row-border hover">
+                          <thead>
+                            <tr>
+                              <th>{{ 'reseller.fees.firstname' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.buyrate' | translate:param }}</th>
+                              <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th>
+                              <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>Debit Transaction Fee</td>
+                            <td>Per Transaction</td>
+                            <td>Fixed</td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                          </tr>
+                          <tr>
+                            <td>Debit Transaction Rate</td>
+                            <td>Per Transaction</td>
+                            <td>Percentage</td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                          </tr>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="ui bottom attached segment" suiTabContent="3">
+                        <p class="datatable-header">Gift Card Fees</p>
+                        <table datatable class="row-border hover">
+                          <thead>
+                            <tr>
+                              <th>{{ 'reseller.fees.firstname' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                              <th>{{ 'reseller.fees.buyrate' | translate:param }}</th>
+                              <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th>
+                              <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>Syatem Setup Fee</td>
+                            <td>One Time</td>
+                            <td>Fixed</td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                          </tr>
+                          <tr>
+                            <td>Syatem Monthly Fee</td>
+                            <td>One Time</td>
+                            <td>Fixed</td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="ui input"><input name="" type="text"/></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                            <td><div class="field text-center"><sui-checkbox></sui-checkbox></div> </td>
+                          </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </sui-tabset>
+        
+      </div>
+      <div class="ui bottom attached header">
+        <button class="ui primary loadingX button u-pull-right">{{ 'reseller.add.save' | translate:param }}</button>
+        <button class="ui grey basic button u-pull-right">{{ 'reseller.add.clear' | translate:param }}</button>
+        <button class="ui grey basic button u-pull-right">{{ 'reseller.add.cancel' | translate:param }}</button>
+        <div class="u-cf"></div>
+      </div>
+    </div>
+    <h3>~~~~~ Change Password ~~~~~</h3>
+    <div class="ui segment">
+      <div class="ui top attached header">Change Password</div>
+      <div class="ui attached segment p20">
+        <div class="ui form">
+          
+          <div class="rows mb20">
+            <div class="one-third column">
+              <div class="field">
+                <label>Select</label>
+                <sui-select class="selection"
+                [options]="options"
+                labelField="name"
+                [isSearchable]="searchable"
+                [isDisabled]="disabled"
+                #select>
+                <sui-select-option *ngFor="let option of select.filteredOptions"
+                [value]="option">
+              </sui-select-option>
+            </sui-select>
+          </div>
+        </div>
+      </div>
+
+
+
+          <div class="rows mb20">
+            <div class="one-half column">
+              <div class="field">
+                <label>Old Password</label>
+                <div class="ui input">
+                  <input name="username" type="password" formControlName="oldPassword" #oldPassword/>
+                </div>
+                <span class="text-holder text-danger">{{formErrors.oldPassword}}</span>
+                <span class="maxlength">{{oldPassword.value.length}} / 50</span>
+              </div>
+            </div>
+          </div>
+          <div class="rows mb20">
+            <div class="one-half column">
+              <div class="field">
+                <label>New Password</label>
+                <div class="ui input">
+                  <input name="username" type="password" formControlName="newPassword" #newPassword/>
+                </div>
+                <span class="text-holder text-danger">{{formErrors.newPassword}}</span>
+                <span class="maxlength">{{newPassword.value.length}} / 50</span>
+              </div>
+            </div>
+          </div>
+          <div class="rows mb20">
+            <div class="one-half column">
+              <div class="field">
+                <label>Confirm New Password</label>
+                <div class="ui input">
+                  <input name="username" type="password" formControlName="confirmPassword" #confirmPassword/>
+                </div>
+                <span class="text-holder text-danger">{{formErrors.confirmPassword}}</span>
+                <span class="maxlength">{{confirmPassword.value.length}} / 50</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui bottom attached header">
+        <button class="ui primary loadingX button u-pull-right" (click)="changePassword();">Save</button>
+        <button class="ui grey basic button u-pull-right" (click)="cancel();">Cancel</button>
+        <div class="u-cf"></div>
+      </div>
+    </div>
+
+    <h3>~~~~~ Miscellenious ~~~~~</h3>
+      
+        <button class="ui labeled icon button">
+          <i class="pause icon"></i>
+          Pause
+        </button>
+        <button class="ui right labeled icon button">
+          <i class="right arrow icon"></i>
+          Next
+        </button>
+        <button class="ui primary loading button">Loading</button>
+
+        <br/><br/>
+
+        <div class="ui segment">
+            <div class="ui top attached header">
+              <span *ngIf="!editFlag">{{ 'merchant.creditcard.creditcardsale' | translate:param }}</span>
+              <button (click)="hideAll(false)" *ngIf="showEverything" class="ui primary loadingX button u-pull-right">{{ 'common.showeverything' | translate:param }}</button>
+              <button (click)="hideAll(true)" *ngIf="!showEverything" class="ui primary loadingX button u-pull-right">{{ 'common.hideeverything' | translate:param }}</button>
+            </div>
+          </div>
+    
+    <!-- Search Customer -->
+          <sui-accordion class="styled fluid">
+            <sui-accordion-panel>
+              <div title>
+                {{ 'merchant.creditcard.searchcustomer' | translate:param }}
+                <i class="dropdown icon"></i>
+              </div>
+              <div content>
+    
+                <!-- <div class="title-form">
+                  <p>{{ 'reseller.find.filter' | translate:param }}</p>
+                  <hr/>
+                </div> -->
+    
+                <div class="ui form">
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                        <div class="field">
+                            <label>Customer ID</label>
+                            <div class="ui input">
+                              <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0 / 50</span>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                      <div class="one-third column">
+                          <div class="field">
+                              <label>First Name</label>
+                              <div class="ui input">
+                                <input name="username" type="text"/>
+                              </div>
+                              <span class="text-holder text-danger">ErrorText</span>
+                              <span class="maxlength">0 / 50</span>
+                            </div>
+                      </div>
+                      <div class="one-third column">
+                          <div class="field">
+                              <label>Last Name</label>
+                              <div class="ui input">
+                                <input name="username" type="text"/>
+                              </div>
+                              <span class="text-holder text-danger">ErrorText</span>
+                              <span class="maxlength">0 / 50</span>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="rows mb20">
+                        <div class="one-third column">
+                            <div class="field">
+                                <label>Email</label>
+                                <div class="ui input">
+                                  <input name="username" type="text"/>
+                                </div>
+                                <span class="text-holder text-danger">ErrorText</span>
+                                <span class="maxlength">0 / 50</span>
+                              </div>
+                        </div>
+                        <div class="one-third column">
+                            <div class="field">
+                              <label>Customer Status</label>
+    
+                            <div class="ui buttons together">
+                              <button class="ui grey basic button" (click)="find()">Active</button>
+                              <button class="ui grey basic button" (click)="clearForm()">InActive</button>
+                              <button class="ui primary button" (click)="find()">All</button>
+                            </div>
+    
+                            </div>
+                        </div>
+                      </div>
+                      <br/>
+    
+                  <div class="ui bottom attached header margin-reset">
+                    <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'common.find' | translate:param }}</button>
+                    <button class="ui grey basic button u-pull-right" (click)="clearForm()">{{ 'common.clear' | translate:param }}</button>
+                    <div class="u-cf"></div>
+                  </div>
+                </div>
+                <!-- /ui form -->
+              </div>
+    
+            </sui-accordion-panel>
+          </sui-accordion>
+    
+          <!-- Customers -->
+          <div class="ui segment">
+              <div class="ui top attached header">Customers</div>
+              <div class="ui attached segment">
+                  <table datatable class="row-border hover">
+                      <thead>
+                        <tr>
+                          <th>Customer ID</th>
+                          <th>First name</th>
+                          <th>Last name</th>
+                          <th>Company</th>
+                          <th>Email</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>10031</td>
+                          <td>Steve </td>
+                          <td>Jobs</td>
+                          <td>Hellopayments</td>
+                          <td>steve.jobs@ios.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10032</td>
+                          <td>Sam </td>
+                          <td>Brown</td>
+                          <td>Hellopayments</td>
+                          <td>sam.brown@aurion.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10033</td>
+                          <td>Richard </td>
+                          <td>Parker</td>
+                          <td>Hellopayments</td>
+                          <td>richard.parker@abc.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10034</td>
+                          <td>Roger </td>
+                          <td>Baker</td>
+                          <td>Hellopayments</td>
+                          <td>roger.baker@ipay.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10035</td>
+                          <td>David </td>
+                          <td>Miller</td>
+                          <td>Hellopayments</td>
+                          <td>david.miller@star.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10036</td>
+                          <td>John </td>
+                          <td>Wilson</td>
+                          <td>Hellopayments</td>
+                          <td>john.wilson@znp.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10037</td>
+                          <td>Allen </td>
+                          <td>White</td>
+                          <td>Hellopayments</td>
+                          <td>john.wilson@bcc.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10038</td>
+                          <td>Wills </td>
+                          <td>Smith</td>
+                          <td>Hellopayments</td>
+                          <td>allen.white.unc.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10039</td>
+                          <td>Jack </td>
+                          <td>Anderson</td>
+                          <td>Hellopayments</td>
+                          <td>jack.anderson@bnp.com</td>
+                          <td>InActive</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>10310</td>
+                          <td>Jena </td>
+                          <td>Jones</td>
+                          <td>Hellopayments</td>
+                          <td>wills.smith@bkc.com</td>
+                          <td>Active</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+    
+            <!-- List of Customer Accounts -->
+            <div class="ui segment">
+                <div class="ui top attached header">List of Customer Accounts</div>
+                <div class="ui attached segment">
+                    <table datatable class="row-border hover">
+                        <thead>
+                          <tr>
+                            <th>Payment type</th>
+                            <th>Account Holder Name</th>
+                            <th>Account/Cerdit Card Number</th>
+                            <th>Expiration</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>CerditCard</td>
+                            <td>Wills Smith</td>
+                            <td>*****1234 </td>
+                            <td>1222</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td>CerditCard</td>
+                            <td>Wills Smith</td>
+                            <td>*****5678</td>
+                            <td>1222</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+              </div>
+    
+    <!-- Transaction Details -->
+          <sui-accordion class="styled fluid">
+            <sui-accordion-panel>
+              <div title>
+                Transaction Details
+                <i class="dropdown icon"></i>
+              </div>
+              <div content>
+    
+                <div class="ui form">
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                        <div class="field">
+                            <label>Customer id</label>
+                            <div class="ui input">
+                              <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0 / 50</span>
+                          </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                          <label>Card Holder Name</label>
+                          <div class="ui input">
+                            <input name="username" type="text"/>
+                          </div>
+                          <span class="text-holder text-danger">ErrorText</span>
+                          <span class="maxlength">0 / 50</span>
+                        </div>
+                  </div>
+                  </div>
+                  <div class="rows mb20">
+                      <div class="one-third column">
+                          <div class="field">
+                              <label>Card Number</label>
+                              <div class="ui input">
+                                <input name="username" type="text"/>
+                              </div>
+                              <span class="text-holder text-danger">ErrorText</span>
+                              <span class="maxlength">0 / 50</span>
+                            </div>
+                      </div>
+                      <div class="one-third column">
+                          <div class="field">
+                              <label>Expiration (MMYY)</label>
+                              <div class="ui input">
+                                <input name="username" type="text"/>
+                              </div>
+                              <span class="text-holder text-danger">ErrorText</span>
+                              <span class="maxlength">0 / 50</span>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="rows mb20">
+                      <div class="one-third column">
+                          <div class="field">
+                              <label>CVV Presence</label>
+                              <sui-select class="selection"                    
+                              [options]="options"
+                              labelField="name"
+                              [isSearchable]="searchable"
+                              [isDisabled]="disabled"
+                              #select>
+                              <sui-select-option *ngFor="let option of select.filteredOptions"
+                                                [value]="option">
+                              </sui-select-option>
+                            </sui-select>
+                            </div>
+                      </div>
+                      <div class="one-third column">
+                          <div class="field">
+                            <label>CVV</label>
+                            <div class="ui input">
+                              <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0 / 50</span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="rows mb20">
+                      <div class="one-third column">
+                          <div class="field">
+                              <label>Sub Total</label>
+                              <div class="ui input">
+                                <input name="username" type="text"/>
+                              </div>
+                              <span class="text-holder text-danger">ErrorText</span>
+                              <span class="maxlength">0 / 50</span>
+                            </div>
+                      </div>
+                      <div class="one-third column">
+                          <div class="field">
+                            <label>Total Amount</label>
+                            <div class="ui input">
+                              <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0 / 50</span>
+                          </div>
+                      </div>
+                    </div>
+                      <br/>              
+                </div>
+                <!-- /ui form -->
+              </div>
+    
+            </sui-accordion-panel>
+          </sui-accordion>
+    
+          <div class="u-cf accordion-spacer"></div>
+    
+          <!-- Address details -->
+          <sui-accordion class="styled fluid">
+            <sui-accordion-panel>
+              <div title>
+                {{ 'common.addressdetails' | translate:param }}
+                <i class="dropdown icon"></i>
+              </div>
+              <div content>
+                  <div class="ui form">
+                      <div class="rows mb20">
+                        <div class="two-thirds column">
+                          <div class="field">
+                            <label>{{ 'common.address1' | translate:param }} <span class="mandatory-red">*</span></label>
+                            <div class="ui input">
+                              <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0/50</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rows mb20">
+                        <div class="two-thirds column">
+                          <div class="field">
+                            <label>{{ 'common.address2' | translate:param }}</label>
+                            <div class="ui input">
+                              <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0/50</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rows mb20">
+                        <div class="one-third column">
+                          <div class="field">
+                            <label>{{ 'common.city' | translate:param }} <span class="mandatory-red">*</span></label>
+                            <div class="ui input">
+                                <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0/50</span>
+                          </div>
+                        </div>
+                        <div class="one-third column">
+                          <div class="field">
+                            <label>{{ 'common.country' | translate:param }} <span class="mandatory-red">*</span></label>
+                            <sui-select class="selection"
+                                [options]="options"
+                                labelField="name"
+                                [isSearchable]="searchable"
+                                [isDisabled]="disabled"
+                                #select>
+                                <sui-select-option *ngFor="let option of select.filteredOptions"
+                                [value]="option">
+                              </sui-select-option>
+                            </sui-select>
+                            <span class="text-holder text-danger">ErrorText</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rows mb20">
+                        <div class="one-third column">
+                          <div class="field">
+                            <label>{{ 'common.state' | translate:param }} <span class="mandatory-red">*</span></label>
+                            <div class="ui input">
+                                <sui-select class="selection"
+                                [options]="options"
+                                labelField="name"
+                                [isSearchable]="searchable"
+                                [isDisabled]="disabled"
+                                #select>
+                                <sui-select-option *ngFor="let option of select.filteredOptions"
+                                [value]="option">
+                              </sui-select-option>
+                            </sui-select>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                          </div>
+                        </div>
+                        <div class="one-third column">
+                          <div class="field">
+                            <label>{{ 'common.postzipcode' | translate:param }} <span class="mandatory-red">*</span></label>
+                            <div class="ui input">
+                                <input name="username" type="text"/>
+                            </div>
+                            <span class="text-holder text-danger">ErrorText</span>
+                            <span class="maxlength">0/50</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rows mb20">
+                        <div class="one-third column">
+                          <div class="field">
+                            <label>{{ 'common.timezone' | translate:param }}</label>
+                            <sui-select class="selection"
+                                [options]="options"
+                                labelField="name"
+                                [isSearchable]="searchable"
+                                [isDisabled]="disabled"
+                                #select>
+                                <sui-select-option *ngFor="let option of select.filteredOptions"
+                                [value]="option">
+                              </sui-select-option>
+                            </sui-select>
+                            <span class="text-holder text-danger">ErrorText</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /ui form -->
+              </div>
+    
+            </sui-accordion-panel>
+          </sui-accordion>
+    
+          <div class="ui segment">
+              <div class="ui top attached header">
+                &nbsp;
+                <button class="ui primary button u-pull-right">Process</button>
+                <button class="ui grey basic button u-pull-right">Clear</button>
+                
+              </div>
+            </div>
+        
+</div><!-- /db-World-content -->
+</div><!-- db-World-scrollWrapper -->
+<footer></footer>

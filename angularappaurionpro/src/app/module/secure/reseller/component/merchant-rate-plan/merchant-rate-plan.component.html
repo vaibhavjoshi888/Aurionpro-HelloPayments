@@ -1,0 +1,254 @@
+<header></header>
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<form [formGroup]="resellerForm">
+
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <div class="ui segment">
+        <div class="ui top attached header">
+          {{ 'reseller.fees.addrateplan' | translate:param }}
+        </div>
+        <div class="ui attached segment">
+          <div class="ui form">
+            <div class="rows mb20 p20">
+              <div class="one-third column">
+                  <div class="field">
+                      <label>Rate Plan <span class="mandatory-red">*</span></label>
+                      <div class="ui input">
+                        <!--{{  }}-->
+                        <input name="username" type="text" [attr.disabled]="editFlag ? '' : null" formControlName="name" #name />
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="name.value.length && !editFlag" (click)="clear('name')"><span class="icon-clear"></span></a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.name}}</span>
+                      <span class="maxlength">{{name.value.length}}/50</span>
+                    </div>
+                    <div class="field">
+                        <label>Rate Plan Description <span class="mandatory-red">*</span></label>
+                        <div class="ui input">
+                          <!--{{  }}-->
+                          <input name="username" type="text" formControlName="description" #description />
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="description.value.length && !editFlag" (click)="clear('description')"><span class="icon-clear"></span></a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.description}}</span>
+                        <span class="maxlength">{{description.value.length}}/50</span>
+                      </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="u-cf"></div>
+
+          <sui-tabset>
+            <div class="ui top attached tabular menu">
+              <a class="item dummy-tab" suiTabHeader="0"></a>
+              <a  class="item" suiTabHeader="1" [(isActive)]="isSystemActive">{{ 'reseller.fees.systemfees' | translate:param }}</a>
+               <a  class="item" suiTabHeader="2" >ACH</a>
+             <a  class="item" suiTabHeader="3" >CC</a>
+              <a  class="item" suiTabHeader="5" >Debit</a>
+
+            </div>
+            <div class="ui bottom attached segment" suiTabContent="0"></div>
+            <div  class="ui bottom attached segment" suiTabContent="1">
+              <form [formGroup]="resellerSystemForm">
+              <!-- <p class="datatable-header">Fees Details</p> -->
+              <table class="mini-tabular">
+                <thead>
+                <tr>
+                  <th>{{ 'reseller.fees.feename' | translate:param }}</th>
+                  <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                  <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                  <!-- <th>{{ 'reseller.fees.buyrate' | translate:param }}</th> -->
+                  <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                  <!-- <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th> -->
+                  <!-- <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th> -->
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr formArrayName="feeConfigs"
+                    *ngFor="let item of resellerSystemForm.controls['feeConfigs'].controls; let i = index;">
+                    <td [formGroupName]="i">{{resellerSystemForm.controls.feeConfigs.controls[i].value.name}}</td>
+                    <td [formGroupName]="i">{{resellerSystemForm.controls.feeConfigs.controls[i].value.frequency}}</td>
+                    <td [formGroupName]="i">{{resellerSystemForm.controls.feeConfigs.controls[i].value.feeType}}</td>
+                    <!-- <td [formGroupName]="i"> -->
+                      <!-- <div class="ui input"><input name={{i}} id={{i}} type="text" formControlName="buyRate" disabled/> -->
+                      <!-- <div class="ui input"><input name={{i}} style="text-align:right;" id={{i}} type="text" formControlName="buyRate"/>
+                        <span class="text-holder text-danger" *ngIf="!resellerSystemForm.controls.feeConfigs.controls[i].controls.buyRate.valid">{{formErrors.buyRate}}</span>
+                      </div>
+
+                    </td> -->
+                    <td [formGroupName]="i">
+                      <div class="ui input"><input name="" style="text-align:right;" type="text" formControlName="sellRate"/></div>
+                    </td>
+
+                    <!-- <td [formGroupName]="i">
+                      <div class="field text-center">
+                        <sui-checkbox formControlName="includeInBilling"></sui-checkbox>
+                      </div>
+                    </td> -->
+                    <!-- <td [formGroupName]="i">
+                      <div class="field text-center">
+                        <sui-checkbox formControlName="includeInRevenueShare"></sui-checkbox>
+                      </div>
+                    </td> -->
+                </tr>
+                </tbody>
+              </table>
+              </form>
+            </div>
+            <div  class="ui bottom attached segment" suiTabContent="5">
+              <form [formGroup]="resellerDebitForm">
+              <!-- <p class="datatable-header">Debit Fees</p> -->
+              <table class="mini-tabular">
+                <thead>
+                <tr >
+                  <th>{{ 'reseller.fees.feename' | translate:param }}</th>
+                  <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                  <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                  <!-- <th>{{ 'reseller.fees.buyrate' | translate:param }}</th> -->
+                  <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                  <!-- <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th> -->
+                  <!-- <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th> -->
+                </tr>
+                </thead>
+                <tbody>
+                <tr formArrayName="feeConfigs"
+                    *ngFor="let item of resellerDebitForm.controls['feeConfigs'].controls; let i = index;">
+                  <td [formGroupName]="i">{{resellerDebitForm.controls.feeConfigs.controls[i].value.name}}</td>
+                  <td [formGroupName]="i">{{resellerDebitForm.controls.feeConfigs.controls[i].value.frequency}}</td>
+                  <td [formGroupName]="i">{{resellerDebitForm.controls.feeConfigs.controls[i].value.feeType}}</td>
+                  <!-- <td [formGroupName]="i"> -->
+                    <!-- <div class="ui input"><input name="" type="text" formControlName="buyRate" disabled/></div> -->
+                    <!-- <div class="ui input"><input name="" type="text" style="text-align:right;" formControlName="buyRate"/></div>
+                  </td> -->
+                  <td [formGroupName]="i">
+                    <div class="ui input"><input name="" type="text" style="text-align:right;" formControlName="sellRate"/></div>
+                  </td>
+
+                  <!-- <td [formGroupName]="i">
+                    <div class="field text-center">
+                      <sui-checkbox formControlName="includeInBilling"></sui-checkbox>
+                    </div>
+                  </td> -->
+                  <!-- <td [formGroupName]="i">
+                    <div class="field text-center">
+                      <sui-checkbox formControlName="includeInRevenueShare"></sui-checkbox>
+                    </div>
+                  </td> -->
+                </tr>
+                </tbody>
+              </table>
+              </form>
+            </div>
+            <div  class="ui bottom attached segment" suiTabContent="2">
+              <form [formGroup]="resellerACHForm">
+              <!-- <p class="datatable-header">Gift Card Fees</p> -->
+              <table class="mini-tabular">
+                <thead>
+                <tr>
+                  <th>{{ 'reseller.fees.feename' | translate:param }}</th>
+                  <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                  <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                  <!-- <th>{{ 'reseller.fees.buyrate' | translate:param }}</th> -->
+                  <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                  <!-- <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th> -->
+                  <!-- <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th> -->
+                </tr>
+                </thead>
+                <tbody>
+                <tr formArrayName="feeConfigs"
+                    *ngFor="let item of resellerACHForm.controls['feeConfigs'].controls; let i = index;">
+                  <td [formGroupName]="i">{{resellerACHForm.controls.feeConfigs.controls[i].value.name}}</td>
+                  <td [formGroupName]="i">{{resellerACHForm.controls.feeConfigs.controls[i].value.frequency}}</td>
+                  <td [formGroupName]="i">{{resellerACHForm.controls.feeConfigs.controls[i].value.feeType}}</td>
+                  <!-- <td [formGroupName]="i"> -->
+                    <!-- <div class="ui input"><input name="" type="text" formControlName="buyRate" disabled/></div> -->
+                    <!-- <div class="ui input"><input name="" type="text" style="text-align:right;" formControlName="buyRate" /></div>
+                  </td> -->
+                  <td [formGroupName]="i">
+                    <div class="ui input"><input name="" type="text" style="text-align:right;" formControlName="sellRate"/></div>
+                  </td>
+
+                  <!-- <td [formGroupName]="i">
+                    <div class="field text-center">
+                      <sui-checkbox formControlName="includeInBilling"></sui-checkbox>
+                    </div>
+                  </td> -->
+                  <!-- <td [formGroupName]="i">
+                    <div class="field text-center">
+                      <sui-checkbox formControlName="includeInRevenueShare"></sui-checkbox>
+                    </div>
+                  </td> -->
+                </tr>
+                </tbody>
+              </table>
+              </form>
+            </div>
+            <div  class="ui bottom attached segment" suiTabContent="3">
+              <form [formGroup]="resellerCCForm">
+                <!-- <p class="datatable-header">Fees Details</p> -->
+                <table class="mini-tabular">
+                  <thead>
+                  <tr>
+                    <th>{{ 'reseller.fees.feename' | translate:param }}</th>
+                    <th>{{ 'reseller.fees.chargefrequency' | translate:param }}</th>
+                    <th>{{ 'reseller.fees.feetype' | translate:param }}</th>
+                    <!-- <th>{{ 'reseller.fees.buyrate' | translate:param }}</th> -->
+                    <th>{{ 'reseller.fees.sellrate' | translate:param }}</th>
+                    <!-- <th>{{ 'reseller.view.includeinbilling' | translate:param }}</th> -->
+                    <!-- <th>{{ 'reseller.view.includeinrevenueshare' | translate:param }}</th> -->
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr formArrayName="feeConfigs"
+                      *ngFor="let item of resellerCCForm.controls['feeConfigs'].controls; let i = index;">
+                    <td [formGroupName]="i">{{resellerCCForm.controls.feeConfigs.controls[i].value.name}}</td>
+                    <td [formGroupName]="i">{{resellerCCForm.controls.feeConfigs.controls[i].value.feeType}}</td>
+                    <td [formGroupName]="i">{{resellerCCForm.controls.feeConfigs.controls[i].value.frequency}}</td>
+                    <!-- <td [formGroupName]="i"> -->
+                      <!-- <div class="ui input"><input name={{i}} id={{i}} type="text" formControlName="buyRate" disabled/> -->
+                      <!-- <div class="ui input"><input name={{i}} id={{i}} style="text-align:right;" type="text" formControlName="buyRate"/>
+                      </div>
+
+                    </td> -->
+                    <td [formGroupName]="i">
+                      <div class="ui input"><input name="" type="text" style="text-align:right;" formControlName="sellRate"/></div>
+                    </td>
+
+                    <!-- <td [formGroupName]="i">
+                      <div class="field text-center">
+                        <sui-checkbox formControlName="includeInBilling"></sui-checkbox>
+                      </div>
+                    </td> -->
+                    <!-- <td [formGroupName]="i">
+                      <div class="field text-center">
+                        <sui-checkbox formControlName="includeInRevenueShare"></sui-checkbox>
+                      </div>
+                    </td> -->
+                  </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+          </sui-tabset>
+
+        </div>
+        <div class="ui bottom attached header">
+          <button *ngIf="editFlag" class="ui primary loadingX button u-pull-right" (click)="edit();">{{ 'common.update' | translate:param }}</button>
+          <button *ngIf="!editFlag" class="ui primary loadingX button u-pull-right" (click)="save()">{{ 'common.save' |
+            translate:param }}
+          </button>
+          <button *ngIf="!editFlag" (click)="resetForm();" class="ui grey basic button u-pull-right">{{ 'common.clear' | translate:param }}</button>
+          <button *ngIf="editFlag" class="ui grey basic button u-pull-right">{{ 'common.cancel' | translate:param }}</button>
+          <div class="u-cf"></div>
+        </div>
+      </div>
+      <!-- /ui segment -->
+    </div>
+  </div>
+</form>
+<footer></footer>

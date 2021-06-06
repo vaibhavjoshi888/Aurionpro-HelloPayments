@@ -1,0 +1,484 @@
+<header></header>
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<form [formGroup]="addResellerForm">
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <div class="ui segment">
+        <div class="ui top attached header">
+          <span *ngIf="!editFlag">{{ 'reseller.add.addreseller' | translate:param }}</span>
+          <span *ngIf="editFlag">{{ 'reseller.add.editreseller' | translate:param }}</span>
+          <button (click)="hideAll(false)" *ngIf="showEverything" class="ui primary loadingX button u-pull-right">{{ 'common.showeverything' | translate:param }}
+          </button>
+          <button (click)="hideAll(true)" *ngIf="!showEverything" class="ui primary loadingX button u-pull-right">{{ 'common.hideeverything' | translate:param }}
+          </button>
+        </div>
+      </div>
+      <form [formGroup]="addResellerForm" (keydown.enter)="handleEnterKeyPress($event)">
+        <sui-accordion class="styled fluid">
+          <sui-accordion-panel [isOpen]="accordion.primaryContact">
+            <div title>
+              {{ 'reseller.add.primarycontactinfo' | translate:param }}
+              <i class="dropdown icon"></i>
+            </div>
+            <div content>
+
+              <div class="ui form">
+                <div class="rows mb20">
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'reseller.add.parentreseller' | translate:param }}
+                        <span class="mandatory-red">*</span>
+                      </label>
+                      <div *ngIf="checkUserType() ; then hellopaymentadmin else reselleradmin"></div>
+                      <ng-template #hellopaymentadmin>
+                        <sui-select [hidden]="!isSuperAdmin" class="selection" [options]="resellerList" labelField="resellerName" valueField="id"
+                          formControlName="parentId" [isDisabled]="editFlag" #parentId>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <sui-select-option *ngFor="let o of parentId.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                      </ng-template>
+
+                      <ng-template #reselleradmin>
+                        <div class="ui input">
+                          <input name="resellerName" type="text" formControlName="newResellerName" #newResellerName disabled/>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <!--<div class="one-third column">-->
+                  <!--<div class="field">-->
+                  <!--<label>{{ 'reseller.add.resellername' | translate:param }} <span class="mandatory-red">*</span></label>-->
+                  <!--<div class="ui input">-->
+                  <!--<input name="username" type="text" formControlName="resellerName" #resellerName/>-->
+                  <!--<a tooltip="Clear text" tooltip-position="below" class="boxblank2" *ngIf="resellerName.value.length" (click)="clear('resellerName')"><span class="icon-clear"></span></a>-->
+                  <!--</div>-->
+                  <!--<span class="text-holder text-danger">{{formErrors.resellerName}}</span>-->
+                  <!--<span class="maxlength">{{resellerName.value.length}}/50</span>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                </div>
+
+                <div class="rows mb20">
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'reseller.add.resellercompany' | translate:param }}
+                        <span class="mandatory-red">*</span>
+                      </label>
+                      <div class="ui input">
+                        <input name="resellerName" type="text" formControlName="resellerName" [maxlength]=inputValidation.reseller.add.resellerName.maxLength
+                          #resellerName/>
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="resellerName.value.length"
+                          (click)="clear('resellerName')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.resellerName}}</span>
+                      <span class="maxlength">{{resellerName.value.length}}/{{inputValidation.reseller.add.resellerName.maxLength}}</span>
+                    </div>
+                  </div>
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'reseller.add.reselleradminuser' | translate:param }}
+                        <span class="mandatory-red">*</span>
+                      </label>
+                      <div class="ui input">
+                        <!--{{  }}-->
+                        <input name="username" type="text" [attr.disabled]="editFlag ? '' : null" formControlName="resellerAdminUser" [maxlength]=inputValidation.reseller.add.resellerAdminUser.maxLength
+                          #resellerAdminUser />
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="resellerAdminUser.value.length && !editFlag"
+                          (click)="clear('resellerAdminUser')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.resellerAdminUser}}</span>
+                      <span class="maxlength">{{resellerAdminUser.value.length}}/{{inputValidation.reseller.add.resellerAdminUser.maxLength}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div formGroupName="contact">
+                  <div class="rows mb20" formGroupName="name">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.firstname' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="firstName" [maxlength]=inputValidation.reseller.add.firstName.maxLength
+                            #firstName/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="firstName.value.length"
+                            (click)="clear('contact.name.firstName')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.firstName}}</span>
+                        <span class="maxlength">{{firstName.value.length}}/{{inputValidation.reseller.add.firstName.maxLength}}</span>
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.lastname' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="lastName" [maxlength]=inputValidation.reseller.add.lastName.maxLength
+                            #lastName/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="lastName.value.length" (click)="clear('contact.name.lastName')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.lastName}}</span>
+                        <span class="maxlength">{{lastName.value.length}}/{{inputValidation.reseller.add.lastName.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.phone' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="phone" [maxlength]=inputValidation.reseller.add.phone.maxLength #phone/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="phone.value.length" (click)="clear('contact.phone')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.phone}}</span>
+                        <span class="maxlength">{{phone.value.length}}/{{inputValidation.reseller.add.phone.maxLength}}</span>
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.fax' | translate:param }}
+                          <!-- <span class="mandatory-red">*</span> -->
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="fax" [maxlength]=inputValidation.reseller.add.fax.maxLength #fax/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="fax.value.length" (click)="clear('contact.fax')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.fax}}</span>
+                        <span class="maxlength">{{fax.value.length}}/{{inputValidation.reseller.add.fax.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.email' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="email" [maxlength]=inputValidation.reseller.add.email.maxLength #email/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="email.value.length" (click)="clear('contact.email')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.email}}</span>
+                        <span class="maxlength">{{email.value.length}}/{{inputValidation.reseller.add.email.maxLength}}</span>
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.url' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="url" [maxlength]=inputValidation.reseller.add.url.maxLength #url/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="url.value.length" (click)="clear('contact.url')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.url}}</span>
+                        <span class="maxlength">{{url.value.length}}/{{inputValidation.reseller.add.url.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /ui form -->
+            </div>
+          </sui-accordion-panel>
+        </sui-accordion>
+        <div class="u-cf accordion-spacer"></div>
+        <sui-accordion class="styled fluid">
+          <sui-accordion-panel [isOpen]="accordion.addressDetail">
+            <div title>
+              {{ 'common.addressdetails' | translate:param }}
+              <i class="dropdown icon"></i>
+            </div>
+            <div content formGroupName="contact">
+              <div formGroupName="address">
+                <div class="ui form">
+                  <div class="rows mb20">
+                    <div class="two-thirds column">
+                      <div class="field">
+                        <label>{{ 'common.address1' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="addressLine1" type="text" formControlName="addressLine1" [maxlength]=inputValidation.reseller.add.addressLine1.maxLength
+                            #addressLine1/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="addressLine1.value.length"
+                            (click)="clear('contact.address.addressLine1')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.addressLine1}}</span>
+                        <span class="maxlength">{{addressLine1.value.length}}/{{inputValidation.reseller.add.addressLine1.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                    <div class="two-thirds column">
+                      <div class="field">
+                        <label>{{ 'common.address2' | translate:param }}</label>
+                        <div class="ui input">
+                          <input name="addressLine2" type="text" formControlName="addressLine2" [maxlength]=inputValidation.reseller.add.addressLine2.maxLength
+                            #addressLine2/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="addressLine2.value.length"
+                            (click)="clear('contact.address.addressLine2')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.addressLine2}}</span>
+                        <span class="maxlength">{{addressLine2.value.length}}/{{inputValidation.reseller.add.addressLine2.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.city' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="city" [maxlength]=inputValidation.reseller.add.city.maxLength #city/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="city.value.length" (click)="clear('contact.address.city')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.city}}</span>
+                        <span class="maxlength">{{city.value.length}}/{{inputValidation.reseller.add.city.maxLength}}</span>
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.country' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <sui-select class="selection" [options]="countryList" formControlName="country" (selectedOptionChange)="populateState($event)"
+                          labelField="name" valueField="countryId" #country>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <div class="divider"></div>
+                          <sui-select-option *ngFor="let o of country.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                        <span class="text-holder text-danger">{{formErrors.country}}</span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.state' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <!--<input name="username" type="text" formControlName="state" #state />-->
+                          <sui-select class="selection" [options]="stateList" formControlName="state" labelField="name" valueField="abbreviation" #state>
+                            <div class="ui icon search input">
+                              <i class="search icon"></i>
+                              <input suiSelectSearch type="text" placeholder="Search options...">
+                            </div>
+                            <div class="divider"></div>
+                            <sui-select-option *ngFor="let o of state.filteredOptions" [value]="o"></sui-select-option>
+                          </sui-select>
+                          <!--<a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="state.value.length" (click)="clear('contact.address.state')"><span class="icon-clear"></span></a>-->
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.state}}</span>
+                        <!--<span class="maxlength">{{state.value.length}}/50</span>-->
+                      </div>
+                    </div>
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.postzipcode' | translate:param }}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input">
+                          <input name="username" type="text" formControlName="postalCode" [maxlength]=inputValidation.reseller.add.postalCode.maxLength
+                            #postalCode/>
+                          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="postalCode.value.length"
+                            (click)="clear('contact.address.postalCode')">
+                            <span class="icon-clear"></span>
+                          </a>
+                        </div>
+                        <span class="text-holder text-danger">{{formErrors.postalCode}}</span>
+                        <span class="maxlength">{{postalCode.value.length}}/{{inputValidation.reseller.add.postalCode.maxLength}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Removing Time Zone - Demo FeedBack by Raj -->
+                  <!-- <div class="rows mb20">
+                    <div class="one-third column">
+                      <div class="field">
+                        <label>{{ 'common.timezone' | translate:param }}</label>
+                        <sui-select class="selection" [options]="timeZoneList" labelField="name" valueField="name" [isSearchable]="true" formControlName="timeZone"
+                          #timeZone>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <sui-select-option *ngFor="let o of timeZone.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                        <span class="text-holder text-danger">{{formErrors.timeZone}}</span>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+                <!-- /ui form -->
+              </div>
+            </div>
+          </sui-accordion-panel>
+        </sui-accordion>
+        <div class="u-cf accordion-spacer"></div>
+        <sui-accordion class="styled fluid">
+          <sui-accordion-panel [isOpen]="accordion.additionalInfo">
+            <div title>
+              {{ 'common.additionalinfo' | translate:param }}
+              <i class="dropdown icon"></i>
+            </div>
+            <div content>
+
+              <div class="ui form">
+
+                <div class="rows mb20">
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.federaltaxid' | translate:param }}
+                        <span class="mandatory-red">*</span>
+                      </label>
+                      <div class="ui input">
+                        <input name="username" type="text" formControlName="federalTaxId" [maxlength]=inputValidation.reseller.add.federalTaxId.maxLength
+                          #federalTaxId maxlength="9" />
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="federalTaxId.value.length"
+                          (click)="clear('federalTaxId')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.federalTaxId}}</span>
+                      <span class="maxlength">{{federalTaxId.value.length}}/{{inputValidation.reseller.add.federalTaxId.maxLength}}</span>
+                    </div>
+                  </div>
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.statetaxid' | translate:param }}</label>
+                      <div class="ui input">
+                        <input name="username" type="text" formControlName="stateTaxId" [maxlength]=inputValidation.reseller.add.stateTaxId.maxLength
+                          #stateTaxId/>
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="stateTaxId.value.length"
+                          (click)="clear('stateTaxId')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.stateTaxId}}</span>
+                      <span class="maxlength">{{stateTaxId.value.length}}/{{inputValidation.reseller.add.stateTaxId.maxLength}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rows mb20">
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.salestaxid' | translate:param }}</label>
+                      <div class="ui input">
+                        <input name="username" type="text" formControlName="salesTaxId" [maxlength]=inputValidation.reseller.add.salesTaxId.maxLength
+                          #salesTaxId/>
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="salesTaxId.value.length"
+                          (click)="clear('salesTaxId')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.salesTaxId}}</span>
+                      <span class="maxlength">{{salesTaxId.value.length}}/{{inputValidation.reseller.add.salesTaxId.maxLength}}</span>
+                    </div>
+                  </div>
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.ownership' | translate:param }}</label>
+                      <div class="ui input">
+                        <input name="username" type="text" formControlName="ownership" [maxlength]=inputValidation.reseller.add.ownership.maxLength
+                          #ownership/>
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="ownership.value.length"
+                          (click)="clear('ownership')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.ownership}}</span>
+                      <span class="maxlength">{{ownership.value.length}}/{{inputValidation.reseller.add.ownership.maxLength}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rows mb20">
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'common.businessstartdate' | translate:param }}</label>
+                      <div class="ui left icon input">
+                        <i class="calendar icon"></i>
+                        <input suiDatepicker [pickerMode]="mode" formControlName="businessStartDate" #businessStartDate [pickerFirstDayOfWeek]="firstDayOfWeek"
+                          [pickerUseNativeOnMobile]="false" readonly>
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="businessStartDate.value.length"
+                          (click)="clear('businessStartDate')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.businessStartDate}}</span>
+                    </div>
+                  </div>
+                  <div class="one-third column">
+                    <div class="field">
+                      <label>{{ 'reseller.add.otherDescription' | translate:param }}</label>
+                      <div class="ui input">
+                        <!-- <input name="username" type="" formControlName="estimatedSales" [maxlength]=inputValidation.reseller.add.estimatedSales.maxLength #estimatedSales/> -->
+                        <textarea style="min-height: 70px; max-height: 280px" rows="2" name="username" type="" formControlName="estimatedSales" [maxlength]=inputValidation.reseller.add.estimatedSales.maxLength #estimatedSales></textarea>
+                        <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="estimatedSales.value.length"
+                          (click)="clear('estimatedSales')">
+                          <span class="icon-clear"></span>
+                        </a>
+                      </div>
+                      <span class="text-holder text-danger">{{formErrors.estimatedSales}}</span>
+                      <span class="maxlength">{{estimatedSales.value.length}}/{{inputValidation.reseller.add.estimatedSales.maxLength}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /ui form -->
+            </div>
+          </sui-accordion-panel>
+        </sui-accordion>
+
+        <div class="ui segment">
+          <div class="ui top attached header">
+            &nbsp;
+            <button *ngIf="editFlag" class="ui primary loadingX button u-pull-right" (click)="edit();">{{ 'common.update' | translate:param }}</button>
+            <button *ngIf="!editFlag" class="ui primary loadingX button u-pull-right" (click)="save();">{{ 'common.save' | translate:param }}</button>
+            <!--<button class="ui grey basic button u-pull-right">{{ 'reseller.add.clear' | translate:param }}</button>-->
+            <button class="ui grey basic button u-pull-right" (click)="cancel();">{{ 'common.cancel' | translate:param }}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer></footer>

@@ -1,0 +1,12 @@
+.v-spacer {
+    height: calc(30% - 0px);
+}
+h2{
+    color:#567986;
+    text-transform: uppercase;
+    background: -webkit-linear-gradient(#BAC8CE, #567986);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    word-spacing: 5px;
+    letter-spacing: 3px
+}

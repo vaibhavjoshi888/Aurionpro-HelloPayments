@@ -1,0 +1,11 @@
+
+
+.card { display:none; width: 31.6666%;display: flex;padding: 20px;opacity: 0.8;align-items: stretch;flex-direction: column;flex-grow: 1;text-align: center;margin-bottom: 20px;background: #ffffff;border: 1px solid #E4E4E4}
+.card:hover {cursor:pointer;opacity:1}
+.card h4{font-size: 1.1em; font-weight: 100; margin: 5px; color:#567986}
+.card p{font-size: 14px; padding: 0 5%; color:#919191}
+.card img{height: 75px;width: 75px;margin: 0 auto}
+.news{margin-bottom: 20px; color:#333333}
+.news small{margin-right: 15px; color:#919191}
+.card:hover .dash-link{opacity: 1;}
+.dash-link{border-style: solid;border-width: 0 20px 20px 0;margin: -20px -20px 0 0;opacity: 0;transition: opacity .5s ease-out;-moz-transition: opacity .5s ease-out;-webkit-transition: opacity .5s ease-out;-o-transition: opacity .5s ease-out}

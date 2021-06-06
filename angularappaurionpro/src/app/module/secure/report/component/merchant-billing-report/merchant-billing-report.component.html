@@ -1,0 +1,228 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<form [formGroup]="transactionReportForm">
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <!-- find credit card transactions -->
+      <sui-accordion class="styled fluid" (click)="accordion.findTransaction=!accordion.findTransaction">
+        <sui-accordion-panel [isOpen]="accordion.findTransaction">
+          <div title >
+              Merchant Billing Report
+                <i class="dropdown icon"></i>
+          </div>
+          <div content (click)="$event.stopPropagation()">
+
+            <div class="title-form">
+              <p>{{ 'merchant.transaction.daterange' | translate:param }}</p>
+              <hr/>
+            </div>
+
+            <div class="ui form">
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.transaction.startdate' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <div class="ui left icon input">
+                      <i class="calendar icon"></i>
+                      <input suiDatepicker [pickerMaxDate]="maxStartDate" [pickerMode]="mode" formControlName="StartDate" #StartDate [pickerFirstDayOfWeek]="firstDayOfWeek"
+                        [pickerUseNativeOnMobile]="false" readonly>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.StartDate}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.transaction.enddate' | translate:param }}</label>
+                    <div class="ui left icon input">
+                      <i class="calendar icon"></i>
+                      <input suiDatepicker [pickerMinDate]="minEndDate" [pickerMaxDate]="maxStartDate" [pickerMode]="mode" formControlName="EndDate"
+                        #EndDate [pickerFirstDayOfWeek]="firstDayOfWeek" [pickerUseNativeOnMobile]="false" readonly>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.EndDate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>Merchant Name</label>
+                    <sui-select [hidden]="!isSuperAdmin" class="selection" [options]="merchantNameList" labelField="merchantName" valueField="id"
+                          formControlName="MerchantName" [isDisabled]="editFlag" #merchantName>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <sui-select-option *ngFor="let o of merchantName.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                    <!-- <span class="text-holder text-danger">{{formErrors.timeZone}}</span> -->
+                  </div>
+                </div>
+                <!-- <div class="one-third column">
+                  <div class="field">
+                    <label>Channel Type</label>
+                    <sui-select class="selection"
+                          [options]="channelTypeList"
+                          formControlName="ChannelType"
+                                      labelField="title"
+                                      valueField="value"
+                          [hidden]=false
+                          #select>
+                          <sui-select-option *ngFor="let option of channelTypeList"
+                                            [value]="option">
+                          </sui-select-option>
+                        </sui-select> -->
+                    <!-- <span class="text-holder text-danger">{{formErrors.timeZone}}</span> -->
+                  <!-- </div>
+                </div> -->
+              </div>
+              <br/>
+
+              <div class="ui bottom attached header margin-reset">
+                <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'common.find' | translate:param }}</button>
+                <button class="ui grey basic button u-pull-right" (click)="clear()">{{ 'common.clear' | translate:param }}</button>
+                <div class="u-cf"></div>
+              </div>
+            </div>
+            <!-- /ui form -->
+          </div>
+
+        </sui-accordion-panel>
+      </sui-accordion>
+
+      <div class="ui segment" [hidden] = !findClicked>
+        <div class="ui top attached header">{{ 'merchant.transaction.result' | translate:param }}
+            <!-- <button class="ui primary loadingX button u-pull-right" (click)="downloadToCsv()">Download to Csv</button> -->
+        </div>
+        <div class="ui attached segment" style="padding-top: 0px">
+            <div class="u-pull-right" style="margin-top: -43px; margin-right: 20PX">
+                <sui-select class="floating labeled icon button"
+                              icon="download"
+                              (selectedOptionChange)="download($event)"
+                              [isSearchable]="false"
+                              placeholder="Export"
+                              #filterSelect>
+                              <sui-select-option value="pdf"></sui-select-option>
+                              <sui-select-option value="csv"></sui-select-option>
+                  </sui-select>
+                </div>
+          <div style="overflow: auto; width: 100%;">
+            <table datatable class="mini-tabular" style="margin-top: 0px">
+              <thead>
+                <tr>
+                    <!-- <th class="pointer" (click)="sortTransactions('CardType', sortColumnOrder['CardType'])">Merchant Name</th>
+                    <th class="pointer" (click)="sortTransactions('Card', sortColumnOrder['Card'])">Invoice Id</th>
+                    <th class="pointer" (click)="sortTransactions('Name', sortColumnOrder['Name'])">Invoice Date</th>
+                    <th class="pointer" (click)="sortTransactions('Amount', sortColumnOrder['Amount'])">Channel Type</th>
+                    <th class="pointer" (click)="sortTransactions('Amount', sortColumnOrder['Amount'])">Txn Count</th>
+                    <th class="pointer" (click)="sortTransactions('Type', sortColumnOrder['Type'])">Txn Amount</th>
+                    <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Fee Name</th>
+                    <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Fee Type</th>
+                    <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Frequency</th>
+                    <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Default Fee</th> -->
+
+                    <th>Merchant  Name</th>
+                    <!-- <th>Invoice Id</th> -->
+                    <th style="white-space: nowrap;">Invoice Date</th>
+                    <th>CC Txn Count</th>
+                    <!-- <th class="pointer" >CC Txn <br> Amount</th> -->
+                    <th>CC Txn  Fees ($)</th>
+                    <th>CC Txn  Other Fees ($)</th>
+                    <th>Debit Txn  Count</th>
+                    <!-- <th class="pointer" >Debit Txn Amount</th> -->
+                    <th>Debit Txn  Fees ($)</th>
+                    <th>Debit Txn  Other Fees ($)</th>
+                    <th>ACH Txn Count</th>
+                    <!-- <th class="pointer" >ACH Txn Amount</th> -->
+                    <th>ACH Txn  Fees ($)</th>
+                    <th>ACH Txn Other Fees ($)</th>
+                    <th>System  Fees ($)</th>
+                    <th>Total  Billing ($)</th>
+                </tr>
+              </thead>
+              <tbody [hidden]="searchResultFlag" align="center">
+                <tr>
+                  <td colspan="13">{{ noResultsMessage }}</td>
+                </tr>
+              </tbody>
+              <tbody [hidden]="!searchResultFlag">
+                <tr *ngFor="let field of report">
+                    <!-- <td>{{field.merchantName}}</td>
+                    <td>{{field.id}}</td> -->
+                    <!--  this will be replaced with Invoice ID -->
+                    <!-- <td>{{field.invoiceDate}}</td> -->
+                    <!-- <td align='right'>{{field.ccTransactionCount}}</td> -->
+                    <!-- <td>{{field.ccTransactionAmount}}</td> -->
+                    <!-- <td align='right'>{{setDecimal(field.ccTransactionFees)}}</td>
+                    <td align='right'>{{setDecimal(field.ccTransactionOtherFees)}}</td>
+                    <td align='right'>{{field.dcTransactionCount}}</td> -->
+                    <!-- <td>{{field.dcTransactionAmount}}</td> -->
+                    <!-- <td align='right'>{{setDecimal(field.dcTransactionFees)}}</td>
+                    <td align='right'>{{setDecimal(field.dcTransactionOtherFees)}}</td>
+                    <td align='right'>{{field.achTransactionCount}}</td> -->
+                    <!-- <td>{{field.achTransactionAmount}}</td> -->
+                    <!-- <td align='right'>{{setDecimal(field.achTransactionFees)}}</td>
+                    <td align='right'>{{setDecimal(field.achTransactionOtherFees)}}</td>
+                    <td align='right'>{{setDecimal(field.defaultFee)}}</td>
+                    <td align='right'>{{setDecimal(field.totalBillingAmount)}}</td> -->
+                </tr>
+
+                <tr *ngFor="let field of report">
+                  <td>{{field.merchantName}}</td>
+                  <!-- <td>{{field.id}}</td> -->
+                  <!--  this will be replaced with Invoice ID -->
+                  <td>{{getFormattedDate(field.invoiceDate)}}</td>
+                  <td align='right'>{{field.ccTransactionCount}}</td>
+                  <!-- <td>{{field.ccTransactionAmount}}</td> -->
+                  <td align='right'>{{field.ccTransactionFees}}</td>
+                  <td align='right'>{{field.ccTransactionOtherFees}}</td>
+                  <td align='right'>{{field.dcTransactionCount}}</td>
+                  <!-- <td>{{field.dcTransactionAmount}}</td> -->
+                  <td align='right'>{{field.dcTransactionFees}}</td>
+                  <td align='right'>{{field.dcTransactionOtherFees}}</td>
+                  <td align='right'>{{field.achTransactionCount}}</td>
+                  <!-- <td>{{field.achTransactionAmount}}</td> -->
+                  <td align='right'>{{field.achTransactionFees}}</td>
+                  <td align='right'>{{field.achTransactionOtherFees}}</td>
+                  <td align='right'>{{field.defaultFee}}</td>
+                  <td align='right'>{{field.totalBillingAmount}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- pager backend start-->
+          <ul *ngIf="pager.totalResults > 0 " class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="findReport(1)">
+              First
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="findReport(pager.currentPage - 1)">
+              Previous
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage === page}"
+              (click)="findReport(page)">
+              {{page}}
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="findReport((pager.currentPage + 1))">
+              Next
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="findReport(pager.totalPages)" suiPopup popupInverted
+              popupText="{{pager.totalPages}}" popupPlacement="right">
+              Last
+            </li>
+            <!-- <li (click)="downloadToCsv()">
+              Download to Csv
+            </li> -->
+            <!-- <p class="u-pull-right"> -->
+              <!-- <button class="ui primary loadingX button u-pull-right">Download to Csv</button> -->
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <!-- db-World-content -->
+  </div>
+  <!-- db-World-scrollWrapper -->

@@ -1,0 +1,90 @@
+<form [formGroup]="billingConfigCardForm">
+  <div class="rows mb20">
+    <div class="one-third column">
+      <div class="field">
+        <label>{{ 'merchant.billingconfig.ccnumber' | translate:param }}
+          <span class="mandatory-red">*</span>
+        </label>
+        <div class="ui input">
+          <input name="CCNumber" type="text" formControlName="creditCardNumber" #creditCardNumber />
+        </div>
+        <span class="text-holder text-danger">{{formErrors['creditCardNumber']}}</span>
+      </div>
+    </div>
+    <div class="one-third column">
+      <div class="field">
+        <label>{{ 'merchant.billingconfig.expiration' | translate:param }}
+          <span class="mandatory-red">*</span>
+        </label>
+        <div class="ui input">
+          <input name="Expiration" type="text" formControlName="cardExpiry" #cardExpiry />
+        </div>
+        <span class="text-holder text-danger">{{formErrors['cardExpiry']}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="rows mb20">
+    <div class="one-third column">
+      <div class="field">
+        <label>{{ 'merchant.billingconfig.cctype' | translate:param }}
+          <span class="mandatory-red">*</span>
+        </label>
+        <div class="ui input">
+          <input name="CCType" type="text" formControlName="cardType" #CCType />
+        </div>
+        <span class="text-holder text-danger">{{formErrors['CCType']}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="rows mb20">
+        <div class="one-third column">
+          <div class="field">
+            <label>{{ 'merchant.billingconfig.billingexecution' | translate:param }}
+              <span class="mandatory-red">*</span>
+            </label>
+            <sui-select class="selection" [options]="frequencyList" labelField="title" valueField="value" formControlName="frequency"
+            (selectedOptionChange)="changeBillingExecution($event)" #Achfrequency>
+              <sui-select-option *ngFor="let o of frequencyList" [value]="o"></sui-select-option>
+            </sui-select>
+            <span class="text-holder text-danger">{{formErrors['AchBillingExecution']}}</span>
+          </div>
+        </div>
+        <div class="one-third column">
+            <div [hidden]="isfrequencyParamhidden">
+              <!-- <div class="field" style="margin-top: 17px;"> -->
+                  <label>&nbsp;</label>
+                <!-- <label>{{ 'merchant.billingconfig.billingexecution' | translate:param }}</label> -->
+                <sui-select class="selection" [options]="frequencyParamList" labelField="title" valueField="value" formControlName="frequencyParam"
+                  #AchFrequencyParam>
+                  <sui-select-option *ngFor="let o of frequencyParamList" [value]="o"></sui-select-option>
+                </sui-select>
+                <span class="text-holder text-danger">{{formErrors['AchBillingExecution']}}</span>
+              <!-- </div> -->
+            </div>
+        </div>
+    </div>
+  <div class="rows mb20">
+    <div class="one-third column">
+      <div class="field">
+        <label>{{ 'merchant.billingconfig.billingstartdate' | translate:param }}
+          <span class="mandatory-red">*</span>
+        </label>
+        <div class="ui left icon input">
+          <i class="calendar icon"></i>
+          <input suiDatepicker [pickerMode]='mode' formControlName="startDate" #cardBusinessStartDate readonly>
+        </div>
+        <span class="text-holder text-danger">{{formErrors['startDate']}}</span>
+      </div>
+    </div>
+    <div class="one-third column">
+        <div class="field">
+          <label>{{ 'merchant.billingconfig.nextbillingdate' | translate:param }}</label>
+          <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input formControlName="nextBillingDate" #cardNextBillingDate>
+            </div>
+          <span class="text-holder text-danger">{{formErrors['cardNextBillingDate']}}</span>
+        </div>
+      </div>
+  </div>
+</form>

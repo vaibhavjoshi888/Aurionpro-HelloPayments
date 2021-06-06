@@ -1,0 +1,113 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<div class="u-cf"></div>
+<div class="db-World-scrollWrapper">
+  <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+    <div class="ui segment">
+      <div class="ui top attached header">{{ 'merchant.view.processorconfiguration' | translate:param }}</div>
+      <div class="ui attached segment p20">
+        <div class="ui form">
+          <sui-tabset>
+            <div class="ui top attached tabular menu">
+              <a class="item dummy-tab" suiTabHeader="0"></a>
+              <a class="item" suiTabHeader="1" *ngIf="showCreditTab" [(isActive)]="isActiveCreditCard" (click)="onTabChange('CreditCard')">{{ 'common.credit' | translate:param }}</a>
+              <a class="item" suiTabHeader="2" *ngIf="showDebitTab" [(isActive)]="isActiveDebitCard" (click)="onTabChange('DebitCard')">{{ 'common.debit' | translate:param }}</a>
+              <a class="item" suiTabHeader="3" *ngIf="showAchTab" [(isActive)]="isActiveAch" (click)="onTabChange('ACH')">{{ 'common.ach' | translate:param }}</a>
+              <!-- <a  class="item" suiTabHeader="4" >{{ 'common.ebt' | translate:param }}</a>
+                  <a  class="item" suiTabHeader="5" >{{ 'common.gift' | translate:param }}</a> -->
+            </div>
+            <ng-template #processorConfiguration>
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.processorconfiguration.selectprocessor' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <sui-select class="selection" [options]="processorList" labelField="name" valueField="name" (selectedOptionChange)="changeSelectProcessor($event)" [(ngModel)]="selectedProcessor">
+                      <div class="ui icon search input">
+                        <i class="search icon"></i>
+                        <input suiSelectSearch type="text" placeholder="Search options...">
+                      </div>
+                      <sui-select-option *ngFor="let o of processorList" [value]="o"></sui-select-option>
+                    </sui-select>
+                    <span class="text-holder text-danger" *ngIf="selectProcessorValidationError == true">Please enter Processor.</span>
+                  </div>
+                </div>
+                <div *ngIf="false" class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.processorconfiguration.fundingdays' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <div class="ui input">
+                      <input name="FundingDays" type="text" [(ngModel)]="fundingDays"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="u-cf mb20"></div>
+            </ng-template>
+            <ng-template #provisionData>
+              <div class="title-form" *ngIf="selectedProcessor != '' && supportedProvisionedData">
+                <p>{{ 'merchant.processorconfiguration.provisiondata' | translate:param }}</p>
+                <hr/>
+                  <div [ngClass]="{'rows mb20': i%2!=0}" *ngFor="let x of supportedProvisionedData; index as i">
+                    <div class="one-third column" style="margin-right:2.5%;">
+                      <div class="field">
+                        <label>{{x.Label}}
+                          <span class="mandatory-red">*</span>
+                        </label>
+                        <div class="ui input" *ngIf="x.Type == 'TEXT'">
+                          <input name="{{x.Name}}" type="{{x.Type}}" [(ngModel)]="x.Value" (ngModelChange)="handleError(x)"/>
+                        </div>
+                        <div class="ui input" *ngIf="x.Type == 'PASSWORD'">
+                          <input name="{{x.Name}}" type="{{x.Type}}" [type]="showPassword ? 'TEXT' : 'PASSWORD'" [(ngModel)]="x.Value" (ngModelChange)="handleError(x)"/>
+                          <a suiPopup popupInverted popupText="{{ showPassword ?  'Hide password' : 'Show password' }}" popupPlacement="right" class="showon2" (click)="toggleShow($event)"><span class="icon-password_show"></span></a>
+                        </div>
+                        <span *ngIf="x.ErrorMessage" class="text-holder text-danger">Please enter {{x.Label}}.</span>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="u-cf mb20"></div>
+            </ng-template>
+            <div class="ui bottom attached segment" suiTabContent="0"></div>
+            <div *ngIf="showCreditTab" class="ui bottom attached segment" suiTabContent="1">
+              <div *ngIf="activeTab=='CreditCard' then processorConfiguration"></div>
+              <div *ngIf="activeTab=='CreditCard' then provisionData"></div>
+            </div>
+            <div *ngIf="showDebitTab" class="ui bottom attached segment" suiTabContent="2">
+              <div *ngIf="activeTab=='DebitCard' then processorConfiguration"></div>
+              <div *ngIf="activeTab=='DebitCard' then provisionData"></div>
+            </div>
+            <div *ngIf="showAchTab" class="ui bottom attached segment" suiTabContent="3">
+              <div *ngIf="activeTab=='ACH' then processorConfiguration"></div>
+              <div *ngIf="activeTab=='ACH' then provisionData"></div>
+            </div>
+          </sui-tabset>
+        </div>
+      </div>
+      <div class="ui bottom attached header">
+        <button class="ui primary loadingX button u-pull-right" (click)="save(true);" *ngIf="hasAccess(2501,502,0,'modifyAccess')">{{ 'common.saveandcontinue' | translate:param }}</button>
+        <button class="ui grey basic button u-pull-right" (click)="save(false);" *ngIf="hasAccess(2501,502,0,'modifyAccess')">{{ 'common.save' | translate:param }}</button>
+        <button class="ui grey basic button u-pull-right" (click)="cancel();">{{ 'common.back' | translate:param }}</button>
+        <!-- <button class="ui grey basic button u-pull-right" (click)="navigateToView();">{{ 'common.back' | translate:param }}</button> -->
+        <div class="u-cf"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<footer></footer>
+
+
+
+<ng-template let-context let-modal="modal" #confirmationModal>
+  <!-- <div class="header" *ngIf="modal.context.title">{{ modal.context.title }}</div> -->
+  <div class="content">
+    <p>{{ confirmationModalMessage }}</p>
+  </div>
+  <div class="actions">
+    <button class="ui grey basic button" (click)="modal.deny(undefined)">Save now</button>
+    <button class="ui primary button" (click)="modal.approve(undefined)" autofocus>Save later</button>
+  </div>
+</ng-template>

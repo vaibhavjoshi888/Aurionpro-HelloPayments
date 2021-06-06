@@ -1,0 +1,58 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<div class="u-cf"></div>
+
+<!-- <header></header> -->
+
+<div class="v-spacer"></div>
+<div class="logo-centered">
+  <img src="../../../../assets/images/logo_login.png" class="image" />
+</div>
+<form [formGroup]="loginForm">
+  <div class="widget centered drop-shadow">
+    <p>{{ 'common.securepaymentgateway' | translate:param }}</p>
+    <br/>
+    <div class="ui form">
+
+      <div class="field">
+        <label>{{ 'common.username' | translate:param }}</label>
+        <div class="ui input">
+          <input name="username" type="text" formControlName="userName" maxlength="50" #userName />
+          <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="userName.value.length" (click)="clear('userName')"><span class="icon-clear"></span></a>
+        </div>
+        <span class="text-holder text-danger">{{formErrors.userName}}</span>
+        <span class="maxlength">{{userName.value.length}} / 50</span>
+      </div>
+      <div class="field">
+        <label>{{ 'common.password' | translate:param }}</label>
+        <div class="ui input">
+          <input name="username" type="password" formControlName="password" maxlength="50" #password [type]="showPassword ? 'text' : 'password'"/>
+          <a suiPopup popupInverted popupText="{{ this.showPassword ?  'Hide password' : 'Show password' }}" popupPlacement="right" class="showon2" (click)="toggleShow($event)"><span class="icon-password_show"></span></a><!--icon-password_show_hide | toggle icon icon-password_hide -->
+        </div>
+        <span class="text-holder text-danger">{{formErrors.password}}</span>
+        <!-- <span class="maxlength">{{password.value.length}} / 50</span> -->
+      </div>
+      <div class="field">
+          <sui-checkbox formControlName="RememberMe">
+            {{ 'common.rememberme' | translate:param }}
+        </sui-checkbox>
+      </div>
+      <button class="ui u-pull-right primary loadingX button" (click)="login()">{{ 'common.login' | translate:param }}</button>
+      <div class="u-cf"></div>
+      <a routerLink="/forgot-password" class="u-pull-right login-fpw">{{ 'common.forgotpassword?' | translate:param }}</a>
+      <div class="u-cf"></div>
+    </div>
+  </div>
+</form>
+
+  <!--<sui-modal [isClosable]="false" (dismissed)="alert($event)" #modal>-->
+    <!--<div class="content">-->
+        <!--<p >Are you sure you want to continue?</p>-->
+    <!--</div>-->
+    <!--<div class="actions">-->
+        <!--<button class="ui grey basic button" (click)="modal.deny()">Cancel</button>-->
+        <!--<button class="ui primary button" (click)="modal.approve('done')" autofocus>Ok</button>-->
+    <!--</div>-->
+  <!--</sui-modal>-->
+
+<footer></footer>

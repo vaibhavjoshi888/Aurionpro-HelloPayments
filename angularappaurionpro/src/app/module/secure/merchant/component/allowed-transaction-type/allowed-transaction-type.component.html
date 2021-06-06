@@ -1,0 +1,61 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<div class="u-cf"></div>
+<!-- <form [formGroup]="allowedTransactionTypeForm"> -->
+  <div class="db-World-scrollWrapper">
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+      <div class="ui segment">
+        <div class="ui top attached header">{{ 'merchant.view.allowedtransactiontype' | translate:param }}</div>
+        <div class="ui attached segment p20">
+          <!-- <div class="ui form"> -->
+
+              <div *ngFor="let transaction of subChannelTypes; let i = index;">
+                <div [hidden] = "hideChannelType(allChannelType[i+1])">
+                  <table class="table-checkbox" width="33%">
+                  <!-- <ng-container *ngIf="transaction.length !== 0">{{allChannelType[i]}}</ng-container> -->
+                    <tr>
+                      <td [attr.rowspan] = "transaction.length">
+                        <ng-container>
+                          <sui-checkbox [(ngModel)] = "defaultChannelTypes[i+1]" (click)= "channelTypeClicked(i+1, defaultChannelTypes[i+1])">
+                             {{allChannelType[i+1]}}
+                          </sui-checkbox>
+                        </ng-container>
+                      </td>
+                    <!-- </tr>
+                    <tr> -->
+                      <ng-container *ngIf="i+1 !== 4"> <!-- if channel type is 4 then dont show the subchannel type -->
+                      <td style = "width:70%">
+                        <div class="pb5-checkbox" *ngFor="let names of transaction">
+                          <div class="field">
+                              <sui-checkbox class="toggle"
+                              [(ngModel)] = "defaultSubChannelTypes[names.id]"
+                              (click) = "subChannelTypeClicked(names.id, i+1)"> {{names.name}}
+
+                            </sui-checkbox>
+                            <!-- <sui-checkbox [(ngModel)] = "defaultSubChannelTypes[names.id]">
+                              {{names.name}}
+                            </sui-checkbox> -->
+                          </div>
+                        </div>
+                      </td>
+                    </ng-container>
+                    </tr>
+                  <br>
+                </table>
+
+              </div>
+              </div>
+          <!-- </div> --><div class="u-cf"></div>
+        </div>
+        <div class="ui bottom attached header">
+          <button class="ui primary loadingX button u-pull-right" (click)="save(true);" *ngIf="hasAccess(2503,501,0,'modifyAccess')">{{ 'common.saveandcontinue' | translate:param }}</button>
+          <button class="ui grey basic button u-pull-right" (click)="save(false);" *ngIf="hasAccess(2503,501,0,'modifyAccess')">{{ 'common.save' | translate:param }}</button>
+          <button class="ui grey basic button u-pull-right" (click)="channelTypes();" *ngIf="hasAccess(2503,501,0,'modifyAccess')">{{ 'common.clear' | translate:param }}</button>
+          <button class="ui grey basic button u-pull-right" (click)="cancel();">{{ 'common.back' | translate:param }}</button>
+          <div class="u-cf"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </form> -->
+<footer></footer>

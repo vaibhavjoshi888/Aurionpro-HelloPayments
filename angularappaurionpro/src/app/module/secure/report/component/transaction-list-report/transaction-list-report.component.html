@@ -1,0 +1,219 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<form [formGroup]="transactionReportForm">
+  <div class="db-World-scrollWrapper">
+
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+      <!-- find credit card transactions -->
+      <sui-accordion class="styled fluid" (click)="accordion.findTransaction=!accordion.findTransaction">
+        <sui-accordion-panel [isOpen]="accordion.findTransaction">
+          <div title >
+              Transaction List Report
+                <i class="dropdown icon"></i>
+          </div>
+          <div content (click)="$event.stopPropagation()">
+
+            <div class="title-form">
+              <p>{{ 'merchant.transaction.daterange' | translate:param }}</p>
+              <hr/>
+            </div>
+
+            <div class="ui form">
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.transaction.startdate' | translate:param }}
+                      <span class="mandatory-red">*</span>
+                    </label>
+                    <div class="ui left icon input">
+                      <i class="calendar icon"></i>
+                      <input suiDatepicker [pickerMaxDate]="maxStartDate" [pickerMode]="mode" formControlName="StartDate" #StartDate
+                         readonly>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.StartDate}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.transaction.enddate' | translate:param }}</label>
+                    <div class="ui left icon input">
+                      <i class="calendar icon"></i>
+                      <input suiDatepicker [pickerMinDate]="minEndDate" [pickerMaxDate]="maxStartDate" [pickerMode]="mode" formControlName="EndDate"
+                        #EndDate readonly>
+                    </div>
+                    <!-- <span class="text-holder text-danger">{{formErrors.EndDate}}</span> -->
+                  </div>
+                </div>
+              </div>
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>Merchant Name</label>
+                    <sui-select [hidden]="!isSuperAdmin"
+                                class="selection"
+                                [options]="merchantNameList"
+                                labelField="merchantName"
+                                valueField="id"
+                                formControlName="MerchantName" [isDisabled]="editFlag" #merchantName>
+                          <div class="ui icon search input">
+                            <i class="search icon"></i>
+                            <input suiSelectSearch type="text" placeholder="Search options...">
+                          </div>
+                          <sui-select-option *ngFor="let o of merchantName.filteredOptions" [value]="o"></sui-select-option>
+                        </sui-select>
+                    <!-- <span class="text-holder text-danger">{{formErrors.timeZone}}</span> -->
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>Channel Type</label>
+                    <sui-select class="selection"
+                          [options]="channelTypeList"
+                          formControlName="ChannelType"
+                                      labelField="title"
+                                      valueField="value"
+                          [hidden]=false
+                          #select>
+                          <sui-select-option *ngFor="let option of channelTypeList"
+                                            [value]="option">
+                          </sui-select-option>
+                        </sui-select>
+                    <!-- <span class="text-holder text-danger">{{formErrors.timeZone}}</span> -->
+                  </div>
+                </div>
+              </div>
+              <br/>
+
+              <div class="ui bottom attached header margin-reset">
+                <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'common.find' | translate:param }}</button>
+                <button class="ui grey basic button u-pull-right" (click)="clear()" >{{ 'common.clear' | translate:param }}</button>
+                <div class="u-cf"></div>
+              </div>
+            </div>
+            <!-- /ui form -->
+          </div>
+
+        </sui-accordion-panel>
+      </sui-accordion>
+
+      <div class="ui segment styled fluid" [hidden] = !findClicked>
+        <div class="ui top attached header">{{ 'merchant.transaction.result' | translate:param }}
+          <!-- <button class="ui primary loadingX button u-pull-right" (click)="downloadToPdf()">Download to Csv</button> -->
+          <!-- <div class="ui segment"> -->
+          <!-- <sui-select class="floating labeled icon button"
+                      icon="filter"
+                      placeholder="Export"
+                      #filterSelect>
+              <sui-select-option value="csv"></sui-select-option>
+              <sui-select-option value="pdf"></sui-select-option>
+          </sui-select> -->
+        <!-- </div> -->
+        </div>
+        <!-- <div class="ui top attached header">
+
+      </div> -->
+
+        <div class="ui attached segment">
+            <div class="u-pull-right" style="margin-top: -63px; margin-right: 20PX">
+                <sui-select class="floating labeled icon button"
+                              icon="download"
+                              (selectedOptionChange)="download($event)"
+                              [isSearchable]="false"
+                              placeholder="Export"
+                              #filterSelect>
+                              <sui-select-option value="pdf"></sui-select-option>
+                              <sui-select-option value="csv"></sui-select-option>
+                  </sui-select>
+                </div>
+          <table datatable class="mini-tabular">
+            <thead>
+              <tr>
+                <!-- <th class="pointer" (click)="sortTransactions('txnCreatedOn', sortColumnOrder['txnCreatedOn'])">Txn Date (UTC)</th>
+                <th class="pointer" (click)="sortTransactions('CardType', sortColumnOrder['CardType'])">Name</th>
+                <th class="pointer" (click)="sortTransactions('Card', sortColumnOrder['Card'])">Channel <br /> Type</th>
+                <th class="pointer" (click)="sortTransactions('captureAmount', sortColumnOrder['captureAmount'])">Capture <br /> Amount ($)</th>
+                <th class="pointer" (click)="sortTransactions('Amount', sortColumnOrder['Amount'])">Txn Type</th>
+                <th class="pointer" (click)="sortTransactions('Type', sortColumnOrder['Type'])">Txn Status</th>
+                <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Auth Code</th>
+                <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Trace No</th>
+                <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Refund <br /> Amount ($)</th>
+                <th class="pointer" (click)="sortTransactions('Status', sortColumnOrder['Status'])">Refunded On</th> -->
+
+
+                <th>Transaction Date</th>
+                <th>Merchant Name</th>
+                <!-- <th class="pointer" >Channel <br /> Type</th> -->
+                <th>Channel <br /> Type</th>
+                <th>Capture <br /> Amount ($)</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Auth Code</th>
+                <th>Trace No</th>
+                <th>Refund <br /> Amount ($)</th>
+                <th>Refunded On</th>
+              </tr>
+            </thead>
+            <tbody [hidden]="searchResultFlag" align="center">
+              <tr>
+                <td colspan="10">{{ noResultsMessage }}</td>
+              </tr>
+            </tbody>
+            <tbody [hidden]="!searchResultFlag">
+              <tr *ngFor="let field of report">
+                <td><a href="javascript:void(0)" (click)="onViewTransactionClick(field)">{{getFormattedDate(field.txnCreatedOn)}}</a></td>
+                <td>{{field.merchantName}}</td>
+                <!-- <td>{{channelType[field.channelType]}}</td> -->
+                <td>{{field.channelType}}</td>
+                <td align="right">{{setDecimal(field.captureAmount)}}</td>
+                <!-- <td>{{transactionType[field.txnType]}}</td> -->
+                <td>{{field.txnType}}</td>
+                <td>{{field.txnStatus}}</td>
+                <td>{{field.authCode}}</td>
+                <td>{{field.traceNumber}}</td>
+                <!-- <td><a>{{getFormattedDate(field.txnCreatedOn)}}</a></td> -->
+
+                <!-- <td><a>{{field.txnCreatedOn}}</a></td> -->
+                <td align="right">{{setDecimal(field.refundAmount)}}</td>
+                <td>{{getFormattedDate(field.refundedOn)}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- pager backend start-->
+          <ul *ngIf="pager.totalResults > 0 " class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="findReport(1)">
+              First
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="findReport(pager.currentPage - 1)">
+              Previous
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage === page}"
+              (click)="findReport(page)">
+              {{page}}
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="findReport((pager.currentPage + 1))">
+              Next
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="findReport(pager.totalPages)" suiPopup popupInverted
+              popupText="{{pager.totalPages}}" popupPlacement="right">
+              Last
+            </li>
+            <!-- <li (click)="downloadToCsv()">
+              Download to Csv
+            </li> -->
+            <!-- <p class="u-pull-right"> -->
+              <!-- <button class="ui primary loadingX button u-pull-right">Download to Csv</button> -->
+          </ul>
+          <!-- <div class="ui bottom attached header"> -->
+              <!-- &nbsp; -->
+              <!-- <button class="ui primary loadingX button u-pull-right" (click)="downloadToCsv()">Download to Csv</button> -->
+
+              <!-- <div class="u-cf"></div> -->
+            <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- db-World-content -->
+  </div>
+  <!-- db-World-scrollWrapper -->

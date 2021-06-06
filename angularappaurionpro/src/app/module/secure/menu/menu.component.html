@@ -1,0 +1,167 @@
+<div class="db-World-sideNavContainer">
+
+    <div class="logo-menu-header">
+        <div *ngIf="loggedInUserData.userType === 2;then adminlogo else resellerlogo"></div>
+        <ng-template #adminlogo>
+            <a routerLink="/admin"><img src="../../../../assets/images/logo_header.png" class="image" /></a>
+        </ng-template>
+        <ng-template #resellerlogo>
+            <a routerLink="/reseller"><img src="../../../../assets/images/logo_header.png" class="image" /></a>
+        </ng-template>
+
+    </div>
+<div class="menu-area">
+    <sui-accordion [closeOthers]="false">
+        <sui-accordion-panel [isOpen]="false" *ngIf="hasAccess(2202,202,0,'viewAccess')">
+            <div title class="menu-parent">
+                <i class="icon-manage_reseller icon"></i>
+                Manage Reseller
+            </div>
+            <div content class="menu-child">
+                <a routerLink="/reseller/add" routerLinkActive="active-link" *ngIf="hasAccess(2202,202,0,'addAccess')">Add Reseller</a>
+                <a routerLink="/reseller/find" routerLinkActive="active-link" *ngIf="hasAccess(2202,202,0,'viewAccess')">Find Reseller</a>
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel *ngIf="hasAccess(2201,201,0,'viewAccess')">
+            <div title class="menu-parent">
+                <i class="icon-manage_merchant icon"></i>
+                Manage Merchant
+            </div>
+            <div content class="menu-child">
+                <a routerLink="/merchant/add" routerLinkActive="active-link" *ngIf="hasAccess(2201,201,0,'addAccess')">Add Merchant</a>
+                <a routerLink="/merchant/find" routerLinkActive="active-link" *ngIf="hasAccess(2201,201,0,'viewAccess')">Find Merchant</a>
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel *ngIf="hasAccess(2402,401,0,'viewAccess')">
+          <div title class="menu-parent">
+              <i class="icon-dollar icon"></i>
+              Manage Rate Plan
+          </div>
+          <div content class="menu-child">
+              <!-- commenting conditional code/Component since currently functionality is same for Global and Reseller -->
+              <!-- <div *ngIf="loggedInUserData.userType === 2;then content else other_content"></div> -->
+                <!-- <ng-template #content> -->
+                    <a routerLink="/rateplan/add" routerLinkActive="active-link" *ngIf="hasAccess(2402,401,0,'addAccess')">Add Rate Plan</a>
+                    <a routerLink="/rateplan/find" routerLinkActive="active-link" *ngIf="hasAccess(2402,401,0,'viewAccess')">Find Rate Plan</a>
+                <!-- </ng-template> -->
+                <!-- <ng-template #other_content>
+                    <a routerLink="/reseller/merchant-rate-plan" routerLinkActive="active-link" *ngIf="hasAccess(2402,401,0,'addAccess')">Add Rate Plan</a>
+                    <a routerLink="/rateplan/find" routerLinkActive="active-link" *ngIf="hasAccess(2402,401,0,'viewAccess')">Find Rate Plan</a>
+                </ng-template> -->
+              </div>
+      </sui-accordion-panel>
+      <!-- <sui-accordion-panel *ngIf="hasAccess(0,0,1403,'addAccess')">
+        <div title class="menu-parent">
+            <i class="icon-virtual_terminal icon"></i>
+            Customer Managment
+        </div>
+        <div content class="menu-child">
+            <a [routerLink]="['/merchant/customer/add']" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'addAccess')">Add Customer</a>
+            <a [routerLink]="['/merchant/customer/find']" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'addAccess')">Find Customer</a>
+        </div>
+      </sui-accordion-panel> -->
+      <sui-accordion-panel *ngIf="hasAccess(0,0,1403,'addAccess')">
+        <div title class="menu-parent">
+            <i class="icon-virtual_terminal icon"></i>
+            Virtual Terminal
+        </div>
+        <div content class="menu-child">
+            <a [routerLink]="['/merchant/virtualtransaction', 'creditcard' ]" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'addAccess') && hasTransactionTypeAccess(3)">Credit Card</a>
+            <a [routerLink]="['/merchant/virtualtransaction', 'debitcard' ]" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'addAccess') && hasTransactionTypeAccess(4)">Debit Card</a>
+            <a [routerLink]="['/merchant/virtualtransaction', 'ach']" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'addAccess') && hasTransactionTypeAccess(2)">ACH</a>
+        </div>
+      </sui-accordion-panel>
+      <sui-accordion-panel *ngIf="hasAccess(0,0,1403,'viewAccess')">
+          <div title class="menu-parent">
+              <i class="icon-transaction_console icon"></i>
+              Transaction Management
+          </div>
+          <div content class="menu-child">
+              <a routerLink="/merchant/findtransaction/credit" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'viewAccess') && hasTransactionTypeAccess(3)">Credit Card</a>
+              <a routerLink="/merchant//findtransaction/debit" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'viewAccess') && hasTransactionTypeAccess(4)">Debit Card</a>
+              <a routerLink="/merchant//findtransaction/ach" routerLinkActive="active-link" *ngIf="hasAccess(0,0,1403,'viewAccess') && hasTransactionTypeAccess(2)">ACH</a>
+          </div>
+      </sui-accordion-panel>
+
+        <sui-accordion-panel>
+            <div title class="menu-parent">
+                <i class="icon-tools icon"></i>
+                Tools
+            </div>
+            <div content class="menu-child">
+              <!-- As per Discussion with Biswas commenting code for demo purpose -->
+                <!-- <a routerLink="/work-progress" routerLinkActive="active-link">Co-Branding </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Themes </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Email Templates </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Audit Trail Log </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Transaction Log </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">View Configured Task </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Security Store Mgmt. </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Result Batch Upload </a> -->
+                <a routerLink="/change_password" routerLinkActive="active-link">Change Password </a>
+                <!-- <a routerLink="/merchant/view/0/6/billingconfig" routerLinkActive="active-link">Billing Config </a>
+                <a routerLink="/merchant/view/0/6/allowedtransactiontype" routerLinkActive="active-link">Allow Transaction </a>
+                <a routerLink="/merchant/view/0/6/processorconfiguration" routerLinkActive="active-link">processor config </a> -->
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel *ngIf="hasAccess(2203,0,0,'viewAccess') || hasAccess(2505,0,0,'viewAccess') || hasAccess(2512,0,0,'viewAccess')">
+          <div title class="menu-parent">
+              <i class="icon-reports icon"></i>
+              Report
+          </div>
+          <div content class="menu-child">
+              <a *ngIf="hasAccess(2512,0,0,'viewAccess')" routerLink="/report/transaction-list-report" routerLinkActive="active-link">Transaction List Report </a>
+              <a *ngIf="hasAccess(2203,0,0,'viewAccess')" routerLink="/report/merchant-creation-report" routerLinkActive="active-link">Merchant Creation Report </a>
+              <a *ngIf="hasAccess(2505,0,0,'viewAccess')" routerLink="/report/merchant-billing-report" routerLinkActive="active-link">Merchant Billing Report </a>
+          </div>
+        </sui-accordion-panel>
+
+
+        <!-- As per Discussion with Biswas commenting code for demo purpose -->
+        <!-- <sui-accordion-panel>
+            <div title class="menu-parent">
+                <i class="icon-preferences icon"></i>
+                Performances
+            </div>
+            <div content class="menu-child">
+                <a routerLink="/work-progress" routerLinkActive="active-link">Default Fraud Settings </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Default Risk Mgmt. </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Billing Account </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Rate Plan </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Default Fees </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Change Password </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Residual Upload </a>
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel>
+            <div title class="menu-parent">
+                <i class="icon-security2 icon"></i>
+                Security
+            </div>
+            <div content class="menu-child">
+                <a routerLink="/work-progress" routerLinkActive="active-link">Add Role </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">View Role </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Add User </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Find User </a>
+            </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel>
+            <div title class="menu-parent">
+                <i class=" icon-reports icon"></i>
+                Reports
+            </div>
+            <div content class="menu-child">
+                <a routerLink="/work-progress" routerLinkActive="active-link">Statement Summary </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Billing Detail </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Funding Report </a>
+                <a routerLink="/work-progress" routerLinkActive="active-link">Chargeback Report </a>
+            </div>
+        </sui-accordion-panel> -->
+        <!-- single menu with no child link <div title class="menu-parent menu-single">
+            <i class="icon-reports icon"></i>
+            <a routerLink="/login"></a>
+        </div> -->
+    </sui-accordion>
+    <div class="u-cf push-menu"></div>
+</div>
+</div>

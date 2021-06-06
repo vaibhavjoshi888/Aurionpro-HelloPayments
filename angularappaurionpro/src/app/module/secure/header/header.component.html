@@ -1,0 +1,27 @@
+<app-loader *ngIf="isLoader"></app-loader>
+<div class="db-World-topContent Box-root Box-background--surface Padding-vertical--20">
+  <menu></menu>
+  <div class="ui floating dropdown active u-pull-right login-user" suiDropdown autoClose="outsideClick">
+    <img src="../../../../assets/images/default_user.png" alt="" />
+    <div class="menu log-dtl" suiDropdownMenu>
+      <h4 *ngIf="userName.length <= truncateWordLength">{{userName}}</h4>
+      <h4 *ngIf="userName.length > truncateWordLength" suiPopup popupInverted popupText="{{userName}}" popupPlacement="top">{{(userName| slice:0:truncateWordLength)+'...'}}</h4>
+      <!--<p>Last login at 3:11PM</p>-->
+      <!--<p>Thursday, 4 April 2018</p>-->
+      <div class="divider"></div>
+      <div class="item" (click)="logOut()">
+        <a class="link">&nbsp; {{ 'common.logout' | translate }}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-content">
+    <p>Need help? &nbsp;&nbsp;
+      <i class="icon-phone icon"></i>855-694-3556 &nbsp;&nbsp;
+      <!-- As per Discussion with Biswas Commented -->
+      <!-- | &nbsp;&nbsp; <a href="javascript:void(0)" (click)="onContactSupportClick()">Contact Support</a> -->
+    </p>
+  </div>
+
+
+</div>

@@ -1,0 +1,102 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<header></header>
+<!--<form [formGroup]="viewResellerForm">-->
+<div class="db-World-scrollWrapper">
+
+  <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+
+    <div class="ui segment">
+      <div class="ui top attached header">
+
+        <div class="ui floating dropdown" suiDropdown autoClose="outsideClick">
+          <div class="text">{{ 'reseller.view.viewreseller' | translate:param }}</div>
+          <i class="dropdown icon"></i>
+          <div class="menu" suiDropdownMenu *ngIf="hasAccess(2202,202,0,'modifyAccess')">
+            <div class="item"><a class="link" *ngIf="!hiddenFlag" [routerLink] ="['/reseller/edit/' + resellerDetails.id]" href="">{{ 'reseller.view.editreseller' | translate:param }}</a></div>
+            <!--<div class="item"><a class="link" href="">{{ 'reseller.view.feeconfig' | translate:param }}</a></div>-->
+            <!-- <div class="item"><a class="link" href="">{{ 'reseller.view.resetpassword' | translate:param }}</a></div> -->
+            <div class="item" *ngIf="resellerDetails.isActive"><a class="link" (click) = confirmReset()>{{ 'reseller.view.resetpassword' | translate:param }}</a></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="ui attached segment white-bg p20">
+        <div class="ui form" *ngIf="hiddenFlag">
+        </div>
+        <div class="ui form" *ngIf="!hiddenFlag">
+          <div class="row view-text">
+            <p class="u-pull-left">{{ 'reseller.view.resellerinfo' | translate:param }}</p>
+            <p class="u-pull-right" *ngIf="hasAccess(2202,202,0,'executeAccess')">
+              <a class="link" [hidden]="resellerDetails.isActive" href="javascript:void(0)" (click)="activate(resellerDetails.id, resellerDetails.parentId)">{{ 'reseller.view.makereselleractive' | translate:param }}
+              </a>
+              <a class="link" [hidden]="!resellerDetails.isActive" href="javascript:void(0)" (click)="deactivate(resellerDetails.id, resellerDetails.parentId)">{{ 'reseller.view.makeresellerinactive' | translate:param }}
+              </a>
+            </p>
+            <dl>
+              <dt>{{ 'reseller.view.parentreseller' | translate:param }}</dt>
+              <dd>{{resellerDetails.resellerParentName}}</dd>
+              <dt>{{ 'common.resellercompany' | translate:param }}</dt>
+              <dd>{{ resellerDetails.resellerName }}</dd>
+              <dt>{{ 'common.phone' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.phone}}</dd>
+              <dt>{{ 'common.fax' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.fax}}</dd>
+              <dt>{{ 'common.email' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.email}}</dd>
+              <dt>{{ 'common.url' | translate:param }}</dt>
+              <dd><a href="{{resellerDetails.contact.url}}" target="_blank">{{resellerDetails.contact.url}}/</a></dd>
+            </dl>
+          </div>
+          <div class="row view-text">
+            <p class="u-pull-left">{{ 'reseller.view.contactinfo' | translate:param }}</p>
+            <dl>
+              <dt>{{ 'common.firstname' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.name.firstName}}</dd>
+              <dt>{{ 'common.lastname' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.name.lastName}}</dd>
+              <dt>{{ 'common.address1' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.address.addressLine1}}</dd>
+              <dt>{{ 'common.address2' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.address.addressLine2}}</dd>
+              <dt>{{ 'common.city' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.address.city}}</dd>
+              <dt>{{ 'common.state' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.address.state}}</dd>
+              <dt>{{ 'common.country' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.address.country}}</dd>
+              <dt>{{ 'common.postzipcode' | translate:param }}</dt>
+              <dd>{{resellerDetails.contact.address.postalCode}}</dd>
+            </dl>
+          </div>
+          <div class="row view-text">
+            <p class="u-pull-left">{{ 'common.additionalinfo' | translate:param }}</p>
+            <dl>
+              <dt>{{ 'common.federaltaxid' | translate:param }}</dt>
+                <dd>{{resellerDetails.federalTaxId}}</dd>
+              <dt>{{ 'common.statetaxid' | translate:param }}</dt>
+              <dd>{{resellerDetails.stateTaxId}}</dd>
+              <dt>{{ 'common.salestaxid' | translate:param }}</dt>
+              <dd>{{resellerDetails.salesTaxId}}</dd>
+              <dt>{{ 'common.ownership' | translate:param }}</dt>
+              <dd>{{resellerDetails.ownership}}</dd>
+              <dt>{{ 'common.businessstartdate' | translate:param }}</dt>
+              <dd>{{getFormattedDate(resellerDetails.businessStartDate)}}</dd>
+              <dt>{{ 'reseller.view.otherDescription' | translate:param }}</dt>
+              <dd>{{resellerDetails.estimatedSales}}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached header">
+        &nbsp;
+        <button class="ui grey basic button u-pull-right" (click)="back()">{{ 'common.back' | translate:param }}</button>
+        <div class="u-cf"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--</form>-->
+<footer></footer>

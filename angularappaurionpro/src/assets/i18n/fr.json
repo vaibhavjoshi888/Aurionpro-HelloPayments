@@ -1,0 +1,26 @@
+{
+    "ADMIN": {
+        "LOGIN": {
+            "USERNAME": "User Name in fr",
+            "PASSWORD": "Password in fr"
+        }
+    },
+    "MERCHANT": {
+        "LOGIN": {
+            "USERNAME": "User Name in fr",
+            "PASSWORD": "Password in fr"
+        }
+    },
+    "RESELLER": {
+        "LOGIN": {
+            "USERNAME": "User Name in fr",
+            "PASSWORD": "Password in fr"
+        }
+    },
+    "COMMON": {
+        "LOGIN": {
+            "USERNAME": "User Name in fr",
+            "PASSWORD": "Password in fr"
+        }
+    }
+}

@@ -1,0 +1,134 @@
+/* Color style files */
+body{background:#EBEBEB;color:#1f1f1f}
+p{color:#567986}
+/* Links */
+a{color:#567986}
+a:hover{color:#45616B}
+
+/* container */
+.db-World-scrollWrapper {background-color:#EBEBEB;}
+
+/* menu */
+.db-World-sideNavContainer {background:#EBEBEB;}
+
+/* content */  
+.Box-background--surface { background-color:#EBEBEB;}
+footer{color:#567986;background:#EBEBEB;border-top: 1px solid #BDBDBD;}
+header{background:#EBEBEB;}
+header p {color: #567986;}
+
+/* View layout */
+.white-bg{background-color: #ffffff !important}
+.view-text > dl{border:1px solid #E6EBF1}
+.view-text > dl > dt{color:#999}
+.view-text > dl > dd{color:#1F1F1F}
+
+/* Misc */
+hr{border-top:1px solid #E1E1E1}
+
+/*login*/
+.widget{background-color: #fff;border:1px solid #E3E3E3;}
+.centered p{color:#567986;}
+.centered p:nth-child(2) {color:#989898;}
+.drop-shadow{-webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.1); -moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.1); box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.1)}
+
+/* Logout */
+.log-dtl h4{color: #567986}
+.log-dtl p{color: #919191}
+
+/* form customs*/
+.ui.form .field > label{color:#7E7E7E;}
+.maxlength{color: #B9B9B9}
+.text-danger{color:#CC3300}
+/* pannel */
+.ui.top.attached.header{border-bottom: 1px solid #E7E8ED; background:#FFFFFF}
+.ui.attached.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6){color:#567986}
+.ui.attached.segment{background: #F7F7F7; border-bottom:1px solid #EAEBF0}
+
+/* tab */
+.ui.tabular.menu .item{color:#757575}
+.ui.tabular.menu .active.item{background: none #F7F7F7}
+
+/* menu */
+.menu-parent{color:#7A7A7A}
+.menu-single a{color:#7A7A7A}
+.menu-child a{color: #B3B3B3; background: #EBEBEB}
+.menu-parent > i {color:#567986}
+.menu-child .active-link{color:#567986}
+.menu-child a:hover, a:active{color:#45616B}
+/* .ui.accordion .content{background:#EBEBEB !important; background-color: #EBEBEB !important} */
+
+/* Accordion */
+.ui.styled.accordion, .ui.styled.accordion .accordion{box-shadow:0 1px 2px 0 rgba(34,36,38,.15)}
+.ui.styled.accordion .accordion .title, .ui.styled.accordion .title{color:#567986}
+.ui.styled.accordion .active.title{color:#45616B}
+.ui.accordion .content{background: #F7F7F7; border-top: 1px solid #E7E8ED}
+
+/* button */
+.ui.primary.button, .ui.primary.buttons .button{background-color:#567986}
+.ui.primary.button:hover, .ui.primary.buttons .button:hover{background-color:#45616B}
+.ui.primary.button:focus, .ui.primary.buttons .button:focus{background-color: #45616B}
+.ui.basic.grey.button, .ui.basic.grey.buttons .button {box-shadow: 0 0 0 1px #E0E0E0 inset !important;background-color:#fff !important;color: #567986 !important}
+
+.ui.checkbox .box::before, .ui.checkbox label::before {border: 1px solid rgba(204, 204, 204, 1)}
+.ui.checkbox label, .ui.checkbox + label{ color:#1f1f1f}
+.ui.checkbox .box::before, .ui.checkbox label::before {border: 1px solid #567986}
+.ui.checkbox input:checked ~ .box::after, .ui.checkbox input:checked ~ label::after{color: #567986 !important}
+.ui.checkbox input:checked ~ .box::before, .ui.checkbox input:checked ~ label::before{border-color: #45616B}
+
+.ui.selection.dropdown{border: 1px solid #CCCCCC}
+.ui.selection.active.dropdown{ border-color: #CCCCCC}
+.ui.selection.active.dropdown:hover .menu {border-color:#CCCCCC}
+.ui.selection.active.dropdown .menu{border-color:#CCCCCC}
+.ui.selection.active.dropdown:hover{border-color:#CCCCCC}
+
+.ui.form input:not([type]),.ui.form input[type="date"],.ui.form input[type="datetime-local"],.ui.form input[type="email"],.ui.form input[type="file"],.ui.form input[type="number"],.ui.form input[type="password"],.ui.form input[type="search"],.ui.form input[type="tel"],.ui.form input[type="text"],.ui.form input[type="time"],.ui.form input[type="url"]{border:1px solid rgba(204,204,204,1)}
+.ui.form input:not([type]):focus,.ui.form input[type="date"]:focus,.ui.form input[type="datetime-local"]:focus,.ui.form input[type="email"]:focus,.ui.form input[type="file"]:focus,.ui.form input[type="number"]:focus,.ui.form input[type="password"]:focus,.ui.form input[type="search"]:focus,.ui.form input[type="tel"]:focus,.ui.form input[type="text"]:focus,.ui.form input[type="time"]:focus,.ui.form input[type="url"]:focus{border:1px solid rgba(204,204,204,1)}
+.ui.form textarea, .ui.form textarea:focus {border:1px solid rgba(204,204,204,1)}
+
+.ui.form .field.field input:-webkit-autofill{box-shadow:0 -49 0 100px #fff inset!important;border-color:#ddd!important}
+.ui.form .field.field input:-webkit-autofill:focus{box-shadow:0 -49 0 100px #fff inset!important;border-color:#ddd!important}
+
+.td-button{ color:#567986}
+.td-button:hover{color: #45616B}
+
+.ui.dimmer{background-color: rgba(0,0,0,0.65)}
+app-loader::before {background-color: rgba(0,0,0,0.65)}
+.mandatory-red{ color:#CC3300}
+/* toaster */
+.toaster{color:#fff}
+.toaster a{color:#ffffff}
+.toaster-s{background-color:rgba(1, 126, 57, 0.8)}
+.toaster-e{background-color:rgba(204, 51, 0, 0.8)}
+
+/* Dashboard */
+.dash-link{border-color: transparent #BAC8CE transparent transparent}
+
+/* modal */
+.ui.modal > .header:not(.ui){color: #567986}
+.ui.modal > .content{background:#F7F7F7}
+.ui.modal > .actions{background:#FFFFFF;border-top: 1px solid #EAEBF0}
+.modal-content > table table.mini-tabular tbody td{background:#FFFFFF !important}
+.modal-content p:first-child{color: #797979}
+/* table.mini */
+table.mini-tabular{border:1px solid #E6E6E6}
+table.mini-tabular td,table.mini-tabular th{border:1px solid #E6E6E6}
+table.mini-tabular tbody td{color:#797979; background-color: #ffffff}
+table.mini-tabular thead{background:#EEF1F2;border-bottom:1px solid #E6E6E6}
+table.mini-tabular thead th{color:#000}
+table.mini-tabular tfoot{color:#797979;border-top:1px solid #E6E6E6}
+table.mini-tabular td, table.mini-tabular th {border-right: 1px solid #E6E6E6 !important;border-bottom: 1px solid #e6e6e6 !important}
+table.mini-tabular.hover tbody tr:hover, table.mini-tabular tbody tr:hover{background-color:#F4F4F4 !important}
+/* pagination */
+.pagination{color:#567986;background-color: #ffffff}
+.pagination li{border: 1px solid #E6E6E6}
+.pagination .active {background-color:#567986;color:#ffffff !important}
+.pagination .active a{color:#ffffff !important}
+
+/* clear|view field */
+a.boxblank2 {color: #dddddd}
+a.boxblank2{background: #ffffff}
+a.boxblank2:hover{ color:#567986}
+.showon2 span{color:#dddddd}
+a.showon2{background: #ffffff}
+.showon2 span:hover{color:#567986}

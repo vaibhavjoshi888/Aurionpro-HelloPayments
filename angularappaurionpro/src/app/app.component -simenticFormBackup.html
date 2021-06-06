@@ -1,0 +1,354 @@
+<div class="db-World-sideNavContainer"> &nbsp;&nbsp;&nbsp;menu area </div>
+
+<div class="db-World-scrollWrapper">
+  <div class="db-World-topContent Box-root Box-background--surface Padding-vertical--20">header content</div>
+  
+  <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+    <!-- <div class="db-World-mainPane Box-root Padding-right--20">content 2</div> -->
+    <sui-accordion class="styled fluid">
+        <sui-accordion-panel [isOpen]="true">
+          <div title>
+            <i class="dropdown icon"></i>
+            First Panel
+          </div>
+          <div content>
+            <p>Add classes to the
+              <code>sui-accordion</code> element to apply styles.</p>
+          </div>
+        </sui-accordion-panel>
+        <sui-accordion-panel>
+          <div title>
+            <i class="dropdown icon"></i>
+            Second Panel
+          </div>
+          <div content>
+            <p>Second panel content.</p>
+          </div>
+        </sui-accordion-panel>
+      </sui-accordion>
+      <br/>
+      <sui-accordion class="styled fluid">
+          <sui-accordion-panel>
+            <div title>
+              <i class="dropdown icon"></i>
+              Second Panel
+            </div>
+            <div content>
+                <sui-select class="selection" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true"
+                #templated>
+                <sui-select-option *ngFor="let o of templated.filteredOptions" [value]="o"></sui-select-option>
+              </sui-select>
+            </div>
+          </sui-accordion-panel>
+        </sui-accordion>
+        <br/>
+
+        <button class="ui labeled icon button">
+          <i class="pause icon"></i>
+          Pause
+        </button>
+        <button class="ui right labeled icon button">
+          <i class="right arrow icon"></i>
+          Next
+        </button>
+        <button class="ui primary loading button">Loading</button>
+        <br/><br/>
+        <sui-accordion class="styled fluid">
+            <sui-accordion-panel>
+              <div title>
+                <i class="dropdown icon"></i>
+                Second Panel
+              </div>
+              <div content>
+                  <sui-select class="selection" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true"
+                  #templated>
+                  <sui-select-option *ngFor="let o of templated.filteredOptions" [value]="o"></sui-select-option>
+                </sui-select>
+              </div>
+            </sui-accordion-panel>
+          </sui-accordion>
+
+      <br/><br/>
+    <div class="ui form">
+        <div class="grouped fields">
+          <label>Checkbox Style Examples</label>
+          <div class="field">
+            <sui-checkbox class="slider">Slider checkbox</sui-checkbox>
+          </div>
+          <div class="field">
+            <sui-checkbox class="toggle">Toggle checkbox</sui-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="ui form">
+        <div class="grouped fields">
+          <label>Radio Button Style Examples</label>
+          <div class="field">
+            <sui-radio-button class="slider" name="styled" value="a">
+              Slider radio button
+            </sui-radio-button>
+          </div>
+          <div class="field">
+            <sui-radio-button class="toggle" name="styled" value="b">
+              Toggle radio button
+            </sui-radio-button>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div class="ui segment">
+        <ng-template let-option #optionTemplate>
+          <i class="child icon"></i>{{ option.name }}
+        </ng-template>
+        <p>
+          <strong>Template</strong>
+        </p>
+        <p>Note: You must still provide a <code>labelField</code> to support searching.</p>
+        <sui-select class="selection" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true"
+          #templated>
+          <sui-select-option *ngFor="let o of templated.filteredOptions" [value]="o"></sui-select-option>
+        </sui-select>
+        <sui-select class="selection" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true"
+        #templated>
+        <sui-select-option *ngFor="let o of templated.filteredOptions" [value]="o"></sui-select-option>
+      </sui-select>
+      </div>
+    <p>KrishLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+      occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit
+      amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, is nostrud exercitation
+      ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+      deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+      ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+      fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+      id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      t dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+      anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+      anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+      anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+      anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+      anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+      anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Radhika </p>
+  
+
+</div>
+</div>
+<footer class="footer">
+    Footer 
+  </footer>
+<div class="u-cf"></div>
+
+<!-- <div class="container">
+  <div class="sidenav">
+    krishna
+  </div>
+  <div class="main">
+    <div class="row">
+      <div class="five columns">
+        <sui-accordion class="styled fluid">
+          <sui-accordion-panel [isOpen]="true">
+            <div title>
+              <i class="dropdown icon"></i>
+              First Panel
+            </div>
+            <div content>
+              <p>Add classes to the
+                <code>sui-accordion</code> element to apply styles.</p>
+            </div>
+          </sui-accordion-panel>
+          <sui-accordion-panel>
+            <div title>
+              <i class="dropdown icon"></i>
+              Second Panel
+            </div>
+            <div content>
+              <p>Second panel content.</p>
+            </div>
+          </sui-accordion-panel>
+        </sui-accordion>
+      </div>
+      <div class="seven columns">
+        <div class="ui form">
+          <div class="grouped fields">
+            <label>Checkbox Example</label>
+            <div class="field">
+              <sui-checkbox [isDisabled]="eCheckDisabled" [isReadonly]="eCheckReadonly">
+                An example checkbox
+              </sui-checkbox>
+            </div>
+            <div class="field">
+              <sui-checkbox>1st checkbox disabled?</sui-checkbox>
+            </div>
+            <div class="field">
+              <sui-checkbox>1st checkbox read-only?</sui-checkbox>
+            </div>
+            <div class="field">
+              <sui-checkbox>Mirrors value of 1st checkbox</sui-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="six column">
+
+      </div>
+      <div class="six columns">
+
+      </div>
+    </div>
+
+    <div class="row">
+
+
+      <br/>
+      <br/>
+
+      <div class="ui form">
+        <div class="grouped fields">
+          <label>Checkbox Style Examples</label>
+          <div class="field">
+            <sui-checkbox class="slider">Slider checkbox</sui-checkbox>
+          </div>
+          <div class="field">
+            <sui-checkbox class="toggle">Toggle checkbox</sui-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="ui form">
+        <div class="grouped fields">
+          <label>Radio Button Style Examples</label>
+          <div class="field">
+            <sui-radio-button class="slider" name="styled" value="a">
+              Slider radio button
+            </sui-radio-button>
+          </div>
+          <div class="field">
+            <sui-radio-button class="toggle" name="styled" value="b">
+              Toggle radio button
+            </sui-radio-button>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div class="ui segment">
+        <ng-template let-option #optionTemplate>
+          <i class="child icon"></i>{{ option.name }}
+        </ng-template>
+        <p>
+          <strong>Template</strong>
+        </p>
+        <p>Note: You must still provide a
+          <code>labelField</code> to support searching.</p>
+        <sui-select class="selection" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true"
+          #templated>
+          <sui-select-option *ngFor="let o of templated.filteredOptions" [value]="o"></sui-select-option>
+        </sui-select>
+      </div>
+      <br/>
+
+    </div>
+  </div>
+
+</div> -->
+this is main dashboard
+<router-outlet></router-outlet>
+

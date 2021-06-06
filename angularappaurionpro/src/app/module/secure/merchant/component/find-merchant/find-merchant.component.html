@@ -1,0 +1,248 @@
+<toast [toaster]="toastData"></toast>
+<app-loader *ngIf="isLoader"></app-loader>
+<header></header>
+<form [formGroup]="findMerchantForm" (keydown.enter)="handleEnterKeyPress($event)">
+  <div class="db-World-scrollWrapper">
+    <div class="db-World-content Box-root Box-background--surface Padding-vertical--20">
+      <sui-accordion class="styled fluid" (click)="accordion.findMerchant=!accordion.findMerchant">
+        <sui-accordion-panel [isOpen]="accordion.findMerchant">
+          <div title>
+            {{ 'merchant.find.findmerchant' | translate:param }}
+            <i class="dropdown icon"></i>
+          </div>
+          <div content (click)="$event.stopPropagation()">
+            <div class="title-form">
+              <p>{{ 'merchant.find.filter' | translate:param }}</p>
+              <hr/>
+            </div>
+            <div class="ui form">
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field" *ngIf="loggedInUserData.isAdmin && loggedInUserData.parentId==0">
+                    <label>{{ 'merchant.add.reseller' | translate:param }}</label>
+                    <sui-select class="selection" [options]="resellerList" labelField="resellerName" valueField="id" formControlName="ParentId"
+                       (selectedOptionChange)="changeReseller(ParentId)" #ParentId>
+                      <div class="ui icon search input">
+                        <i class="search icon"></i>
+                        <input suiSelectSearch type="text" placeholder="Search options...">
+                      </div>
+                      <sui-select-option *ngFor="let o of ParentId.filteredOptions" [value]="o"></sui-select-option>
+                    </sui-select>
+                    <span class="text-holder text-danger">{{formErrors.ParentId}}</span>
+                  </div>
+                  <div class="field" *ngIf="loggedInUserData.isAdmin && loggedInUserData.parentId!=0">
+                    <label>{{ 'merchant.add.reseller' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="newResellerName" type="text" formControlName="newResellerName" #newResellerName [attr.disabled]="true"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'merchant.add.merchantcompany' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="MerchantCompany" type="text" formControlName="MerchantName" #MerchantName [maxlength]=inputValidation.merchant.find.companyName.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="MerchantName.value.length"
+                        (click)="clear('MerchantName')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.MerchantName}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.firstname' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="FirstName" type="text" formControlName="FirstName" #FirstName [maxlength]=inputValidation.merchant.find.firstName.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="FirstName.value.length"
+                        (click)="clear('FirstName')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.FirstName}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.lastname' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="LastName" type="text" formControlName="LastName" #LastName [maxlength]=inputValidation.merchant.find.lastName.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="LastName.value.length" (click)="clear('LastName')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.LastName}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.email' | translate:param }} </label>
+                    <div class="ui input">
+                      <input name="Email" type="text" formControlName="Email" #Email [maxlength]=inputValidation.merchant.find.email.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="Email.value.length" (click)="clear('Email')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.Email}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.phone' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="Phone" type="text" formControlName="Phone" #Phone [maxlength]=inputValidation.merchant.find.phone.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="Phone.value.length" (click)="clear('Phone')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.Phone}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rows mb20">
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.city' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="City" type="text" formControlName="City" #City [maxlength]=inputValidation.merchant.find.city.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="City.value.length" (click)="clear('City')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.City}}</span>
+                  </div>
+                </div>
+                <div class="one-third column">
+                  <div class="field">
+                    <label>{{ 'common.postzipcode' | translate:param }}</label>
+                    <div class="ui input">
+                      <input name="PostalCode" type="text" formControlName="PostalCode" #PostalCode [maxlength]=inputValidation.merchant.find.postalCode.maxLength/>
+                      <a suiPopup popupInverted popupText="Clear text" popupPlacement="right" class="boxblank2" *ngIf="PostalCode.value.length"
+                        (click)="clear('PostalCode')">
+                        <span class="icon-clear"></span>
+                      </a>
+                    </div>
+                    <span class="text-holder text-danger">{{formErrors.PostalCode}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ui bottom attached header margin-reset">
+                <button class="ui primary loadingX button u-pull-right" (click)="find()">{{ 'merchant.find.findmerchant' | translate:param }}</button>
+                <button class="ui grey basic button u-pull-right" (click)="clearForm()">{{ 'merchant.find.clearfilter' | translate:param }} </button>
+                <div class="u-cf"></div>
+              </div>
+            </div>
+          </div>
+        </sui-accordion-panel>
+      </sui-accordion>
+      <div class="ui segment" [hidden]="!findClicked">
+        <div class="ui top attached header">Merchants</div>
+        <div class="ui attached segment">
+          <table class="mini-tabular">
+            <thead>
+              <tr>
+                <th class="pointer" (click)="sortMerchants('MerchantName', sortColumnOrder['MerchantName'])">Merchant Company
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'MerchantName',
+                  'icon-up-down': (searchParamsData.SortField == 'MerchantName' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'MerchantName' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th>Reseller</th>
+                <th class="pointer" (click)="sortMerchants('LastName', sortColumnOrder['LastName'])">Last Name
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'LastName',
+                  'icon-up-down': (searchParamsData.SortField == 'LastName' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'LastName' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortMerchants('FirstName', sortColumnOrder['FirstName'])">First Name
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'FirstName',
+                  'icon-up-down': (searchParamsData.SortField == 'FirstName' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'FirstName' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortMerchants('Email', sortColumnOrder['Email'])">Email
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'Email',
+                  'icon-up-down': (searchParamsData.SortField == 'Email' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'Email' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th>Phone</th>
+                <th class="pointer" (click)="sortMerchants('createdOn', sortColumnOrder['createdOn'])">Creation Date
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'createdOn',
+                  'icon-up-down': (searchParamsData.SortField == 'createdOn' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'createdOn' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <th class="pointer" (click)="sortMerchants('IsActive', sortColumnOrder['IsActive'])">Status
+                  <i class="u-pull-right icon" [ngClass]="{'icon-ico-up-down': searchParamsData.SortField != 'IsActive',
+                  'icon-up-down': (searchParamsData.SortField == 'IsActive' && searchParamsData.Asc == true),
+                  'icon-ico-up': (searchParamsData.SortField == 'IsActive' && searchParamsData.Asc == false)}"></i>
+                </th>
+                <!-- <th class="pointer">Action</th> -->
+              </tr>
+            </thead>
+            <tbody [hidden]="searchResultFlag" align="center">
+              <tr>
+                <td colspan="8">{{ noResultsMessage }}</td>
+              </tr>
+            </tbody>
+            <tbody [hidden]="!searchResultFlag">
+              <tr *ngFor="let merchant of pager.data">
+                <!--| orderBy: {property: column, direction: direction}-->
+                <td *ngIf="merchant.name.length <= truncateWordLength"><a href="javascript:void(0)" (click)="onViewMerchantClick(merchant)">{{merchant.name}}</a></td>
+                <td *ngIf="merchant.name.length > truncateWordLength" suiPopup popupInverted popupText="{{merchant.name}}" popupPlacement="top"><a href="javascript:void(0)" (click)="onViewMerchantClick(merchant)">{{(merchant.name | slice:0:truncateWordLength)+'...'}}</a></td>
+
+                <td *ngIf="selectedMerchant.length <= truncateWordLength">{{selectedMerchant}}</td>
+                <td *ngIf="selectedMerchant.length > truncateWordLength" suiPopup popupInverted popupText="{{selectedMerchant}}" popupPlacement="top">{{(selectedMerchant | slice:0:truncateWordLength)+'...'}}</td>
+
+                <td *ngIf="merchant.contact.name.lastName.length <= truncateWordLength">{{merchant.contact.name.lastName}}</td>
+                <td *ngIf="merchant.contact.name.lastName.length > truncateWordLength" suiPopup popupInverted popupText="{{merchant.contact.name.lastName}}" popupPlacement="top">{{(merchant.contact.name.lastName | slice:0:truncateWordLength)+'...'}}</td>
+
+                <td *ngIf="merchant.contact.name.firstName.length <= truncateWordLength">{{merchant.contact.name.firstName}}</td>
+                <td *ngIf="merchant.contact.name.firstName.length > truncateWordLength" suiPopup popupInverted popupText="{{merchant.contact.name.firstName}}" popupPlacement="top">{{(merchant.contact.name.firstName | slice:0:truncateWordLength)+'...'}}</td>
+
+                <td *ngIf="merchant.contact.email.length <= truncateWordLength">{{merchant.contact.email}}</td>
+                <td *ngIf="merchant.contact.email.length > truncateWordLength" suiPopup popupInverted popupText="{{merchant.contact.email}}" popupPlacement="top">{{(merchant.contact.email | slice:0:truncateWordLength)+'...'}}</td>
+
+                <td>{{merchant.contact.phone}}</td>
+                <td>{{getFormattedDate(merchant.createdOn)}}</td>
+                <td>{{merchant.isActive ? 'Active' : 'Inactive'}}</td>
+                <!-- <td class="text-center">
+                  <button class="ui icon td-button" (click)="confirmDelete(merchant.id, merchant.resellerId)">
+                    <i class="icon-delete icon"></i>
+                  </button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+          <!-- pager backend start-->
+          <ul *ngIf="pager.totalResults > 0 " class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="fetchMerchants(1)">
+              First
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}" (click)="fetchMerchants(pager.currentPage - 1)">
+              Previous
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage === page}"
+              (click)="fetchMerchants(page)">
+              {{page}}
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="fetchMerchants((pager.currentPage + 1))">
+              Next
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="fetchMerchants(pager.totalPages)" suiPopup popupInverted
+              popupText="{{pager.totalPages}}" popupPlacement="right">
+              Last
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<footer></footer>
